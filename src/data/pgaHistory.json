@@ -1,0 +1,78 @@
+{
+  "description": "Monthly PGA/PGC rates per CCF. Entergy rates from actual bills; Delta rates from actual bills. Same address, meter U490506.",
+  "entergy": [
+    {
+      "billMonth": "2025-01",
+      "periodStart": "2024-12-13",
+      "periodEnd": "2025-01-16",
+      "days": 34,
+      "pgaRate": 0.54107,
+      "provider": "entergy",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-07",
+      "periodStart": "2025-06-12",
+      "periodEnd": "2025-06-30",
+      "days": 18,
+      "pgaRate": 0.51856,
+      "provider": "entergy",
+      "source": "actual_bill",
+      "note": "Final Entergy bill"
+    }
+  ],
+  "delta": [
+    {
+      "billMonth": "2025-07",
+      "periodStart": "2025-06-30",
+      "periodEnd": "2025-07-16",
+      "days": 16,
+      "pgaRate": 0.51868,
+      "provider": "delta",
+      "source": "actual_bill",
+      "note": "First Delta bill"
+    },
+    {
+      "billMonth": "2025-11",
+      "periodStart": "2025-10-14",
+      "periodEnd": "2025-11-12",
+      "days": 29,
+      "pgaRate": 0.54853,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-12",
+      "periodStart": "2025-11-12",
+      "periodEnd": "2025-12-15",
+      "days": 33,
+      "pgaRate": 0.67655,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2026-01",
+      "periodStart": "2025-12-15",
+      "periodEnd": "2026-01-16",
+      "days": 32,
+      "pgaRate": 0.71340,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2026-02",
+      "periodStart": "2026-01-16",
+      "periodEnd": "2026-02-18",
+      "days": 33,
+      "pgaRate": 1.05563,
+      "provider": "delta",
+      "source": "actual_bill",
+      "note": "Winter Storm Fern impact — covers Jan consumption"
+    }
+  ],
+  "entergyEstimatedMarkup": {
+    "description": "Entergy's historical PGA markup over Henry Hub was approximately $0.17/CCF, stabilized by LPSC-approved hedging program (Docket R-32975, Fuel Stabilization Pilot Rider).",
+    "markupPerCCF": 0.17,
+    "source": "Dunn analysis of 17 Entergy bills (Mar 2024–Jul 2025)"
+  }
+}

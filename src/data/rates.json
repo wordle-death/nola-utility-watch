@@ -1,0 +1,15 @@
+{
+  "description": "New Orleans gas rate structure — identical for Entergy and Delta except PGA. Source: actual bills, City Council docket UD-24-01.",
+  "customerCharge": 12.32,
+  "gasServicesPerCCF": 0.266,
+  "formulaRatePlanRiderPct": 0.7747,
+  "streetUseFranchiseFeePct": 0.0527,
+  "cityTaxPct": 0.03,
+  "ccfToMMBtu": 0.1037,
+  "notes": {
+    "formulaRatePlanRider": "77.47% of (Customer Charge + Gas Services total)",
+    "streetUseFranchiseFee": "5.27% of all gas charges before city tax",
+    "cityTax": "3% of all charges including franchise fee",
+    "ccfToMMBtu": "1 CCF ≈ 0.1037 MMBtu for Henry Hub price conversion"
+  }
+}

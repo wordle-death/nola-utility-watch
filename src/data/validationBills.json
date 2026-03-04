@@ -1,0 +1,97 @@
+{
+  "description": "Ground truth bill data from actual bills for calculator validation. Same address, meter U490506.",
+  "notes": {
+    "subtotal_before_fees": "Entergy-era 'Gas Total' = charges subtotal before franchise fee (5.27%) and city tax (3%). Entergy bundled gas+electric billing, so fees/taxes may apply to combined total.",
+    "total_with_fees": "Delta-era standalone gas bills include franchise fee and city tax. Calculator must match within 1%.",
+    "transition": "Jul 2025 bills are partial-month (18 days Entergy, 16 days Delta) during the handoff. May involve prorated customer charges."
+  },
+  "bills": [
+    {
+      "id": "entergy-2025-01",
+      "provider": "entergy",
+      "billMonth": "2025-01",
+      "periodStart": "2024-12-13",
+      "periodEnd": "2025-01-16",
+      "days": 34,
+      "ccf": 170,
+      "pgaRate": 0.54107,
+      "actualGasTotal": 194.10,
+      "validationType": "subtotal_before_fees",
+      "note": "Full month. Gas Total from bundled Entergy gas+electric bill = subtotal before franchise fee & city tax."
+    },
+    {
+      "id": "entergy-2025-07",
+      "provider": "entergy",
+      "billMonth": "2025-07",
+      "periodStart": "2025-06-12",
+      "periodEnd": "2025-06-30",
+      "days": 18,
+      "ccf": 13,
+      "pgaRate": 0.51856,
+      "actualGasTotal": 26.00,
+      "validationType": "transition",
+      "note": "Final Entergy bill — partial month (18 days). Customer charge likely prorated."
+    },
+    {
+      "id": "delta-2025-07",
+      "provider": "delta",
+      "billMonth": "2025-07",
+      "periodStart": "2025-06-30",
+      "periodEnd": "2025-07-16",
+      "days": 16,
+      "ccf": 9,
+      "pgaRate": 0.51868,
+      "actualGasTotal": 22.30,
+      "validationType": "transition",
+      "note": "First Delta bill — partial month (16 days). Possible prorated charges."
+    },
+    {
+      "id": "delta-2025-11",
+      "provider": "delta",
+      "billMonth": "2025-11",
+      "periodStart": "2025-10-14",
+      "periodEnd": "2025-11-12",
+      "days": 29,
+      "ccf": 36,
+      "pgaRate": 0.54853,
+      "actualGasTotal": 63.56,
+      "validationType": "total_with_fees"
+    },
+    {
+      "id": "delta-2025-12",
+      "provider": "delta",
+      "billMonth": "2025-12",
+      "periodStart": "2025-11-12",
+      "periodEnd": "2025-12-15",
+      "days": 33,
+      "ccf": 99,
+      "pgaRate": 0.67655,
+      "actualGasTotal": 146.99,
+      "validationType": "total_with_fees"
+    },
+    {
+      "id": "delta-2026-01",
+      "provider": "delta",
+      "billMonth": "2026-01",
+      "periodStart": "2025-12-15",
+      "periodEnd": "2026-01-16",
+      "days": 32,
+      "ccf": 81,
+      "pgaRate": 0.71340,
+      "actualGasTotal": 127.83,
+      "validationType": "total_with_fees"
+    },
+    {
+      "id": "delta-2026-02",
+      "provider": "delta",
+      "billMonth": "2026-02",
+      "periodStart": "2026-01-16",
+      "periodEnd": "2026-02-18",
+      "days": 33,
+      "ccf": 169,
+      "pgaRate": 1.05563,
+      "actualGasTotal": 303.62,
+      "validationType": "total_with_fees"
+    }
+  ]
+}
