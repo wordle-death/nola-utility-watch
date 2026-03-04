@@ -1,51 +1,61 @@
 import rates from '../data/rates.json';
 
-export default function BillDecomposition({ deltaBill, entergyBill, ccf }) {
+export default function BillDecomposition({ deltaBill, entergyBill, ccf, flipped = false }) {
+  // When flipped (Entergy July), swap which column is "actual" vs "estimated"
+  const leftBill = flipped ? entergyBill : deltaBill;
+  const rightBill = flipped ? deltaBill : entergyBill;
+  const leftLabel = flipped ? 'Entergy' : 'Delta';
+  const rightLabel = flipped ? 'Delta' : 'Entergy Est.';
+  const leftColor = flipped ? 'text-blue-600' : 'text-red-600';
+  const rightColor = flipped ? 'text-red-600' : 'text-blue-600';
+  const leftValueColor = flipped ? 'text-blue-700' : 'text-red-700';
+  const rightValueColor = flipped ? 'text-red-700' : 'text-blue-700';
+
   const rows = [
     {
       label: 'Customer Charge',
       description: 'Fixed monthly charge',
       rate: `$${rates.customerCharge.toFixed(2)}/mo`,
-      delta: deltaBill.customerCharge,
-      entergy: entergyBill.customerCharge,
+      left: leftBill.customerCharge,
+      right: rightBill.customerCharge,
     },
     {
       label: 'Gas Services',
       description: 'Delivery charge',
       rate: `$${rates.gasServicesPerCCF.toFixed(3)}/CCF`,
-      delta: deltaBill.gasServices,
-      entergy: entergyBill.gasServices,
+      left: leftBill.gasServices,
+      right: rightBill.gasServices,
     },
     {
       label: 'Formula Rate Plan Rider',
       description: `${(rates.formulaRatePlanRiderPct * 100).toFixed(2)}% of (Customer + Gas Services)`,
       rate: `${(rates.formulaRatePlanRiderPct * 100).toFixed(2)}%`,
-      delta: deltaBill.frpRider,
-      entergy: entergyBill.frpRider,
+      left: leftBill.frpRider,
+      right: rightBill.frpRider,
     },
     {
       label: 'Purchase Gas Adjustment',
       description: 'Commodity pass-through — THE difference',
       rate: null,
-      delta: deltaBill.pga,
-      entergy: entergyBill.pga,
-      deltaRate: `$${deltaBill.pgaRate.toFixed(5)}/CCF`,
-      entergyRate: `$${entergyBill.pgaRate.toFixed(5)}/CCF`,
+      left: leftBill.pga,
+      right: rightBill.pga,
+      leftRate: `$${leftBill.pgaRate.toFixed(5)}/CCF`,
+      rightRate: `$${rightBill.pgaRate.toFixed(5)}/CCF`,
       highlight: true,
     },
     {
       label: 'Street Use Franchise Fee',
       description: `${(rates.streetUseFranchiseFeePct * 100).toFixed(2)}% of all charges`,
       rate: `${(rates.streetUseFranchiseFeePct * 100).toFixed(2)}%`,
-      delta: deltaBill.franchiseFee,
-      entergy: entergyBill.franchiseFee,
+      left: leftBill.franchiseFee,
+      right: rightBill.franchiseFee,
     },
     {
       label: 'City Tax',
       description: `${(rates.cityTaxPct * 100).toFixed(0)}% of total`,
       rate: `${(rates.cityTaxPct * 100).toFixed(0)}%`,
-      delta: deltaBill.cityTax,
-      entergy: entergyBill.cityTax,
+      left: leftBill.cityTax,
+      right: rightBill.cityTax,
     },
   ];
 
@@ -64,14 +74,14 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf }) {
             <tr className="bg-gray-50 border-b border-gray-200">
               <th className="text-left px-6 py-3 font-medium text-gray-600">Line Item</th>
               <th className="text-left px-4 py-3 font-medium text-gray-600">Rate</th>
-              <th className="text-right px-4 py-3 font-medium text-red-600">Delta</th>
-              <th className="text-right px-4 py-3 font-medium text-blue-600">Entergy Est.</th>
+              <th className={`text-right px-4 py-3 font-medium ${leftColor}`}>{leftLabel}</th>
+              <th className={`text-right px-4 py-3 font-medium ${rightColor}`}>{rightLabel}</th>
               <th className="text-right px-6 py-3 font-medium text-gray-600">Difference</th>
             </tr>
           </thead>
           <tbody>
             {rows.map((row, i) => {
-              const diff = row.delta - row.entergy;
+              const diff = row.left - row.right;
               return (
                 <tr
                   key={i}
@@ -86,18 +96,18 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf }) {
                   <td className="px-4 py-3 text-gray-600 font-mono text-xs">
                     {row.highlight ? (
                       <div>
-                        <div className="text-red-600">{row.deltaRate}</div>
-                        <div className="text-blue-600">{row.entergyRate}</div>
+                        <div className={leftColor}>{row.leftRate}</div>
+                        <div className={rightColor}>{row.rightRate}</div>
                       </div>
                     ) : (
                       row.rate
                     )}
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-red-700">
-                    ${row.delta.toFixed(2)}
+                  <td className={`px-4 py-3 text-right font-mono ${leftValueColor}`}>
+                    ${row.left.toFixed(2)}
                   </td>
-                  <td className="px-4 py-3 text-right font-mono text-blue-700">
-                    ${row.entergy.toFixed(2)}
+                  <td className={`px-4 py-3 text-right font-mono ${rightValueColor}`}>
+                    ${row.right.toFixed(2)}
                   </td>
                   <td className="px-6 py-3 text-right font-mono">
                     {Math.abs(diff) < 0.01 ? (
@@ -115,14 +125,23 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf }) {
             <tr className="bg-gray-50 border-t-2 border-gray-300">
               <td className="px-6 py-3 font-bold text-gray-900">TOTAL</td>
               <td className="px-4 py-3"></td>
-              <td className="px-4 py-3 text-right font-mono font-bold text-red-700">
-                ${deltaBill.total.toFixed(2)}
+              <td className={`px-4 py-3 text-right font-mono font-bold ${leftValueColor}`}>
+                ${leftBill.total.toFixed(2)}
               </td>
-              <td className="px-4 py-3 text-right font-mono font-bold text-blue-700">
-                ${entergyBill.total.toFixed(2)}
+              <td className={`px-4 py-3 text-right font-mono font-bold ${rightValueColor}`}>
+                ${rightBill.total.toFixed(2)}
               </td>
-              <td className="px-6 py-3 text-right font-mono font-bold text-red-600">
-                +${(deltaBill.total - entergyBill.total).toFixed(2)}
+              <td className="px-6 py-3 text-right font-mono font-bold">
+                {(() => {
+                  const totalDiff = leftBill.total - rightBill.total;
+                  return Math.abs(totalDiff) < 0.01 ? (
+                    <span className="text-gray-400">—</span>
+                  ) : (
+                    <span className={totalDiff > 0 ? 'text-red-600' : 'text-green-600'}>
+                      {totalDiff > 0 ? '+' : ''}${totalDiff.toFixed(2)}
+                    </span>
+                  );
+                })()}
               </td>
             </tr>
           </tbody>

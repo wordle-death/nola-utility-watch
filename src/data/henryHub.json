@@ -2286,6 +2286,27 @@
       "tradingDays": 12
     },
     {
+      "billMonth": "2025-08",
+      "periodStart": "2025-07-16",
+      "periodEnd": "2025-08-14",
+      "avgHenryHub": 3.1,
+      "tradingDays": 22
+    },
+    {
+      "billMonth": "2025-09",
+      "periodStart": "2025-08-14",
+      "periodEnd": "2025-09-15",
+      "avgHenryHub": 2.91,
+      "tradingDays": 22
+    },
+    {
+      "billMonth": "2025-10",
+      "periodStart": "2025-09-15",
+      "periodEnd": "2025-10-14",
+      "avgHenryHub": 3.07,
+      "tradingDays": 22
+    },
+    {
       "billMonth": "2025-11",
       "periodStart": "2025-10-14",
       "periodEnd": "2025-11-12",

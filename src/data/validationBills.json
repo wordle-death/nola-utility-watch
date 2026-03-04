@@ -46,6 +46,42 @@
       "note": "First Delta bill — partial month (16 days). Possible prorated charges."
     },
     {
+      "id": "delta-2025-08",
+      "provider": "delta",
+      "billMonth": "2025-08",
+      "periodStart": "2025-07-16",
+      "periodEnd": "2025-08-14",
+      "days": 29,
+      "ccf": 20,
+      "pgaRate": 0.48265,
+      "actualGasTotal": 44.41,
+      "validationType": "total_with_fees"
+    },
+    {
+      "id": "delta-2025-09",
+      "provider": "delta",
+      "billMonth": "2025-09",
+      "periodStart": "2025-08-14",
+      "periodEnd": "2025-09-15",
+      "days": 32,
+      "ccf": 22,
+      "pgaRate": 0.468856,
+      "actualGasTotal": 46.14,
+      "validationType": "total_with_fees"
+    },
+    {
+      "id": "delta-2025-10",
+      "provider": "delta",
+      "billMonth": "2025-10",
+      "periodStart": "2025-09-15",
+      "periodEnd": "2025-10-14",
+      "days": 29,
+      "ccf": 19,
+      "pgaRate": 0.515054,
+      "actualGasTotal": 44.04,
+      "validationType": "total_with_fees"
+    },
+    {
       "id": "delta-2025-11",
       "provider": "delta",
       "billMonth": "2025-11",

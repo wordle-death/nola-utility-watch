@@ -33,6 +33,33 @@
       "note": "First Delta bill"
     },
     {
+      "billMonth": "2025-08",
+      "periodStart": "2025-07-16",
+      "periodEnd": "2025-08-14",
+      "days": 29,
+      "pgaRate": 0.48265,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-09",
+      "periodStart": "2025-08-14",
+      "periodEnd": "2025-09-15",
+      "days": 32,
+      "pgaRate": 0.468856,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-10",
+      "periodStart": "2025-09-15",
+      "periodEnd": "2025-10-14",
+      "days": 29,
+      "pgaRate": 0.515054,
+      "provider": "delta",
+      "source": "actual_bill"
+    },
+    {
       "billMonth": "2025-11",
       "periodStart": "2025-10-14",
       "periodEnd": "2025-11-12",

@@ -1,4 +1,5 @@
 import BillCalculator from './components/BillCalculator';
+import CumulativeSavings from './components/CumulativeSavings';
 import PGATrendChart from './components/PGATrendChart';
 
 function App() {
@@ -39,6 +40,11 @@ function App() {
           <BillCalculator />
         </section>
 
+        {/* Cumulative Savings */}
+        <section className="mb-12">
+          <CumulativeSavings />
+        </section>
+
         {/* PGA Trend Chart */}
         <section className="mb-12">
           <PGATrendChart />
@@ -74,7 +80,7 @@ function App() {
                 <a href="https://council.nola.gov/committees/utility-cable-telecommunications-and-technology/dockets/resolution-and-order-establishing-a-period-of-inte/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
                   City Council Docket UD-24-01
                 </a>{' · '}
-                Actual residential bills (7 bills, Entergy & Delta eras)
+                Actual residential bills (10 bills, Entergy & Delta eras)
               </p>
             </div>
           </div>
