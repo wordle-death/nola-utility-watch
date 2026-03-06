@@ -1,6 +1,8 @@
 import BillCalculator from './components/BillCalculator';
 import CumulativeSavings from './components/CumulativeSavings';
 import PGATrendChart from './components/PGATrendChart';
+import ContributeSection from './components/ContributeSection';
+import CommunityStats from './components/CommunityStats';
 
 function App() {
   return (
@@ -48,6 +50,16 @@ function App() {
         {/* PGA Trend Chart */}
         <section className="mb-12">
           <PGATrendChart />
+        </section>
+
+        {/* Contribute Your Bill */}
+        <section className="mb-12">
+          <ContributeSection />
+        </section>
+
+        {/* Community Data */}
+        <section className="mb-12">
+          <CommunityStats />
         </section>
 
         {/* About / Methodology */}
