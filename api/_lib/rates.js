@@ -39,18 +39,27 @@ export const KNOWN_PGA = {
 
 /**
  * Calculate total gas bill using the New Orleans rate formula.
- * Identical to src/lib/billCalculator.js calculateBill() but returns only the total.
+ *
+ * Delta bills include the FRP (Formula Rate Plan) Rider at 77.47%.
+ * Entergy bills did NOT include this rider — it was introduced after
+ * Delta acquired gas operations in July 2025.
  *
  * @param {number} ccf - Gas usage in CCF
  * @param {number} pgaRate - PGA rate in $/CCF
+ * @param {string} provider - 'delta' or 'entergy'
  * @returns {number} Total bill amount, rounded to cents
  */
-export function calculateBillTotal(ccf, pgaRate) {
+export function calculateBillTotal(ccf, pgaRate, provider = 'delta') {
   const { customerCharge, gasServicesPerCCF, formulaRatePlanRiderPct,
     streetUseFranchiseFeePct, cityTaxPct } = RATES;
 
   const gasServices = ccf * gasServicesPerCCF;
-  const frpRider = (customerCharge + gasServices) * formulaRatePlanRiderPct;
+
+  // FRP Rider is Delta-only — Entergy did not charge this
+  const frpRider = provider === 'delta'
+    ? (customerCharge + gasServices) * formulaRatePlanRiderPct
+    : 0;
+
   const pga = ccf * pgaRate;
 
   const subtotal = customerCharge + gasServices + frpRider + pga;

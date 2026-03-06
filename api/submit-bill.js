@@ -103,7 +103,7 @@ export default async function handler(req, res) {
     }
 
     // ── 3. Rate formula validation ──────────────────────────────────────
-    const calculatedTotal = calculateBillTotal(ccfNum, pgaNum);
+    const calculatedTotal = calculateBillTotal(ccfNum, pgaNum, provider);
     const errorPct = Math.abs(calculatedTotal - totalNum) / totalNum * 100;
 
     if (errorPct > 2.0) {
