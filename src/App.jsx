@@ -1,6 +1,7 @@
 import BillCalculator from './components/BillCalculator';
 import CumulativeSavings from './components/CumulativeSavings';
 import PGATrendChart from './components/PGATrendChart';
+import WaterReliabilityTracker from './components/WaterReliabilityTracker';
 import ContributeSection from './components/ContributeSection';
 import CommunityStats from './components/CommunityStats';
 
@@ -51,6 +52,22 @@ function App() {
         <section className="mb-12">
           <PGATrendChart />
         </section>
+
+        {/* Water Reliability */}
+        <div className="border-t-2 border-gray-200 pt-8 mt-4 mb-12">
+          <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4 mb-8">
+            <p className="text-sm text-cyan-800">
+              <span className="font-semibold">Beyond gas costs:</span> New Orleans residents face
+              recurring water infrastructure failures. Since 2022, the Sewerage & Water Board has issued
+              dozens of boil water advisories due to aging transmission mains breaking — including three
+              major 48-inch main breaks in the first 10 weeks of 2026 alone. Below is a tracker of every
+              advisory and its estimated economic impact on working families.
+            </p>
+          </div>
+          <section>
+            <WaterReliabilityTracker />
+          </section>
+        </div>
 
         {/* Contribute Your Bill */}
         <section className="mb-12">

@@ -1,0 +1,752 @@
+{
+  "description": "Sewerage & Water Board boil water advisories and water main breaks affecting New Orleans residents, 2022–present. Curated from S&WB official press releases (swbno.org/PressReleases). Each incident represents a distinct advisory event; related follow-on advisories are grouped.",
+  "lastUpdated": "2026-03-10",
+  "assumptions": {
+    "avgHouseholdSize": 2.42,
+    "avgHourlyWage": 16.50,
+    "laborForceParticipation": 0.58,
+    "hourlyWorkerShare": 0.55,
+    "bottledWaterCostPerPersonPerDay": 3.50,
+    "restaurantsPerZone": 15,
+    "restaurantLostRevenuePerDay": 800,
+    "sources": {
+      "avgHouseholdSize": "US Census ACS 2023, Orleans Parish",
+      "avgHourlyWage": "BLS May 2024 Occupational Employment and Wage Statistics, New Orleans-Metairie MSA, median hourly wage for all occupations",
+      "laborForceParticipation": "BLS Local Area Unemployment Statistics, New Orleans-Metairie MSA",
+      "hourlyWorkerShare": "BLS Characteristics of Minimum Wage Workers, share of workforce paid hourly",
+      "bottledWaterCostPerPersonPerDay": "Estimated 1 gallon/person/day at retail (~$1.50/gal) plus cooking and hygiene needs",
+      "restaurantLostRevenuePerDay": "Conservative estimate for small restaurant forced to close or reduce operations during boil water advisory"
+    },
+    "methodology": {
+      "conservative": "Includes only direct lost wages (15% productivity factor), basic bottled water costs ($3.50/person/day), and restaurant closures. Designed to be a defensible floor estimate.",
+      "full": "Adds broader disruption: higher productivity loss (35%), expanded supply costs ($5/person/day incl. ice and extra supplies), other small business losses, and childcare disruption for households with young children (~12% of population, $75/day)."
+    },
+    "populationEstimateNote": "Population estimates are based on Census tract data for affected neighborhoods. S&WB press releases do not include population counts, so these are approximations."
+  },
+  "incidents": [
+    {
+      "id": "2022-02-06-algiers",
+      "date": "2022-02-06",
+      "endDate": "2022-02-07",
+      "type": "boil_water",
+      "title": "Boil water advisory — Upper & Lower Coast Algiers",
+      "description": "Precautionary boil water advisory issued for Upper Coast Algiers and Lower Coast Algiers due to pressure loss.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-02-06",
+      "advisoryEndDate": "2022-02-07",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["Upper Coast Algiers", "Lower Coast Algiers"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-02-06" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2022-02-22-gentilly-noeast",
+      "date": "2022-02-22",
+      "endDate": "2022-02-24",
+      "type": "main_break",
+      "title": "50-inch main repair — Gentilly & New Orleans East",
+      "description": "Precautionary boil water advisory issued for parts of Gentilly and New Orleans East due to a 50-inch water main repair.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-02-22",
+      "advisoryEndDate": "2022-02-24",
+      "estimatedPopulationAffected": 20000,
+      "neighborhoods": ["Gentilly", "New Orleans East"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-02-22" }
+      ],
+      "notes": "50-inch water main repair triggered advisory."
+    },
+    {
+      "id": "2022-04-30-noeast",
+      "date": "2022-04-30",
+      "endDate": "2022-05-01",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory issued for part of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-04-30",
+      "advisoryEndDate": "2022-05-01",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-04-30" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2022-05-12-noeast-oakisland",
+      "date": "2022-05-12",
+      "endDate": "2022-05-13",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East, Oak Island",
+      "description": "Precautionary boil water advisory issued for part of New Orleans East and Oak Island Subdivision.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-05-12",
+      "advisoryEndDate": "2022-05-13",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["New Orleans East", "Oak Island"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-05-12" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2022-07-11-westbank",
+      "date": "2022-07-11",
+      "endDate": "2022-07-12",
+      "type": "boil_water",
+      "title": "Boil water advisory — Westbank",
+      "description": "Precautionary boil water advisory issued for parts of the New Orleans Westbank.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-07-11",
+      "advisoryEndDate": "2022-07-12",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["Westbank"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-07-11" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2022-08-01-westbank",
+      "date": "2022-08-01",
+      "endDate": "2022-08-03",
+      "type": "boil_water",
+      "title": "Boil water advisory — Westbank",
+      "description": "Precautionary boil water advisory issued for parts of the New Orleans Westbank.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-08-01",
+      "advisoryEndDate": "2022-08-03",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["Westbank"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-08-01" }
+      ],
+      "notes": "Second Westbank advisory in three weeks."
+    },
+    {
+      "id": "2022-09-02-noeast",
+      "date": "2022-09-02",
+      "endDate": "2022-09-03",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory issued for parts of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2022-09-02",
+      "advisoryEndDate": "2022-09-03",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-09-02" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2023-02-19-nola",
+      "date": "2023-02-19",
+      "endDate": "2023-02-20",
+      "type": "boil_water",
+      "title": "Boil water advisory — Limited portion of New Orleans",
+      "description": "Precautionary boil water advisory issued for a limited portion of New Orleans.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-02-19",
+      "advisoryEndDate": "2023-02-20",
+      "estimatedPopulationAffected": 12000,
+      "neighborhoods": ["New Orleans"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-02-19" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2023-04-09-uptown",
+      "date": "2023-04-09",
+      "endDate": "2023-04-12",
+      "type": "main_break",
+      "title": "Boil water advisory — Uptown (lifted citywide Apr 12)",
+      "description": "Precautionary boil water advisory for a limited portion of Uptown New Orleans, eventually expanded. Lifted for all customers on April 12.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-04-09",
+      "advisoryEndDate": "2023-04-12",
+      "estimatedPopulationAffected": 40000,
+      "neighborhoods": ["Uptown"],
+      "durationHours": 72,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-04-09" }
+      ],
+      "notes": "Advisory ultimately lifted for 'All Customers' on Apr 12, suggesting scope expanded beyond Uptown."
+    },
+    {
+      "id": "2023-06-16-noeast",
+      "date": "2023-06-16",
+      "endDate": "2023-06-17",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory issued for parts of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-06-16",
+      "advisoryEndDate": "2023-06-17",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-06-16" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2023-06-27-gentilly-noeast",
+      "date": "2023-06-27",
+      "endDate": "2023-06-30",
+      "type": "main_break",
+      "title": "50-inch main break — St. Bernard Ave; Gentilly & NO East advisory",
+      "description": "Emergency repair of a 50-inch water main on St. Bernard Avenue triggered boil water advisories for parts of Gentilly, Oak Island, and New Orleans East. Multiple rounds of advisories issued and lifted over several days.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-06-27",
+      "advisoryEndDate": "2023-06-30",
+      "estimatedPopulationAffected": 25000,
+      "neighborhoods": ["Gentilly", "Oak Island", "New Orleans East"],
+      "durationHours": 72,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-06-27" }
+      ],
+      "notes": "Emergency repair of 50-inch water main on St. Bernard Ave."
+    },
+    {
+      "id": "2023-09-06-algiers",
+      "date": "2023-09-06",
+      "endDate": "2023-09-07",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower Coast Algiers",
+      "description": "Precautionary boil water advisory for a portion of Lower Coast Algiers.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-09-06",
+      "advisoryEndDate": "2023-09-07",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["Lower Coast Algiers"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-06" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2023-09-22-algiers",
+      "date": "2023-09-22",
+      "endDate": "2023-09-23",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower Coast Algiers",
+      "description": "Precautionary boil water advisory for a portion of Lower Coast Algiers. Second Algiers advisory in three weeks.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-09-22",
+      "advisoryEndDate": "2023-09-23",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["Lower Coast Algiers"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-22" }
+      ],
+      "notes": "Second Lower Coast Algiers advisory in under three weeks."
+    },
+    {
+      "id": "2023-09-28-uptown",
+      "date": "2023-09-28",
+      "endDate": "2023-09-30",
+      "type": "boil_water",
+      "title": "Boil water advisory — Uptown",
+      "description": "Precautionary boil water advisory for a portion of Uptown New Orleans.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-09-28",
+      "advisoryEndDate": "2023-09-30",
+      "estimatedPopulationAffected": 20000,
+      "neighborhoods": ["Uptown"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-28" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2023-11-04-noeast",
+      "date": "2023-11-04",
+      "endDate": "2023-11-05",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory for a limited part of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2023-11-04",
+      "advisoryEndDate": "2023-11-05",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-11-04" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2024-01-30-noeast-uptown",
+      "date": "2024-01-30",
+      "endDate": "2024-02-02",
+      "type": "main_break",
+      "title": "30-inch main break — S. Claiborne Ave; NO East & Uptown advisory",
+      "description": "A 120-year-old 30-inch water main broke on S. Claiborne Avenue, triggering advisories first for New Orleans East (Jan 30), then expanding to parts of Uptown (Feb 1). Both advisories canceled by Feb 2.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-01-30",
+      "advisoryEndDate": "2024-02-02",
+      "estimatedPopulationAffected": 35000,
+      "neighborhoods": ["New Orleans East", "Uptown"],
+      "durationHours": 72,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-01-30" }
+      ],
+      "notes": "120-year-old 30-inch water line on S. Claiborne Ave. Advisory for NO East issued Jan 30, Uptown advisory issued Feb 1."
+    },
+    {
+      "id": "2024-03-30-lower9th",
+      "date": "2024-03-30",
+      "endDate": "2024-03-31",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower 9th Ward",
+      "description": "Precautionary boil water advisory for the Lower 9th Ward and surrounding neighborhoods.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-03-30",
+      "advisoryEndDate": "2024-03-31",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["Lower 9th Ward"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-03-30" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2024-04-05-lower9th",
+      "date": "2024-04-05",
+      "endDate": "2024-04-06",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower 9th Ward (2nd in a week)",
+      "description": "Precautionary boil water advisory for the Lower 9th Ward and surrounding area. Second advisory for this area in under a week.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-04-05",
+      "advisoryEndDate": "2024-04-06",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["Lower 9th Ward"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-04-05" }
+      ],
+      "notes": "Second Lower 9th Ward advisory in under a week."
+    },
+    {
+      "id": "2024-04-13-algiers",
+      "date": "2024-04-13",
+      "endDate": "2024-04-14",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower Coast Algiers",
+      "description": "Precautionary boil water advisory for Lower Coast Algiers.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-04-13",
+      "advisoryEndDate": "2024-04-14",
+      "estimatedPopulationAffected": 8000,
+      "neighborhoods": ["Lower Coast Algiers"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-04-13" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2024-08-06-citywide",
+      "date": "2024-08-06",
+      "endDate": "2024-08-08",
+      "type": "boil_water",
+      "title": "CITYWIDE boil water advisory — East Bank & Algiers Point",
+      "description": "Precautionary boil water advisory issued for the entire East Bank of New Orleans and Algiers Point — the largest advisory in years. Extended for East Bank on Aug 8 while West Bank was cleared. A follow-on advisory for New Orleans East and Oak Island continued through Aug 14.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-08-06",
+      "advisoryEndDate": "2024-08-08",
+      "estimatedPopulationAffected": 200000,
+      "neighborhoods": ["East Bank", "Algiers Point", "Uptown", "CBD", "French Quarter", "Mid-City", "Gentilly", "9th Ward", "New Orleans East"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-06" }
+      ],
+      "notes": "Largest advisory in years — covered effectively the entire city east of the river. S&WB subsequently updated City Council on boil water advisory response improvements (Aug 15)."
+    },
+    {
+      "id": "2024-08-12-noeast-oakisland",
+      "date": "2024-08-12",
+      "endDate": "2024-08-14",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East & Oak Island",
+      "description": "Expanded precautionary boil water advisory for New Orleans East and Oak Island. Follow-on from the August 6 citywide event.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-08-12",
+      "advisoryEndDate": "2024-08-14",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["New Orleans East", "Oak Island"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-12" }
+      ],
+      "notes": "Follow-on from Aug 6 citywide advisory."
+    },
+    {
+      "id": "2024-08-27-noeast-lakefront",
+      "date": "2024-08-27",
+      "endDate": "2024-08-28",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East, Lakefront Airport, Oak Island",
+      "description": "Precautionary boil water advisory for New Orleans East including Lakefront Airport and Oak Island areas.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-08-27",
+      "advisoryEndDate": "2024-08-28",
+      "estimatedPopulationAffected": 12000,
+      "neighborhoods": ["New Orleans East", "Lakefront Airport", "Oak Island"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-27" }
+      ],
+      "notes": "Third NO East advisory in August 2024."
+    },
+    {
+      "id": "2024-10-11-westbank",
+      "date": "2024-10-11",
+      "endDate": "2024-10-12",
+      "type": "boil_water",
+      "title": "Boil water advisory — Westbank",
+      "description": "Precautionary boil water advisory for the Westbank of New Orleans.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-10-11",
+      "advisoryEndDate": "2024-10-12",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["Westbank"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-10-11" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2024-12-04-noeast",
+      "date": "2024-12-04",
+      "endDate": "2024-12-05",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory for limited parts of New Orleans East. Two separate advisories issued the same day.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-12-04",
+      "advisoryEndDate": "2024-12-05",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-12-04" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2024-12-17-lower9th-noeast",
+      "date": "2024-12-17",
+      "endDate": "2024-12-20",
+      "type": "boil_water",
+      "title": "Boil water advisory — Lower 9th Ward & New Orleans East",
+      "description": "Precautionary boil water advisory for the Lower 9th Ward and surrounding neighborhoods (Dec 17), followed by an additional advisory for limited parts of New Orleans East (Dec 18). Both canceled by Dec 20.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2024-12-17",
+      "advisoryEndDate": "2024-12-20",
+      "estimatedPopulationAffected": 18000,
+      "neighborhoods": ["Lower 9th Ward", "New Orleans East"],
+      "durationHours": 72,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-12-17" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-01-20-noeast-lower9th",
+      "date": "2025-01-20",
+      "endDate": "2025-01-21",
+      "type": "boil_water",
+      "title": "Boil water advisory — NO East, Lower 9th Ward, Venetian Isles",
+      "description": "Precautionary boil water advisory for multiple areas in New Orleans East, the Lower 9th Ward, and Venetian Isles.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-01-20",
+      "advisoryEndDate": "2025-01-21",
+      "estimatedPopulationAffected": 20000,
+      "neighborhoods": ["New Orleans East", "Lower 9th Ward", "Venetian Isles"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-20" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-01-22-noeast-venetian",
+      "date": "2025-01-22",
+      "endDate": "2025-01-24",
+      "type": "boil_water",
+      "title": "Boil water advisory — NO East & Venetian Isles",
+      "description": "Precautionary boil water advisory for parts of New Orleans East and Venetian Isles. Second advisory for this area in two days.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-01-22",
+      "advisoryEndDate": "2025-01-24",
+      "estimatedPopulationAffected": 12000,
+      "neighborhoods": ["New Orleans East", "Venetian Isles"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-22" }
+      ],
+      "notes": "Second NO East advisory in two days."
+    },
+    {
+      "id": "2025-01-26-eastbank",
+      "date": "2025-01-26",
+      "endDate": "2025-01-27",
+      "type": "boil_water",
+      "title": "Boil water advisory — East Bank",
+      "description": "Precautionary boil water advisory for the East Bank of New Orleans. Third advisory event in January 2025.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-01-26",
+      "advisoryEndDate": "2025-01-27",
+      "estimatedPopulationAffected": 60000,
+      "neighborhoods": ["East Bank"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-26" }
+      ],
+      "notes": "Third advisory event in January 2025."
+    },
+    {
+      "id": "2025-03-19-noeast",
+      "date": "2025-03-19",
+      "endDate": "2025-03-20",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East (expanded)",
+      "description": "Precautionary boil water advisory for limited parts of New Orleans East, later expanded.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-03-19",
+      "advisoryEndDate": "2025-03-20",
+      "estimatedPopulationAffected": 12000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-03-19" }
+      ],
+      "notes": "Advisory was expanded same day."
+    },
+    {
+      "id": "2025-06-02-noeast",
+      "date": "2025-06-02",
+      "endDate": "2025-06-03",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory for limited parts of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-06-02",
+      "advisoryEndDate": "2025-06-03",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-06-02" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-06-28-eastbank-upperline",
+      "date": "2025-06-28",
+      "endDate": "2025-06-30",
+      "type": "main_break",
+      "title": "30-inch main break — Upperline St; East Bank advisory",
+      "description": "A 30-inch water main broke on Upperline Street, triggering a boil water advisory for limited parts of the East Bank. S&WB provided multiple updates as repairs progressed.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-06-28",
+      "advisoryEndDate": "2025-06-30",
+      "estimatedPopulationAffected": 25000,
+      "neighborhoods": ["Uptown", "East Bank"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release — Main Break Update", "url": "https://www.swbno.org/PressReleases", "date": "2025-06-28" }
+      ],
+      "notes": "30-inch water main break on Upperline St."
+    },
+    {
+      "id": "2025-07-10-noeast",
+      "date": "2025-07-10",
+      "endDate": "2025-07-11",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory for the majority of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-07-10",
+      "advisoryEndDate": "2025-07-11",
+      "estimatedPopulationAffected": 15000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-07-10" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-07-14-venetian",
+      "date": "2025-07-14",
+      "endDate": "2025-07-16",
+      "type": "boil_water",
+      "title": "Boil water advisory — Venetian Isles",
+      "description": "Precautionary boil water advisory for Venetian Isles.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-07-14",
+      "advisoryEndDate": "2025-07-16",
+      "estimatedPopulationAffected": 4000,
+      "neighborhoods": ["Venetian Isles"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-07-14" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-11-14-noeast",
+      "date": "2025-11-14",
+      "endDate": "2025-11-16",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East",
+      "description": "Precautionary boil water advisory for a limited portion of New Orleans East.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-11-14",
+      "advisoryEndDate": "2025-11-16",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 48,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-11-14" }
+      ],
+      "notes": null
+    },
+    {
+      "id": "2025-11-18-noeast",
+      "date": "2025-11-18",
+      "endDate": "2025-11-19",
+      "type": "boil_water",
+      "title": "Boil water advisory — New Orleans East (2nd in a week)",
+      "description": "Precautionary boil water advisory for New Orleans East. Second advisory for this area in under a week.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2025-11-18",
+      "advisoryEndDate": "2025-11-19",
+      "estimatedPopulationAffected": 10000,
+      "neighborhoods": ["New Orleans East"],
+      "durationHours": 24,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-11-18" }
+      ],
+      "notes": "Second NO East advisory in under a week."
+    },
+    {
+      "id": "2026-01-31-carrollton-panola",
+      "date": "2026-01-31",
+      "endDate": "2026-02-02",
+      "type": "main_break",
+      "title": "48-inch main break — S. Carrollton Ave & Panola St",
+      "description": "A 48-inch water transmission main broke near Carrollton Avenue and Panola Street, causing pressure to drop below 20 psi and triggering a precautionary boil water advisory for a portion of Uptown.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2026-01-31",
+      "advisoryEndDate": "2026-02-02",
+      "estimatedPopulationAffected": 30000,
+      "neighborhoods": ["Carrollton", "Uptown"],
+      "durationHours": 42,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/5058", "date": "2026-02-02" }
+      ],
+      "notes": "First break at this location in 2026. Advisory area bounded by Carrollton Ave (I-10 to Mississippi River). S&WB warned of lower-than-normal pressures through end of week."
+    },
+    {
+      "id": "2026-02-23-claiborne-toledano",
+      "date": "2026-02-23",
+      "endDate": "2026-02-27",
+      "type": "main_break",
+      "title": "48-inch main break — S. Claiborne Ave & Toledano St",
+      "description": "A 48-inch water transmission main broke at South Claiborne Avenue and Toledano Street, causing widespread pressure loss. The initial boil water advisory covered Uptown, the CBD, and French Quarter, then expanded. A follow-on advisory was issued Feb 25 for Marlyville-Fontainebleau, Broadmoor, Hoffman Triangle, and B.W. Cooper as repairs continued.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2026-02-23",
+      "advisoryEndDate": "2026-02-27",
+      "estimatedPopulationAffected": 55000,
+      "neighborhoods": ["Uptown", "CBD", "French Quarter", "Marlyville-Fontainebleau", "Broadmoor", "Hoffman Triangle", "B.W. Cooper"],
+      "durationHours": 102,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases", "date": "2026-02-23" },
+        { "name": "S&WB Press Release — 48\" Main Break Update", "url": "https://www.swbno.org/PressReleases/Details/5063", "date": "2026-02-24" }
+      ],
+      "notes": "Advisory issued 5:56 AM Feb 23, expanded twice same day (9:29 AM, 3:40 PM). First advisory canceled Feb 24 12:27 PM. Follow-on advisory for adjacent neighborhoods issued Feb 25 6:07 PM, canceled Feb 27 11:34 AM."
+    },
+    {
+      "id": "2026-03-09-carrollton-panola",
+      "date": "2026-03-09",
+      "endDate": "2026-03-10",
+      "type": "main_break",
+      "title": "48-inch main break — S. Carrollton Ave & Panola St (2nd break)",
+      "description": "The same 48-inch transmission main at South Carrollton Avenue and Panola Street broke again, causing pressure to drop below 20 psi across a large portion of the east bank. This is the same location that broke on January 31 — the third major 48-inch main break in 2026.",
+      "boilWaterAdvisory": true,
+      "advisoryStartDate": "2026-03-09",
+      "advisoryEndDate": "2026-03-10",
+      "estimatedPopulationAffected": 80000,
+      "neighborhoods": ["Uptown", "CBD", "French Quarter", "9th Ward", "Mid-City", "Gentilly", "New Orleans East"],
+      "durationHours": 27,
+      "pressureIssue": true,
+      "sources": [
+        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/5068", "date": "2026-03-09" },
+        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases", "date": "2026-03-10" }
+      ],
+      "notes": "Same location as Jan 31 break. Advisory issued 6:16 AM Mar 9, canceled 9:30 AM Mar 10. Pressure fell below 20 psi. Affected areas spanned Uptown to New Orleans East — the largest geographic area of any 2026 advisory."
+    }
+  ]
+}
