@@ -220,18 +220,19 @@
       "endDate": "2023-06-30",
       "type": "main_break",
       "title": "50-inch main break — St. Bernard Ave; Gentilly & NO East advisory",
-      "description": "Emergency repair of a 50-inch water main on St. Bernard Avenue triggered boil water advisories for parts of Gentilly, Oak Island, and New Orleans East. Multiple rounds of advisories issued and lifted over several days.",
+      "description": "Emergency closure of 50-inch water transmission main at St. Bernard Avenue and Duels Street caused pressure to drop below 20 psi. Advisory issued 9:23 PM Jun 27 for Republic St (Broad to St. Bernard), entire Oak Island subdivision, and parts of Gentilly and New Orleans East. Customers experienced 10–15 psi pressure drops; some on Republic St lost water entirely. Advisory canceled Jun 29 at 12:07 PM; repairs completed Jun 30.",
       "boilWaterAdvisory": true,
       "advisoryStartDate": "2023-06-27",
-      "advisoryEndDate": "2023-06-30",
+      "advisoryEndDate": "2023-06-29",
       "estimatedPopulationAffected": 25000,
       "neighborhoods": ["Gentilly", "Oak Island", "New Orleans East"],
       "durationHours": 72,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-06-27" }
+        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/4753", "date": "2023-06-27" },
+        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/4755", "date": "2023-06-29" }
       ],
-      "notes": "Emergency repair of 50-inch water main on St. Bernard Ave."
+      "notes": "Emergency repair of 50-inch water main at St. Bernard Ave & Duels St. Advisory lifted Jun 29; full repairs completed Jun 30."
     },
     {
       "id": "2023-09-06-algiers",
@@ -391,7 +392,7 @@
       "endDate": "2024-08-08",
       "type": "boil_water",
       "title": "CITYWIDE boil water advisory — East Bank & Algiers Point",
-      "description": "Precautionary boil water advisory issued for the entire East Bank of New Orleans and Algiers Point — the largest advisory in years. Extended for East Bank on Aug 8 while West Bank was cleared. A follow-on advisory for New Orleans East and Oak Island continued through Aug 14.",
+      "description": "Power failure at Carrollton Water Treatment Plant at 8:15 PM caused pressure to drop below 20 psi across the entire East Bank and Algiers Point. Algiers Water Treatment Plant also briefly affected. Advisory covered Uptown, CBD, French Quarter, Mid-City, Gentilly, 9th Ward, New Orleans East, and West Bank areas from Donner St to Idaho St. The largest advisory in years — effectively the entire city. Follow-on advisory for New Orleans East and Oak Island continued through Aug 14.",
       "boilWaterAdvisory": true,
       "advisoryStartDate": "2024-08-06",
       "advisoryEndDate": "2024-08-08",
@@ -400,9 +401,9 @@
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-06" }
+        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/4881", "date": "2024-08-06" }
       ],
-      "notes": "Largest advisory in years — covered effectively the entire city east of the river. S&WB subsequently updated City Council on boil water advisory response improvements (Aug 15)."
+      "notes": "Caused by power failure at Carrollton Water Treatment Plant. Largest advisory in years — covered effectively the entire city east of the river. S&WB subsequently updated City Council on boil water advisory response improvements (Aug 15)."
     },
     {
       "id": "2024-08-12-noeast-oakisland",
@@ -744,7 +745,7 @@
       "pressureIssue": true,
       "sources": [
         { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/5068", "date": "2026-03-09" },
-        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases", "date": "2026-03-10" }
+        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/4759", "date": "2026-03-10" }
       ],
       "notes": "Same location as Jan 31 break. Advisory issued 6:16 AM Mar 9, canceled 9:30 AM Mar 10. Pressure fell below 20 psi. Affected areas spanned Uptown to New Orleans East — the largest geographic area of any 2026 advisory."
     }
