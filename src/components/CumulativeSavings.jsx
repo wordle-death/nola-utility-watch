@@ -76,18 +76,18 @@ export default function CumulativeSavings() {
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
-              <th className="text-left px-6 py-3 font-medium text-gray-600">Month</th>
-              <th className="text-center px-4 py-3 font-medium text-gray-600 w-28">Your CCF</th>
-              <th className="text-right px-4 py-3 font-medium text-red-600">Delta Bill</th>
-              <th className="text-right px-4 py-3 font-medium text-blue-600">Entergy Est.</th>
-              <th className="text-right px-6 py-3 font-medium text-amber-600">You Overpaid</th>
+              <th className="text-left px-3 sm:px-6 py-3 font-medium text-gray-600">Month</th>
+              <th className="text-center px-2 sm:px-4 py-3 font-medium text-gray-600 w-20 sm:w-28">Your CCF</th>
+              <th className="text-right px-2 sm:px-4 py-3 font-medium text-red-600">Delta</th>
+              <th className="text-right px-2 sm:px-4 py-3 font-medium text-blue-600">Entergy</th>
+              <th className="text-right px-3 sm:px-6 py-3 font-medium text-amber-600">Diff</th>
             </tr>
           </thead>
           <tbody>
             {rows.map(row => (
               <tr key={row.billMonth} className="border-b border-gray-100">
-                <td className="px-6 py-2.5 text-gray-900 font-medium">{row.label}</td>
-                <td className="px-4 py-2.5">
+                <td className="px-3 sm:px-6 py-2.5 text-gray-900 font-medium text-xs sm:text-sm">{row.label}</td>
+                <td className="px-2 sm:px-4 py-2.5">
                   <input
                     type="number"
                     min="0"
@@ -95,16 +95,16 @@ export default function CumulativeSavings() {
                     placeholder="CCF"
                     value={ccfValues[row.billMonth]}
                     onChange={e => updateCcf(row.billMonth, e.target.value)}
-                    className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-center text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-2 sm:px-3 py-1.5 border border-gray-300 rounded-md text-center text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </td>
-                <td className="px-4 py-2.5 text-right font-mono text-red-700">
+                <td className="px-2 sm:px-4 py-2.5 text-right font-mono text-xs sm:text-sm text-red-700">
                   {row.deltaBill ? `$${row.deltaBill.total.toFixed(2)}` : <span className="text-gray-300">—</span>}
                 </td>
-                <td className="px-4 py-2.5 text-right font-mono text-blue-700">
+                <td className="px-2 sm:px-4 py-2.5 text-right font-mono text-xs sm:text-sm text-blue-700">
                   {row.entergyBill ? `$${row.entergyBill.total.toFixed(2)}` : <span className="text-gray-300">—</span>}
                 </td>
-                <td className="px-6 py-2.5 text-right font-mono">
+                <td className="px-3 sm:px-6 py-2.5 text-right font-mono text-xs sm:text-sm">
                   {row.diff !== null ? (
                     <span className={row.diff > 0 ? 'text-red-600 font-medium' : 'text-green-600'}>
                       {row.diff > 0 ? '+' : ''}${row.diff.toFixed(2)}
@@ -117,17 +117,17 @@ export default function CumulativeSavings() {
             ))}
             {/* Totals row */}
             <tr className="bg-gray-50 border-t-2 border-gray-300">
-              <td className="px-6 py-3 font-bold text-gray-900">TOTAL</td>
-              <td className="px-4 py-3 text-center text-xs text-gray-500">
-                {hasAnyData ? `${filledRows.length} month${filledRows.length > 1 ? 's' : ''}` : ''}
+              <td className="px-3 sm:px-6 py-3 font-bold text-gray-900 text-xs sm:text-sm">TOTAL</td>
+              <td className="px-2 sm:px-4 py-3 text-center text-xs text-gray-500">
+                {hasAnyData ? `${filledRows.length} mo` : ''}
               </td>
-              <td className="px-4 py-3 text-right font-mono font-bold text-red-700">
+              <td className="px-2 sm:px-4 py-3 text-right font-mono font-bold text-xs sm:text-sm text-red-700">
                 {hasAnyData ? `$${totalDelta.toFixed(2)}` : '—'}
               </td>
-              <td className="px-4 py-3 text-right font-mono font-bold text-blue-700">
+              <td className="px-2 sm:px-4 py-3 text-right font-mono font-bold text-xs sm:text-sm text-blue-700">
                 {hasAnyData ? `$${totalEntergy.toFixed(2)}` : '—'}
               </td>
-              <td className="px-6 py-3 text-right font-mono font-bold text-red-600">
+              <td className="px-3 sm:px-6 py-3 text-right font-mono font-bold text-xs sm:text-sm text-red-600">
                 {hasAnyData ? `+$${totalDiff.toFixed(2)}` : '—'}
               </td>
             </tr>

@@ -89,7 +89,7 @@ export default function IncidentTimeline({ incidents, assumptions }) {
       </h4>
       <div className="h-72">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+          <ComposedChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis
               dataKey="quarter"
@@ -101,15 +101,15 @@ export default function IncidentTimeline({ incidents, assumptions }) {
             />
             <YAxis
               yAxisId="hours"
-              tick={{ fontSize: 12, fill: '#6b7280' }}
-              label={{ value: 'Hours', angle: -90, position: 'insideLeft', style: { fontSize: 12, fill: '#6b7280' } }}
+              tick={{ fontSize: 10, fill: '#6b7280' }}
+              width={40}
             />
             <YAxis
               yAxisId="cost"
               orientation="right"
-              tick={{ fontSize: 11, fill: '#6b7280' }}
+              tick={{ fontSize: 10, fill: '#6b7280' }}
               tickFormatter={v => formatDollars(v)}
-              label={{ value: 'Est. Cost', angle: 90, position: 'insideRight', style: { fontSize: 12, fill: '#6b7280' } }}
+              width={50}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 12 }} />

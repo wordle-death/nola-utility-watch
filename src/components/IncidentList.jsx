@@ -130,7 +130,7 @@ function IncidentCard({ incident, assumptions }) {
       </div>
 
       {/* Impact breakdown */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs mb-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs mb-2">
         <div className="flex justify-between">
           <span className="text-gray-500">Lost wages</span>
           <span className="text-gray-700 font-medium">{formatDollars(conserv.lostWages)} – {formatDollars(full.lostWages)}</span>
@@ -171,6 +171,7 @@ function IncidentCard({ incident, assumptions }) {
       {/* Expandable methodology */}
       <button
         onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
         className="text-[11px] text-cyan-600 hover:text-cyan-800 font-medium cursor-pointer"
       >
         {expanded ? '▾ Hide methodology' : '▸ How we calculated this'}

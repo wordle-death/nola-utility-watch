@@ -92,17 +92,17 @@ export default function PGATrendChart() {
 
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+          <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 12, fill: '#6b7280' }}
+              tick={{ fontSize: 11, fill: '#6b7280' }}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: '#6b7280' }}
+              tick={{ fontSize: 10, fill: '#6b7280' }}
               tickFormatter={v => `$${v.toFixed(2)}`}
               domain={[0, 'auto']}
-              label={{ value: '$/CCF', angle: -90, position: 'insideLeft', style: { fontSize: 12, fill: '#6b7280' } }}
+              width={45}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend

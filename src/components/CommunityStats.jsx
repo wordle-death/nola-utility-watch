@@ -86,7 +86,7 @@ export default function CommunityStats() {
       </div>
 
       {/* Hero stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
         <div className="bg-blue-50 rounded-lg px-4 py-3 text-center">
           <p className="text-2xl font-bold text-blue-700">{stats.total_submissions}</p>
           <p className="text-xs text-blue-600 font-medium">Bills Contributed</p>
