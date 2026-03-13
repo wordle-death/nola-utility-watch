@@ -27,7 +27,7 @@ Important context:
 - Bills before July 2025 are from Entergy New Orleans
 - The PGA rate may appear as "Purchase Gas Adjustment" or "PGA" or "Purchased Gas Cost" or similar
 - CCF may also be labeled as "therms" or "gas usage" — we need the CCF value
-- The total should be the TOTAL GAS CHARGES including all fees and taxes
+- The total should be the "Gas Charges" or "Total Gas Charges" amount shown on the bill. On Entergy bills this is the gas section subtotal (before franchise fee and city tax which appear under "Other Charges & Credits"). On Delta bills use the gas charges total.
 - If any field cannot be confidently extracted, set confidence to "low"
 
 DO NOT extract: customer name, address, account number, or any personally identifying information.

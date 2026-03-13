@@ -103,8 +103,13 @@ export default async function handler(req, res) {
     }
 
     // ── 3. Rate formula validation ──────────────────────────────────────
-    const calculatedTotal = calculateBillTotal(ccfNum, pgaNum, provider);
-    const errorPct = Math.abs(calculatedTotal - totalNum) / totalNum * 100;
+    // Bills may report gas charges only (before franchise fee / city tax)
+    // or the fully-loaded total. Accept whichever is closer.
+    const { gasCharges, fullTotal } = calculateBillTotal(ccfNum, pgaNum);
+    const errorGas = Math.abs(gasCharges - totalNum) / totalNum * 100;
+    const errorFull = Math.abs(fullTotal - totalNum) / totalNum * 100;
+    const calculatedTotal = errorGas <= errorFull ? gasCharges : fullTotal;
+    const errorPct = Math.min(errorGas, errorFull);
 
     if (errorPct > 2.0) {
       return res.status(422).json({

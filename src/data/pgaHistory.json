@@ -11,6 +11,33 @@
       "source": "actual_bill"
     },
     {
+      "billMonth": "2025-04",
+      "periodStart": "2025-03-13",
+      "periodEnd": "2025-04-14",
+      "days": 32,
+      "pgaRate": 0.57456,
+      "provider": "entergy",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-05",
+      "periodStart": "2025-04-14",
+      "periodEnd": "2025-05-14",
+      "days": 30,
+      "pgaRate": 0.46751,
+      "provider": "entergy",
+      "source": "actual_bill"
+    },
+    {
+      "billMonth": "2025-06",
+      "periodStart": "2025-05-14",
+      "periodEnd": "2025-06-12",
+      "days": 29,
+      "pgaRate": 0.51856,
+      "provider": "entergy",
+      "source": "actual_bill"
+    },
+    {
       "billMonth": "2025-07",
       "periodStart": "2025-06-12",
       "periodEnd": "2025-06-30",

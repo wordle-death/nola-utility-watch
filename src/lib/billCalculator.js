@@ -7,26 +7,21 @@ import pgaHistory from '../data/pgaHistory.json';
  * Rate formula:
  *   Customer Charge:        $12.32/month (fixed)
  *   Gas Services:           $0.266/CCF (delivery)
- *   FRP Rider:              77.47% of (Customer Charge + Gas Services) [DELTA ONLY]
+ *   FRP Rider:              77.47% of (Customer Charge + Gas Services)
  *   Purchase Gas Adjustment: variable $/CCF (the ONLY different component)
  *   Street Use Franchise Fee: 5.27% of all gas charges above
  *   City Tax:               3% of everything including franchise fee
  *
- * The FRP (Formula Rate Plan) Rider is a Delta-specific charge introduced
- * after the July 2025 acquisition. Entergy bills did not include this rider.
+ * Both Entergy and Delta charge the FRP Rider at 77.47%.
  *
  * @param {number} ccf - Gas usage in CCF (hundred cubic feet)
  * @param {number} pgaRate - PGA rate in $/CCF
- * @param {string} provider - 'delta' or 'entergy' (default: 'delta')
  * @returns {object} Full bill decomposition
  */
-export function calculateBill(ccf, pgaRate, provider = 'delta') {
+export function calculateBill(ccf, pgaRate) {
   const customerCharge = rates.customerCharge;
   const gasServices = ccf * rates.gasServicesPerCCF;
-  // FRP Rider is Delta-only — Entergy did not charge this
-  const frpRider = provider === 'delta'
-    ? (customerCharge + gasServices) * rates.formulaRatePlanRiderPct
-    : 0;
+  const frpRider = (customerCharge + gasServices) * rates.formulaRatePlanRiderPct;
   const pga = ccf * pgaRate;
 
   const subtotalBeforeFees = customerCharge + gasServices + frpRider + pga;
@@ -74,29 +69,28 @@ export function calculateComparison(ccf, billMonth, henryHubPerMMBtu = null) {
     return { error: `No Delta PGA data available for ${billMonth}` };
   }
 
-  // 1. Delta actual bill (includes FRP rider)
-  const deltaBill = calculateBill(ccf, deltaPGA.pgaRate, 'delta');
+  // 1. Delta actual bill
+  const deltaBill = calculateBill(ccf, deltaPGA.pgaRate);
 
-  // 2. Entergy estimate: HH price converted to CCF + $0.17 markup (no FRP rider)
+  // 2. Entergy estimate: HH price converted to CCF + $0.17 markup
   let entergyBill = null;
   let entergyPGARate = null;
   if (entergyPGA) {
     // We have actual Entergy data for this month
     entergyPGARate = entergyPGA.pgaRate;
-    entergyBill = calculateBill(ccf, entergyPGARate, 'entergy');
+    entergyBill = calculateBill(ccf, entergyPGARate);
   } else if (henryHubPerMMBtu !== null) {
     // Estimate Entergy PGA as HH price × conversion + $0.17 markup
     const hhPerCCF = henryHubPerMMBtu * rates.ccfToMMBtu;
     entergyPGARate = hhPerCCF + pgaHistory.entergyEstimatedMarkup.markupPerCCF;
-    entergyBill = calculateBill(ccf, entergyPGARate, 'entergy');
+    entergyBill = calculateBill(ccf, entergyPGARate);
   }
 
-  // 3. Wholesale floor: HH spot price only (no markup, use Delta formula since
-  //    this is a theoretical comparison against current Delta rates)
+  // 3. Wholesale floor: HH spot price only (no markup)
   let wholesaleBill = null;
   if (henryHubPerMMBtu !== null) {
     const hhPerCCF = henryHubPerMMBtu * rates.ccfToMMBtu;
-    wholesaleBill = calculateBill(ccf, hhPerCCF, 'delta');
+    wholesaleBill = calculateBill(ccf, hhPerCCF);
   }
 
   // Comparison metrics

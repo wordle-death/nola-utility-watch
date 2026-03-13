@@ -26,6 +26,9 @@ export const NOLA_ZIP_CODES = new Set([
  */
 export const KNOWN_PGA = {
   'entergy-2025-01': 0.54107,
+  'entergy-2025-04': 0.57456,
+  'entergy-2025-05': 0.46751,
+  'entergy-2025-06': 0.51856,
   'entergy-2025-07': 0.51856,
   'delta-2025-07': 0.51868,
   'delta-2025-08': 0.48265,
@@ -38,35 +41,35 @@ export const KNOWN_PGA = {
 };
 
 /**
- * Calculate total gas bill using the New Orleans rate formula.
+ * Calculate gas bill components using the New Orleans rate formula.
  *
- * Delta bills include the FRP (Formula Rate Plan) Rider at 77.47%.
- * Entergy bills did NOT include this rider — it was introduced after
- * Delta acquired gas operations in July 2025.
+ * Both Entergy and Delta charge the FRP (Formula Rate Plan) Rider at 77.47%.
+ * Franchise fee (5.27%) and city tax (3%) are listed separately on bills
+ * under "Other Charges & Credits", not in the "Gas Charges" section.
  *
  * @param {number} ccf - Gas usage in CCF
  * @param {number} pgaRate - PGA rate in $/CCF
- * @param {string} provider - 'delta' or 'entergy'
- * @returns {number} Total bill amount, rounded to cents
+ * @returns {{ gasCharges: number, fullTotal: number }} Gas section subtotal and fully-loaded total
  */
-export function calculateBillTotal(ccf, pgaRate, provider = 'delta') {
+export function calculateBillTotal(ccf, pgaRate) {
   const { customerCharge, gasServicesPerCCF, formulaRatePlanRiderPct,
     streetUseFranchiseFeePct, cityTaxPct } = RATES;
 
   const gasServices = ccf * gasServicesPerCCF;
-
-  // FRP Rider is Delta-only — Entergy did not charge this
-  const frpRider = provider === 'delta'
-    ? (customerCharge + gasServices) * formulaRatePlanRiderPct
-    : 0;
-
+  const frpRider = (customerCharge + gasServices) * formulaRatePlanRiderPct;
   const pga = ccf * pgaRate;
 
-  const subtotal = customerCharge + gasServices + frpRider + pga;
-  const franchiseFee = subtotal * streetUseFranchiseFeePct;
-  const beforeTax = subtotal + franchiseFee;
-  const cityTax = beforeTax * cityTaxPct;
-  const total = beforeTax + cityTax;
+  // Gas Charges subtotal (what appears on the bill as "Gas Charges")
+  const gasCharges = customerCharge + gasServices + frpRider + pga;
 
-  return Math.round(total * 100) / 100;
+  // Full total including franchise fee and city tax
+  const franchiseFee = gasCharges * streetUseFranchiseFeePct;
+  const beforeTax = gasCharges + franchiseFee;
+  const cityTax = beforeTax * cityTaxPct;
+  const fullTotal = beforeTax + cityTax;
+
+  return {
+    gasCharges: Math.round(gasCharges * 100) / 100,
+    fullTotal: Math.round(fullTotal * 100) / 100,
+  };
 }

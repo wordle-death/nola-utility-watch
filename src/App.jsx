@@ -112,9 +112,9 @@ function App() {
               </p>
               <p>
                 <span className="font-semibold text-gray-700">The analytical basis:</span> Independent bill analysis
-                confirmed that every rate component — customer charge ($12.32/mo), gas services ($0.266/CCF),
+                of 10+ actual bills confirmed that every rate component — customer charge ($12.32/mo), gas services ($0.266/CCF),
                 Formula Rate Plan Rider (77.47%), franchise fee (5.27%), and city tax (3%) — is identical between
-                Entergy and Delta. The sole variable is the PGA.
+                Entergy and Delta. The sole variable is the PGA (Purchase Gas Adjustment).
               </p>
               <p>
                 <span className="font-semibold text-gray-700">Fair context:</span> Approximately 50% of recent bill
