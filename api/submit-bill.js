@@ -115,8 +115,11 @@ export default async function handler(req, res) {
       return res.status(422).json({
         success: false,
         error: 'formula_mismatch',
+        _v: 2,
         details: {
           submitted_total: totalNum,
+          calculated_gas: gasCharges,
+          calculated_full: fullTotal,
           calculated_total: calculatedTotal,
           error_pct: Math.round(errorPct * 100) / 100,
           message: `Calculated total ($${calculatedTotal}) differs from submitted total ($${totalNum}) by ${errorPct.toFixed(1)}%. Bills must match within 2%.`,
