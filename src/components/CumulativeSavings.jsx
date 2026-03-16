@@ -1,25 +1,23 @@
-import { useState } from 'react';
-import { calculateBill, getAvailableMonths } from '../lib/billCalculator';
+import { useState, useMemo } from 'react';
+import { calculateBill, getAvailableMonths, getMonthLabel } from '../lib/billCalculator';
 import pgaHistory from '../data/pgaHistory.json';
 import henryHub from '../data/henryHub.json';
 import rates from '../data/rates.json';
 
-const CUMULATIVE_MONTHS = [
-  { billMonth: '2025-08', label: 'Aug 2025' },
-  { billMonth: '2025-09', label: 'Sep 2025' },
-  { billMonth: '2025-10', label: 'Oct 2025' },
-  { billMonth: '2025-11', label: 'Nov 2025' },
-  { billMonth: '2025-12', label: 'Dec 2025' },
-  { billMonth: '2026-01', label: 'Jan 2026' },
-  { billMonth: '2026-02', label: 'Feb 2026' },
-];
-
 export default function CumulativeSavings() {
   const months = getAvailableMonths();
 
+  // Derive cumulative months from Delta data, excluding the Jul 2025 overlap
+  const cumulativeMonths = useMemo(() =>
+    months.delta
+      .filter(m => m.billMonth > '2025-07')
+      .map(m => ({ billMonth: m.billMonth, label: getMonthLabel(m.billMonth) })),
+    []
+  );
+
   // Initialize CCF state for each month (empty strings)
   const [ccfValues, setCcfValues] = useState(
-    Object.fromEntries(CUMULATIVE_MONTHS.map(m => [m.billMonth, '']))
+    Object.fromEntries(cumulativeMonths.map(m => [m.billMonth, '']))
   );
 
   function updateCcf(billMonth, value) {
@@ -27,7 +25,7 @@ export default function CumulativeSavings() {
   }
 
   // Compute bills for each month where CCF is entered
-  const rows = CUMULATIVE_MONTHS.map(m => {
+  const rows = cumulativeMonths.map(m => {
     const ccfStr = ccfValues[m.billMonth];
     const ccfNum = parseFloat(ccfStr);
     if (!ccfStr || isNaN(ccfNum) || ccfNum <= 0) {
@@ -65,7 +63,7 @@ export default function CumulativeSavings() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Cumulative Cost Since Switchover</h3>
+        <h2 className="text-lg font-semibold text-gray-900">Cumulative Cost Since Switchover</h2>
         <p className="text-sm text-gray-500 mt-1">
           Enter your CCF usage from each Delta bill to see how much more you{"'"}ve paid
           compared to what Entergy would have charged. Find CCF on page 1 of each bill.

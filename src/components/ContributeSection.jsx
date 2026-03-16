@@ -189,7 +189,7 @@ export default function ContributeSection() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-gray-900">Contribute Your Bills</h3>
+        <h2 className="text-lg font-semibold text-gray-900">Contribute Your Bills</h2>
         <p className="text-sm text-gray-500 mt-1">
           Help build a community dataset of New Orleans gas bills. Upload photos or PDFs of your
           Delta or Entergy bills — the data is extracted automatically, validated against the known

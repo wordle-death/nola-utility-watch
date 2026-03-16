@@ -1,4 +1,5 @@
-import { getPGATrend } from '../lib/billCalculator';
+import { getPGATrend, getMonthShortLabel } from '../lib/billCalculator';
+import InfoTip from './Tooltip';
 import henryHub from '../data/henryHub.json';
 import rates from '../data/rates.json';
 import {
@@ -14,21 +15,6 @@ import {
   ReferenceLine,
 } from 'recharts';
 
-const MONTH_SHORT = {
-  '2025-01': "Jan '25",
-  '2025-04': "Apr '25",
-  '2025-05': "May '25",
-  '2025-06': "Jun '25",
-  '2025-07': "Jul '25",
-  '2025-08': "Aug '25",
-  '2025-09': "Sep '25",
-  '2025-10': "Oct '25",
-  '2025-11': "Nov '25",
-  '2025-12': "Dec '25",
-  '2026-01': "Jan '26",
-  '2026-02': "Feb '26",
-};
-
 export default function PGATrendChart() {
   const trend = getPGATrend();
 
@@ -41,7 +27,7 @@ export default function PGATrendChart() {
   }
 
   const data = trend.map(d => ({
-    month: MONTH_SHORT[d.billMonth] || d.billMonth,
+    month: getMonthShortLabel(d.billMonth),
     billMonth: d.billMonth,
     pgaRate: d.pgaRate,
     provider: d.provider,
@@ -85,11 +71,13 @@ export default function PGATrendChart() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">PGA Rate vs. Henry Hub Wholesale Price</h3>
+        <h2 className="text-lg font-semibold text-gray-900">
+          <InfoTip term="PGA">Purchase Gas Adjustment — the per-CCF commodity pass-through charge. This is the only rate component that differs between Entergy and Delta.</InfoTip> Rate vs. <InfoTip term="Henry Hub">The U.S. benchmark pricing point for natural gas, located in Erath, Louisiana. Wholesale gas prices are based on Henry Hub spot prices.</InfoTip> Wholesale Price
+        </h2>
         <p className="text-sm text-gray-500 mt-1">
           The PGA is what the utility charges you for gas commodity. The green line shows what the gas
           actually costs on the wholesale market (Henry Hub). The gap between the bar and the line is the
-          utility's procurement markup.
+          utility{"'"}s procurement markup.
         </p>
       </div>
 

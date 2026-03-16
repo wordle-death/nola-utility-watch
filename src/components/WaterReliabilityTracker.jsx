@@ -12,9 +12,9 @@ export default function WaterReliabilityTracker() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">
+        <h2 className="text-lg font-semibold text-gray-900">
           Water Reliability Tracker
-        </h3>
+        </h2>
         <p className="text-sm text-gray-500 mt-1">
           Tracking water main breaks, boil water advisories, and their economic impact on
           New Orleans residents. Data sourced from S&WB official press releases (swbno.org).

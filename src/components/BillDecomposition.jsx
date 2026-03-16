@@ -1,4 +1,5 @@
 import rates from '../data/rates.json';
+import Tooltip from './Tooltip';
 
 export default function BillDecomposition({ deltaBill, entergyBill, ccf, flipped = false }) {
   // When flipped (Entergy July), swap which column is "actual" vs "estimated"
@@ -34,8 +35,8 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf, flipped
       right: rightBill.frpRider,
     },
     {
-      label: 'Purchase Gas Adjustment',
-      description: 'Commodity pass-through — THE difference',
+      label: <><Tooltip term="Purchase Gas Adjustment (PGA)">The per-CCF commodity pass-through charge. This is the only rate component that differs between Entergy and Delta.</Tooltip></>,
+      description: 'The sole variable between utilities',
       rate: null,
       left: leftBill.pga,
       right: rightBill.pga,
@@ -62,7 +63,7 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf, flipped
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-900">Line-by-Line Bill Breakdown</h3>
+        <h2 className="text-lg font-semibold text-gray-900">Line-by-Line Bill Breakdown</h2>
         <p className="text-sm text-gray-500 mt-1">
           Every component is identical except the PGA (highlighted). {ccf} CCF usage.
         </p>

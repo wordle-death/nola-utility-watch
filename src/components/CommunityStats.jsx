@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getMonthShortLabel } from '../lib/billCalculator';
 import {
   ResponsiveContainer,
   BarChart,
@@ -8,13 +9,6 @@ import {
   CartesianGrid,
   Tooltip,
 } from 'recharts';
-
-const MONTH_SHORT = {
-  '2025-01': "Jan '25", '2025-07': "Jul '25", '2025-08': "Aug '25",
-  '2025-09': "Sep '25", '2025-10': "Oct '25", '2025-11': "Nov '25",
-  '2025-12': "Dec '25", '2026-01': "Jan '26", '2026-02': "Feb '26",
-  '2026-03': "Mar '26", '2026-04': "Apr '26", '2026-05': "May '26",
-};
 
 /**
  * Displays aggregate community submission statistics.
@@ -42,14 +36,54 @@ export default function CommunityStats() {
     fetchStats();
   }, []);
 
-  // Don't render anything while loading or if the API isn't available yet
-  if (loading) return null;
+  function retry() {
+    setError(null);
+    setLoading(true);
+    fetch('/api/community-stats')
+      .then(res => { if (!res.ok) throw new Error('Failed to load'); return res.json(); })
+      .then(data => setStats(data))
+      .catch(err => setError(err.message))
+      .finally(() => setLoading(false));
+  }
 
-  // Empty state / no data / API error — show a call to action
-  if (error || !stats || stats.total_submissions === 0) {
+  // Loading skeleton
+  if (loading) {
     return (
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Community Data</h3>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">Community Data</h2>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+          {[0, 1, 2].map(i => (
+            <div key={i} className="bg-gray-50 rounded-lg px-4 py-3 animate-pulse">
+              <div className="h-8 bg-gray-200 rounded mb-2" />
+              <div className="h-3 bg-gray-200 rounded w-2/3 mx-auto" />
+            </div>
+          ))}
+        </div>
+        <div className="h-48 bg-gray-50 rounded-lg animate-pulse" />
+      </div>
+    );
+  }
+
+  // API error state
+  if (error) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-2">Community Data</h2>
+        <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-6 text-center">
+          <p className="text-sm text-gray-600">Community data is temporarily unavailable.</p>
+          <button onClick={retry} className="mt-3 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state — no submissions yet
+  if (!stats || stats.total_submissions === 0) {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <h2 className="text-lg font-semibold text-gray-900 mb-2">Community Data</h2>
         <div className="bg-gray-50 border border-gray-200 rounded-lg px-4 py-6 text-center">
           <p className="text-sm text-gray-600">
             No community bills have been submitted yet. Be the first to contribute!
@@ -66,7 +100,7 @@ export default function CommunityStats() {
   const pgaChartData = stats.by_month
     .filter(m => m.provider === 'delta')
     .map(m => ({
-      month: MONTH_SHORT[m.bill_month] || m.bill_month,
+      month: getMonthShortLabel(m.bill_month),
       avgPGA: m.avg_pga,
       count: m.count,
       minPGA: m.min_pga,
@@ -79,7 +113,7 @@ export default function CommunityStats() {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Community Data</h3>
+        <h2 className="text-lg font-semibold text-gray-900">Community Data</h2>
         <p className="text-sm text-gray-500 mt-1">
           Anonymized, validated bill data contributed by New Orleans residents.
         </p>

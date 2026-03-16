@@ -1,10 +1,11 @@
-import { Component } from 'react';
+import { Component, useState } from 'react';
 import BillCalculator from './components/BillCalculator';
 import CumulativeSavings from './components/CumulativeSavings';
 import PGATrendChart from './components/PGATrendChart';
 import WaterReliabilityTracker from './components/WaterReliabilityTracker';
 import ContributeSection from './components/ContributeSection';
 import CommunityStats from './components/CommunityStats';
+import TabNav from './components/TabNav';
 
 class ErrorBoundary extends Component {
   state = { hasError: false };
@@ -15,7 +16,7 @@ class ErrorBoundary extends Component {
         <div className="max-w-5xl mx-auto px-4 py-12 text-center">
           <p className="text-lg font-semibold text-gray-900">Something went wrong.</p>
           <p className="text-sm text-gray-500 mt-2">Try refreshing the page. If the problem persists, please report it.</p>
-          <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm cursor-pointer">
+          <button onClick={() => window.location.reload()} className="mt-4 px-6 py-2.5 bg-blue-600 text-white font-medium rounded-lg text-sm cursor-pointer">
             Refresh
           </button>
         </div>
@@ -25,7 +26,14 @@ class ErrorBoundary extends Component {
   }
 }
 
+const TABS = [
+  { id: 'gas', label: 'Gas Costs' },
+  { id: 'water', label: 'Water Reliability' },
+];
+
 function App() {
+  const [activeTab, setActiveTab] = useState('gas');
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -47,35 +55,46 @@ function App() {
         </div>
       </header>
 
+      {/* Tab Navigation */}
+      <TabNav tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+
       <ErrorBoundary>
       <main className="max-w-5xl mx-auto px-4 py-8">
-        {/* Context banner */}
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8">
-          <p className="text-sm text-blue-800">
-            <span className="font-semibold">What happened:</span> In July 2025, Delta Utilities acquired Entergy's gas
-            distribution business in New Orleans. Every rate component is identical — except the Purchase Gas Adjustment (PGA),
-            the commodity pass-through. Entergy had a hedging program that kept costs stable. Delta does not.
-            Enter your usage below to see exactly what that means for your bill.
-          </p>
+        {/* Gas Costs Tab */}
+        <div className={activeTab !== 'gas' ? 'hidden' : ''}>
+          {/* Context banner */}
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8">
+            <p className="text-sm text-blue-800">
+              <span className="font-semibold">What happened:</span> In July 2025, Delta Utilities acquired Entergy{"'"}s gas
+              distribution business in New Orleans. Every rate component is identical — except the Purchase Gas Adjustment (PGA),
+              the commodity pass-through. Entergy had a hedging program that kept costs stable. Delta does not.
+              Enter your usage below to see exactly what that means for your bill.
+            </p>
+          </div>
+
+          <section className="mb-12">
+            <BillCalculator />
+          </section>
+
+          <section className="mb-12">
+            <CumulativeSavings />
+          </section>
+
+          <section className="mb-12">
+            <PGATrendChart />
+          </section>
+
+          <section className="mb-12">
+            <ContributeSection />
+          </section>
+
+          <section className="mb-12">
+            <CommunityStats />
+          </section>
         </div>
 
-        {/* Gas Cost Calculator */}
-        <section className="mb-12">
-          <BillCalculator />
-        </section>
-
-        {/* Cumulative Savings */}
-        <section className="mb-12">
-          <CumulativeSavings />
-        </section>
-
-        {/* PGA Trend Chart */}
-        <section className="mb-12">
-          <PGATrendChart />
-        </section>
-
-        {/* Water Reliability */}
-        <div className="border-t-2 border-gray-200 pt-8 mt-4 mb-12">
+        {/* Water Reliability Tab */}
+        <div className={activeTab !== 'water' ? 'hidden' : ''}>
           <div className="bg-cyan-50 border border-cyan-200 rounded-xl p-4 mb-8">
             <p className="text-sm text-cyan-800">
               <span className="font-semibold">Beyond gas costs:</span> New Orleans residents face
@@ -90,20 +109,10 @@ function App() {
           </section>
         </div>
 
-        {/* Contribute Your Bill */}
-        <section className="mb-12">
-          <ContributeSection />
-        </section>
-
-        {/* Community Data */}
-        <section className="mb-12">
-          <CommunityStats />
-        </section>
-
-        {/* About / Methodology */}
-        <section className="mb-12">
+        {/* About / Methodology — always visible */}
+        <section className="mb-12 mt-12">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">About This Tool</h3>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">About This Tool</h2>
             <div className="prose prose-sm text-gray-600 space-y-3">
               <p>
                 NOLA Utility Watch is a free, open-source project providing independent analysis of utility costs
@@ -119,7 +128,7 @@ function App() {
               <p>
                 <span className="font-semibold text-gray-700">Fair context:</span> Approximately 50% of recent bill
                 increases are attributable to higher wholesale gas prices (which any utility would face), ~25% to
-                usage timing (winter consumption), and ~25% to Delta's structural procurement premium. This tool
+                usage timing (winter consumption), and ~25% to Delta{"'"}s structural procurement premium. This tool
                 shows all three factors.
               </p>
               <p>

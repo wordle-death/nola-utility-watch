@@ -163,6 +163,45 @@ export function getPGATrend() {
   return all.sort((a, b) => a.billMonth.localeCompare(b.billMonth));
 }
 
+/**
+ * Generate a human-readable label for a billing month.
+ * e.g. "2025-08" → "Aug 2025", or with note: "Feb 2026 (Storm Fern)"
+ * Handles the special "2025-07-entergy" key.
+ */
+export function getMonthLabel(billMonth) {
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  if (billMonth === '2025-07-entergy') {
+    const entry = pgaHistory.entergy.find(r => r.billMonth === '2025-07');
+    const note = entry?.note || 'Entergy final bill';
+    return `Jul 2025 (${note})`;
+  }
+
+  const [year, monthStr] = billMonth.split('-');
+  const monthIdx = parseInt(monthStr, 10) - 1;
+  const base = `${MONTH_NAMES[monthIdx]} ${year}`;
+
+  // Look for a note in pgaHistory
+  const entry = [...(pgaHistory.delta || []), ...(pgaHistory.entergy || [])]
+    .find(r => r.billMonth === billMonth);
+  if (entry?.note) {
+    return `${base} (${entry.note})`;
+  }
+  return base;
+}
+
+/**
+ * Generate a short label for chart axes.
+ * e.g. "2025-08" → "Aug '25"
+ */
+export function getMonthShortLabel(billMonth) {
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const key = billMonth === '2025-07-entergy' ? '2025-07' : billMonth;
+  const [year, monthStr] = key.split('-');
+  const monthIdx = parseInt(monthStr, 10) - 1;
+  return `${MONTH_NAMES[monthIdx]} '${year.slice(2)}`;
+}
+
 function round(n) {
   return Math.round(n * 100) / 100;
 }

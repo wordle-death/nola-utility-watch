@@ -1,34 +1,25 @@
 import { useState } from 'react';
-import { calculateBill, getAvailableMonths } from '../lib/billCalculator';
+import { calculateBill, getAvailableMonths, getMonthLabel } from '../lib/billCalculator';
 import BillDecomposition from './BillDecomposition';
+import Tooltip from './Tooltip';
 import pgaHistory from '../data/pgaHistory.json';
 import henryHub from '../data/henryHub.json';
 
-const MONTH_LABELS = {
-  '2025-07-entergy': 'Jul 2025 (Entergy final bill)',
-  '2025-07': 'Jul 2025 (Delta first bill)',
-  '2025-08': 'Aug 2025',
-  '2025-09': 'Sep 2025',
-  '2025-10': 'Oct 2025',
-  '2025-11': 'Nov 2025',
-  '2025-12': 'Dec 2025',
-  '2026-01': 'Jan 2026',
-  '2026-02': 'Feb 2026 (Storm Fern)',
-};
-
 export default function BillCalculator() {
-  const [ccf, setCcf] = useState('');
-  const [selectedMonth, setSelectedMonth] = useState('2026-02');
-  const [result, setResult] = useState(null);
-
   const months = getAvailableMonths();
+  const defaultMonth = months.delta[months.delta.length - 1]?.billMonth || '2026-02';
+
+  const [ccf, setCcf] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(defaultMonth);
+  const [result, setResult] = useState(null);
+  const [validationError, setValidationError] = useState('');
 
   // Build dropdown: all Delta months + Entergy July (the final Entergy bill)
   const entergyJuly = months.entergy.find(m => m.billMonth === '2025-07');
   const allOptions = [
     ...months.delta.map(m => ({
       value: m.billMonth,
-      label: MONTH_LABELS[m.billMonth] || m.billMonth,
+      label: getMonthLabel(m.billMonth),
       pgaRate: m.pgaRate,
       periodStart: m.periodStart,
       periodEnd: m.periodEnd,
@@ -36,7 +27,7 @@ export default function BillCalculator() {
     })),
     ...(entergyJuly ? [{
       value: '2025-07-entergy',
-      label: MONTH_LABELS['2025-07-entergy'],
+      label: getMonthLabel('2025-07-entergy'),
       pgaRate: entergyJuly.pgaRate,
       periodStart: entergyJuly.periodStart,
       periodEnd: entergyJuly.periodEnd,
@@ -48,7 +39,15 @@ export default function BillCalculator() {
   function handleCalculate(e) {
     e.preventDefault();
     const ccfNum = parseFloat(ccf);
-    if (isNaN(ccfNum) || ccfNum < 0) return;
+    if (!ccf || isNaN(ccfNum)) {
+      setValidationError('Please enter your gas usage in CCF');
+      return;
+    }
+    if (ccfNum <= 0) {
+      setValidationError('Usage must be greater than 0');
+      return;
+    }
+    setValidationError('');
 
     const selected = monthOptions.find(m => m.value === selectedMonth);
     if (!selected) return;
@@ -120,7 +119,7 @@ export default function BillCalculator() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
           <div>
             <label htmlFor="ccf" className="block text-sm font-medium text-gray-700 mb-1">
-              Gas Usage (CCF)
+              Gas Usage (<Tooltip term="CCF">Hundred Cubic Feet — the standard unit for measuring natural gas usage. Find this on page 1 of your Delta bill under "Gas Usage."</Tooltip>)
             </label>
             <input
               id="ccf"
@@ -129,10 +128,18 @@ export default function BillCalculator() {
               step="1"
               placeholder="e.g., 169"
               value={ccf}
-              onChange={e => setCcf(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+              onChange={e => { setCcf(e.target.value); setValidationError(''); }}
+              className={`w-full px-4 py-2.5 border rounded-lg focus:ring-2 text-gray-900 ${
+                validationError
+                  ? 'border-red-300 focus:ring-red-500 focus:border-red-500'
+                  : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+              }`}
             />
-            <p className="text-xs text-gray-500 mt-1">Find this on page 1 of your Delta bill</p>
+            {validationError ? (
+              <p className="text-xs text-red-600 mt-1">{validationError}</p>
+            ) : (
+              <p className="text-xs text-gray-500 mt-1">Find this on page 1 of your Delta bill</p>
+            )}
           </div>
           <div>
             <label htmlFor="month" className="block text-sm font-medium text-gray-700 mb-1">
@@ -164,6 +171,15 @@ export default function BillCalculator() {
           </div>
         </div>
       </form>
+
+      {/* Empty state */}
+      {!result && (
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
+          <p className="text-sm text-gray-500">
+            Enter your gas usage and billing month above, then click <span className="font-medium text-gray-700">Calculate</span> to see the comparison.
+          </p>
+        </div>
+      )}
 
       {/* Results */}
       {result && (
