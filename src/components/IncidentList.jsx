@@ -85,6 +85,11 @@ function IncidentCard({ incident, assumptions }) {
             <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${TYPE_COLORS[incident.type] || 'bg-gray-100 text-gray-700'}`}>
               {TYPE_LABELS[incident.type] || incident.type}
             </span>
+            {incident.type === 'main_break' && incident.boilWaterAdvisory && (
+              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                + Boil Water Advisory
+              </span>
+            )}
             {isOngoing && (
               <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 animate-pulse">
                 Ongoing
@@ -143,6 +148,18 @@ function IncidentCard({ incident, assumptions }) {
           <span className="text-gray-500">Business losses</span>
           <span className="text-gray-700 font-medium">{formatDollars(conserv.businessLoss)} – {formatDollars(full.businessLoss)}</span>
         </div>
+        {incident.type === 'main_break' && conserv.footTrafficLoss > 0 && (
+          <div className="flex justify-between">
+            <span className="text-gray-500">Road closure / foot traffic</span>
+            <span className="text-gray-700 font-medium">{formatDollars(conserv.footTrafficLoss)} – {formatDollars(full.footTrafficLoss)}</span>
+          </div>
+        )}
+        {incident.type === 'main_break' && conserv.propertyDamage > 0 && (
+          <div className="flex justify-between">
+            <span className="text-gray-500">Property damage</span>
+            <span className="text-gray-700 font-medium">{formatDollars(conserv.propertyDamage)} – {formatDollars(full.propertyDamage)}</span>
+          </div>
+        )}
         {full.childcare > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-500">Childcare</span>
@@ -190,6 +207,13 @@ function IncidentCard({ incident, assumptions }) {
             Higher disruption factor (35%), expanded supply costs ($5/person/day), 20 additional small businesses × $400/day,
             childcare disruption (12% of pop × $75/day).
           </p>
+          {incident.type === 'main_break' && (
+            <p>
+              <span className="font-semibold text-gray-700">Infrastructure impacts (main breaks):</span>{' '}
+              Road closure reduces foot traffic to ~8 nearby businesses × ${assumptions.mainBreakFootTrafficLossPerDay || 500}/day (conservative) or ${assumptions.mainBreakFootTrafficLossPerDayFull || 800}/day (full).
+              Property damage estimated at ${(assumptions.mainBreakPropertyDamagePerIncident || 2500).toLocaleString()} (conservative) – ${(assumptions.mainBreakPropertyDamagePerIncidentFull || 7500).toLocaleString()} (full) per break event.
+            </p>
+          )}
           <p>
             <span className="font-semibold text-gray-700">Sources:</span>{' '}
             Wages from BLS OES (NOLA MSA median). Labor force from BLS LAUS. Household data from Census ACS 2023.

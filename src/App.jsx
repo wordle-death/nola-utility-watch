@@ -6,6 +6,7 @@ import WaterReliabilityTracker from './components/WaterReliabilityTracker';
 import ContributeSection from './components/ContributeSection';
 import CommunityStats from './components/CommunityStats';
 import TabNav from './components/TabNav';
+import WaterMethodology from './components/WaterMethodology';
 
 class ErrorBoundary extends Component {
   state = { hasError: false };
@@ -91,6 +92,42 @@ function App() {
           <section className="mb-12">
             <CommunityStats />
           </section>
+
+          {/* About — gas-specific */}
+          <section className="mb-12">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">About This Tool</h2>
+              <div className="prose prose-sm text-gray-600 space-y-3">
+                <p>
+                  NOLA Utility Watch is a free, open-source project providing independent analysis of utility costs
+                  in New Orleans. This calculator is based on actual bill data from a New Orleans residential customer
+                  (same address and meter number across both Entergy and Delta service periods).
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">The analytical basis:</span> Independent bill analysis
+                  of 10+ actual bills confirmed that every rate component — customer charge ($12.32/mo), gas services ($0.266/CCF),
+                  Formula Rate Plan Rider (77.47%), franchise fee (5.27%), and city tax (3%) — is identical between
+                  Entergy and Delta. The sole variable is the PGA (Purchase Gas Adjustment).
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">Fair context:</span> Approximately 50% of recent bill
+                  increases are attributable to higher wholesale gas prices (which any utility would face), ~25% to
+                  usage timing (winter consumption), and ~25% to Delta{"'"}s structural procurement premium. This tool
+                  shows all three factors.
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">Sources:</span>{' '}
+                  <a href="https://fred.stlouisfed.org/series/DHHNGSP" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                    FRED Henry Hub prices
+                  </a>{' · '}
+                  <a href="https://council.nola.gov/committees/utility-cable-telecommunications-and-technology/dockets/resolution-and-order-establishing-a-period-of-inte/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                    City Council Docket UD-24-01
+                  </a>{' · '}
+                  Actual residential bills (10 bills, Entergy & Delta eras)
+                </p>
+              </div>
+            </div>
+          </section>
         </div>
 
         {/* Water Reliability Tab */}
@@ -107,43 +144,10 @@ function App() {
           <section>
             <WaterReliabilityTracker />
           </section>
+          <section className="mt-12 mb-12">
+            <WaterMethodology />
+          </section>
         </div>
-
-        {/* About / Methodology — always visible */}
-        <section className="mb-12 mt-12">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">About This Tool</h2>
-            <div className="prose prose-sm text-gray-600 space-y-3">
-              <p>
-                NOLA Utility Watch is a free, open-source project providing independent analysis of utility costs
-                in New Orleans. This calculator is based on actual bill data from a New Orleans residential customer
-                (same address and meter number across both Entergy and Delta service periods).
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">The analytical basis:</span> Independent bill analysis
-                of 10+ actual bills confirmed that every rate component — customer charge ($12.32/mo), gas services ($0.266/CCF),
-                Formula Rate Plan Rider (77.47%), franchise fee (5.27%), and city tax (3%) — is identical between
-                Entergy and Delta. The sole variable is the PGA (Purchase Gas Adjustment).
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Fair context:</span> Approximately 50% of recent bill
-                increases are attributable to higher wholesale gas prices (which any utility would face), ~25% to
-                usage timing (winter consumption), and ~25% to Delta{"'"}s structural procurement premium. This tool
-                shows all three factors.
-              </p>
-              <p>
-                <span className="font-semibold text-gray-700">Sources:</span>{' '}
-                <a href="https://fred.stlouisfed.org/series/DHHNGSP" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-                  FRED Henry Hub prices
-                </a>{' · '}
-                <a href="https://council.nola.gov/committees/utility-cable-telecommunications-and-technology/dockets/resolution-and-order-establishing-a-period-of-inte/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-                  City Council Docket UD-24-01
-                </a>{' · '}
-                Actual residential bills (10 bills, Entergy & Delta eras)
-              </p>
-            </div>
-          </div>
-        </section>
       </main>
       </ErrorBoundary>
 

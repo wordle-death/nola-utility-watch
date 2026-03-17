@@ -53,13 +53,30 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
   // ~12% of population lives in households with children under 6
   const childcare = isConservative ? 0 : pop * 0.12 * 75 * days;
 
-  const total = lostWages + bottledWater + businessLoss + childcare;
+  // Main break infrastructure impacts (road closures, property damage)
+  let footTrafficLoss = 0;
+  let propertyDamage = 0;
+  if (incident.type === 'main_break') {
+    const bizAffected = assumptions.mainBreakAffectedBusinesses || 8;
+    const footTrafficRate = isConservative
+      ? (assumptions.mainBreakFootTrafficLossPerDay || 500)
+      : (assumptions.mainBreakFootTrafficLossPerDayFull || 800);
+    footTrafficLoss = bizAffected * footTrafficRate * days;
+
+    propertyDamage = isConservative
+      ? (assumptions.mainBreakPropertyDamagePerIncident || 2500)
+      : (assumptions.mainBreakPropertyDamagePerIncidentFull || 7500);
+  }
+
+  const total = lostWages + bottledWater + businessLoss + childcare + footTrafficLoss + propertyDamage;
 
   return {
     lostWages: round(lostWages),
     bottledWater: round(bottledWater),
     businessLoss: round(businessLoss),
     childcare: round(childcare),
+    footTrafficLoss: round(footTrafficLoss),
+    propertyDamage: round(propertyDamage),
     total: round(total),
     durationHours: hours,
     durationDays: round(days),

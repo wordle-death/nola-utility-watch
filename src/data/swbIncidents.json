@@ -9,13 +9,20 @@
     "bottledWaterCostPerPersonPerDay": 3.50,
     "restaurantsPerZone": 15,
     "restaurantLostRevenuePerDay": 800,
+    "mainBreakAffectedBusinesses": 8,
+    "mainBreakFootTrafficLossPerDay": 500,
+    "mainBreakFootTrafficLossPerDayFull": 800,
+    "mainBreakPropertyDamagePerIncident": 2500,
+    "mainBreakPropertyDamagePerIncidentFull": 7500,
     "sources": {
       "avgHouseholdSize": "US Census ACS 2023, Orleans Parish",
       "avgHourlyWage": "BLS May 2024 Occupational Employment and Wage Statistics, New Orleans-Metairie MSA, median hourly wage for all occupations",
       "laborForceParticipation": "BLS Local Area Unemployment Statistics, New Orleans-Metairie MSA",
       "hourlyWorkerShare": "BLS Characteristics of Minimum Wage Workers, share of workforce paid hourly",
       "bottledWaterCostPerPersonPerDay": "Estimated 1 gallon/person/day at retail (~$1.50/gal) plus cooking and hygiene needs",
-      "restaurantLostRevenuePerDay": "Conservative estimate for small restaurant forced to close or reduce operations during boil water advisory"
+      "restaurantLostRevenuePerDay": "Conservative estimate for small restaurant forced to close or reduce operations during boil water advisory",
+      "mainBreakFootTrafficLossPerDay": "Estimated revenue loss per business from reduced foot traffic during road closure for main repair (1-2 block radius)",
+      "mainBreakPropertyDamagePerIncident": "Conservative estimate for minor water damage to adjacent properties from main break flooding; full tier accounts for more substantial damage to ground-floor businesses"
     },
     "methodology": {
       "conservative": "Includes only direct lost wages (15% productivity factor), basic bottled water costs ($3.50/person/day), and restaurant closures. Designed to be a defensible floor estimate.",
