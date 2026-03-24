@@ -33,7 +33,7 @@ const TABS = [
 ];
 
 function App() {
-  const [activeTab, setActiveTab] = useState('gas');
+  const [activeTab, setActiveTab] = useState('water');
 
   return (
     <div className="min-h-screen bg-gray-50">

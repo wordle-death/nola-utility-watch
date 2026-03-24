@@ -19,6 +19,11 @@ export default function WaterMethodology() {
           that captures broader ripple effects.
         </p>
 
+        <p>
+          We model economic harm in three distinct categories to avoid double-counting
+          and to make each assumption transparent and independently defensible.
+        </p>
+
         {/* Population estimation */}
         <div>
           <h3 className="text-sm font-semibold text-gray-800 mb-1">How we estimate affected population</h3>
@@ -35,22 +40,22 @@ export default function WaterMethodology() {
           </p>
         </div>
 
-        {/* Lost wages */}
+        {/* Category 1: Business closure wages */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">Lost wages</h3>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">1. Business closure wages</h3>
           <p>
-            Not everyone in the affected area loses income during a water disruption. We narrow
-            the population in three steps: first, {(a.laborForceParticipation * 100).toFixed(0)}% are
-            in the labor force (from{' '}
-            <a href="https://www.bls.gov/lau/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-              BLS Local Area Unemployment Statistics
-            </a>{' '}
-            for the New Orleans-Metairie MSA). Of those, {(a.hourlyWorkerShare * 100).toFixed(0)}% are
-            hourly workers who can{"'"}t easily work remotely (from{' '}
-            <a href="https://www.bls.gov/opub/reports/minimum-wage/2023/home.htm" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-              BLS Characteristics of Minimum Wage Workers
-            </a>
-            ). We use the median hourly wage of ${a.avgHourlyWage.toFixed(2)} (from{' '}
+            During a boil water advisory, restaurants and food-service businesses face mandatory
+            closures or severely reduced operations. Workers at these businesses lose their
+            scheduled shifts entirely — this is direct, measurable wage loss.
+          </p>
+          <p>
+            We estimate {a.restaurantsPerZone} restaurants per affected zone with{' '}
+            {a.workersPerRestaurant || 5} on-shift workers each (conservative) or{' '}
+            {a.workersPerRestaurantFull || 8} (full, including back-of-house and part-time staff).
+            The full estimate adds 20 other small businesses (laundromats, salons, cafes) with{' '}
+            {a.workersPerSmallBiz || 4} workers each — businesses that depend on running water
+            for their core operations. All workers are valued at the median hourly wage of{' '}
+            ${a.avgHourlyWage.toFixed(2)} (from{' '}
             <a href="https://www.bls.gov/oes/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
               BLS Occupational Employment Statistics
             </a>
@@ -58,22 +63,80 @@ export default function WaterMethodology() {
           </p>
         </div>
 
-        {/* Disruption factor */}
+        {/* Category 2: Childcare-forced absence */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">Disruption factor (15% vs 35%)</h3>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">2. Childcare-forced absence</h3>
           <p>
-            This is the model{"'"}s most significant assumption. A boil water advisory doesn{"'"}t mean
-            everyone misses work entirely — but it does cause partial productivity loss: boiling
-            water for drinking and cooking, making trips to buy bottled water, dealing with
-            business closures, and general disruption to daily routines.
+            When schools and daycares close or send children home during a boil water advisory,
+            some working parents have no choice but to stay home — missing work and losing wages.
+            Not all parents are affected equally: some have backup care options (family, friends,
+            flexible employers), while others do not.
           </p>
           <p>
-            The <span className="font-semibold text-gray-700">conservative 15%</span> factor
-            represents roughly 1-2 hours of lost productivity per 12-hour disruption period —
-            a defensible floor. The <span className="font-semibold text-gray-700">full 35%</span> factor
-            captures broader impacts: waiting in lines at stores, inability to prepare meals
-            normally, stress and distraction, and childcare complications when schools or
-            daycares are affected.
+            We start with the ~12% of the affected population living in households with children
+            under 6 (from Census ACS 2023, Orleans Parish). Of those, {(a.laborForceParticipation * 100).toFixed(0)}% are
+            in the labor force (from{' '}
+            <a href="https://www.bls.gov/lau/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+              BLS Local Area Unemployment Statistics
+            </a>
+            ). We then apply a {"\""}no backup care{"\""}  rate:{' '}
+            {((a.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% conservative,{' '}
+            {((a.childcareAbsenceRateFull || 0.40) * 100).toFixed(0)}% full — representing the
+            share of working parents who must miss work entirely because they have no alternative
+            childcare arrangement.
+          </p>
+        </div>
+
+        {/* Category 3: Productivity loss */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">3. Productivity loss (all workers)</h3>
+          <p>
+            Even workers who aren{"'"}t forced to stay home lose time during a boil water advisory.
+            This applies to <em>everyone</em> in the labor force — hourly workers, salaried
+            employees, and remote workers alike. Time is spent boiling water for drinking and
+            cooking, making trips to buy bottled water, dealing with disrupted meal routines,
+            and managing the general inconvenience of unreliable water service.
+          </p>
+          <p>
+            The <span className="font-semibold text-gray-700">conservative{' '}
+            {((a.productivityFactor || 0.05) * 100).toFixed(0)}%</span> factor represents roughly 30 minutes
+            of lost productivity per 12-hour disruption period — a defensible floor.
+            The <span className="font-semibold text-gray-700">full{' '}
+            {((a.productivityFactorFull || 0.12) * 100).toFixed(0)}%</span> factor (~1.5 hours) captures
+            broader impacts: waiting in lines at stores with limited supply, inability to prepare
+            meals normally, stress and distraction from managing household logistics.
+          </p>
+          <p>
+            We apply this to the full labor force ({(a.laborForceParticipation * 100).toFixed(0)}% of
+            affected population, from{' '}
+            <a href="https://www.bls.gov/lau/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+              BLS LAUS
+            </a>
+            ), valued at the median hourly wage of ${a.avgHourlyWage.toFixed(2)}.
+          </p>
+        </div>
+
+        {/* Business operational losses */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">Business operational losses</h3>
+          <p>
+            Separate from worker wages, businesses incur non-labor costs when forced to close:
+            spoiled food and perishable inventory, fixed lease and utility costs that accrue
+            regardless of operations, and lost profit margin. We estimate{' '}
+            ${(a.restaurantOperationalLossPerDay || 300).toLocaleString()}/day per restaurant
+            (conservative). The full estimate adds 20 other small businesses at{' '}
+            ${(a.otherSmallBizOperationalLossPerDay || 150).toLocaleString()}/day each.
+          </p>
+        </div>
+
+        {/* Childcare out-of-pocket */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">Childcare out-of-pocket costs</h3>
+          <p>
+            Included in the full estimate only. This captures a different group than the childcare
+            absence category above: families who <em>do</em> find emergency childcare (a relative,
+            a neighbor, a last-minute sitter) but must pay for it. Estimated at $75/day per
+            household with children under 6 (~12% of affected population, from Census ACS 2023).
           </p>
         </div>
 
@@ -86,30 +149,6 @@ export default function WaterMethodology() {
             additional costs for cooking and hygiene needs. The full estimate of $5.00/person/day
             adds ice, extra supplies, and accounts for premium pricing when stores experience
             runs on water during advisories.
-          </p>
-        </div>
-
-        {/* Business losses */}
-        <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">Restaurant & business losses</h3>
-          <p>
-            During a boil water advisory, restaurants and food-service businesses face mandatory
-            closures or severely reduced operations. We estimate {a.restaurantsPerZone} restaurants
-            per affected zone, each losing ${a.restaurantLostRevenuePerDay.toLocaleString()}/day in
-            revenue (conservative). The full estimate adds 20 other small businesses (laundromats,
-            salons, cafes, etc.) at $400/day each — businesses that depend on running water for
-            their core operations.
-          </p>
-        </div>
-
-        {/* Childcare */}
-        <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">Childcare disruption</h3>
-          <p>
-            Included in the full estimate only. Approximately 12% of the affected population lives
-            in households with children under 6 (from Census ACS 2023, Orleans Parish). When
-            daycares close or schools issue early dismissals due to water advisories, families
-            face emergency childcare costs estimated at $75/day per household.
           </p>
         </div>
 
@@ -172,20 +211,24 @@ export default function WaterMethodology() {
             <div className="mt-3 bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs font-mono text-gray-700 space-y-3">
               <div>
                 <p className="font-semibold text-gray-800 font-sans mb-1">Conservative estimate</p>
-                <p>Lost wages = population × {a.laborForceParticipation} × {a.hourlyWorkerShare} × ${a.avgHourlyWage} × hours × 0.15</p>
+                <p>Business closure wages = {a.restaurantsPerZone} restaurants × {a.workersPerRestaurant || 5} workers × ${a.avgHourlyWage} × hours</p>
+                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRate || 0.25} × ${a.avgHourlyWage} × hours</p>
+                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactor || 0.05}</p>
                 <p>Bottled water = population × ${a.bottledWaterCostPerPersonPerDay.toFixed(2)} × days</p>
-                <p>Business losses = {a.restaurantsPerZone} restaurants × ${a.restaurantLostRevenuePerDay} × days</p>
-                <p className="text-gray-500">[Main breaks only] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDay || 500} × days</p>
-                <p className="text-gray-500">[Main breaks only] Property damage = ${(a.mainBreakPropertyDamagePerIncident || 2500).toLocaleString()} per incident</p>
+                <p>Business operational = {a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} × days</p>
+                <p className="text-gray-500">[Main breaks] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDay || 500} × days</p>
+                <p className="text-gray-500">[Main breaks] Property damage = ${(a.mainBreakPropertyDamagePerIncident || 2500).toLocaleString()} per incident</p>
               </div>
               <div>
                 <p className="font-semibold text-gray-800 font-sans mb-1">Full estimate</p>
-                <p>Lost wages = population × {a.laborForceParticipation} × {a.hourlyWorkerShare} × ${a.avgHourlyWage} × hours × 0.35</p>
+                <p>Business closure wages = ({a.restaurantsPerZone} × {a.workersPerRestaurantFull || 8} + 20 × {a.workersPerSmallBiz || 4}) × ${a.avgHourlyWage} × hours</p>
+                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRateFull || 0.40} × ${a.avgHourlyWage} × hours</p>
+                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactorFull || 0.12}</p>
                 <p>Bottled water = population × $5.00 × days</p>
-                <p>Business losses = ({a.restaurantsPerZone} × ${a.restaurantLostRevenuePerDay} + 20 × $400) × days</p>
-                <p>Childcare = population × 0.12 × $75 × days</p>
-                <p className="text-gray-500">[Main breaks only] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDayFull || 800} × days</p>
-                <p className="text-gray-500">[Main breaks only] Property damage = ${(a.mainBreakPropertyDamagePerIncidentFull || 7500).toLocaleString()} per incident</p>
+                <p>Business operational = ({a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} + 20 × ${a.otherSmallBizOperationalLossPerDay || 150}) × days</p>
+                <p>Childcare out-of-pocket = population × 0.12 × $75 × days</p>
+                <p className="text-gray-500">[Main breaks] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDayFull || 800} × days</p>
+                <p className="text-gray-500">[Main breaks] Property damage = ${(a.mainBreakPropertyDamagePerIncidentFull || 7500).toLocaleString()} per incident</p>
               </div>
             </div>
           )}

@@ -1,9 +1,14 @@
 /**
  * Economic impact computation for S&WB water disruption incidents.
  *
- * Two-tier model:
- *   Conservative — captures direct, easily defensible costs only
- *   Full         — includes broader ripple effects (childcare, extra supplies)
+ * Three-category wage/productivity model + operational costs:
+ *   1. Business closure wages — workers at closed businesses lose shifts
+ *   2. Childcare-forced absence — parents with no backup care miss work
+ *   3. Productivity loss — all workers lose time to boil water logistics
+ *
+ * Two tiers:
+ *   Conservative — defensible floor estimates
+ *   Full         — broader ripple effects
  *
  * All constants are sourced and documented in swbIncidents.json.assumptions.
  */
@@ -23,35 +28,56 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
 
   const {
     laborForceParticipation,
-    hourlyWorkerShare,
     avgHourlyWage,
     bottledWaterCostPerPersonPerDay,
     restaurantsPerZone,
-    restaurantLostRevenuePerDay,
   } = assumptions;
 
   const isConservative = tier === 'conservative';
 
-  // Lost wages: population × labor force rate × hourly worker share × wage × hours × productivity factor
-  const productivityFactor = isConservative ? 0.15 : 0.35;
-  const lostWages = pop * laborForceParticipation * hourlyWorkerShare * avgHourlyWage * hours * productivityFactor;
+  // Category 1: Business closure wages
+  // Workers at restaurants and small businesses that cannot operate under a boil water advisory
+  const workersPerRestaurant = isConservative
+    ? (assumptions.workersPerRestaurant || 5)
+    : (assumptions.workersPerRestaurantFull || 8);
+  let closureWorkers = restaurantsPerZone * workersPerRestaurant;
+  if (!isConservative) {
+    const otherSmallBizPerZone = 20;
+    const workersPerSmallBiz = assumptions.workersPerSmallBiz || 4;
+    closureWorkers += otherSmallBizPerZone * workersPerSmallBiz;
+  }
+  const businessClosureWages = closureWorkers * avgHourlyWage * hours;
+
+  // Category 2: Childcare-forced absence
+  // Workers who must stay home because schools/daycares close
+  const absenceRate = isConservative
+    ? (assumptions.childcareAbsenceRate || 0.25)
+    : (assumptions.childcareAbsenceRateFull || 0.40);
+  const childcareAbsence = pop * 0.12 * laborForceParticipation * absenceRate * avgHourlyWage * hours;
+
+  // Category 3: Productivity loss (all workers — hourly, salaried, remote)
+  // Time lost to boil water logistics: boiling water, buying supplies, disrupted routines
+  const prodFactor = isConservative
+    ? (assumptions.productivityFactor || 0.05)
+    : (assumptions.productivityFactorFull || 0.12);
+  const productivityLoss = pop * laborForceParticipation * avgHourlyWage * hours * prodFactor;
 
   // Bottled water / supplies
   const waterCostPerDay = isConservative ? bottledWaterCostPerPersonPerDay : 5.00;
   const bottledWater = pop * waterCostPerDay * days;
 
-  // Business losses (restaurants + small biz in full tier)
-  let businessLoss = restaurantsPerZone * restaurantLostRevenuePerDay * days;
+  // Business operational losses (non-labor: spoiled food, fixed costs, lost profit margin)
+  const restaurantOpLoss = assumptions.restaurantOperationalLossPerDay || 300;
+  let businessLoss = restaurantsPerZone * restaurantOpLoss * days;
   if (!isConservative) {
-    // Add other small businesses (laundromats, salons, cafes, etc.)
     const otherSmallBizPerZone = 20;
-    const otherSmallBizLostPerDay = 400;
-    businessLoss += otherSmallBizPerZone * otherSmallBizLostPerDay * days;
+    const smallBizOpLoss = assumptions.otherSmallBizOperationalLossPerDay || 150;
+    businessLoss += otherSmallBizPerZone * smallBizOpLoss * days;
   }
 
-  // Childcare disruption (full tier only)
-  // ~12% of population lives in households with children under 6
-  const childcare = isConservative ? 0 : pop * 0.12 * 75 * days;
+  // Childcare out-of-pocket costs (full tier only)
+  // For families who DO find emergency care but must pay for it
+  const childcareOutOfPocket = isConservative ? 0 : pop * 0.12 * 75 * days;
 
   // Main break infrastructure impacts (road closures, property damage)
   let footTrafficLoss = 0;
@@ -68,13 +94,17 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
       : (assumptions.mainBreakPropertyDamagePerIncidentFull || 7500);
   }
 
-  const total = lostWages + bottledWater + businessLoss + childcare + footTrafficLoss + propertyDamage;
+  const total = businessClosureWages + childcareAbsence + productivityLoss
+    + bottledWater + businessLoss + childcareOutOfPocket
+    + footTrafficLoss + propertyDamage;
 
   return {
-    lostWages: round(lostWages),
+    businessClosureWages: round(businessClosureWages),
+    childcareAbsence: round(childcareAbsence),
+    productivityLoss: round(productivityLoss),
     bottledWater: round(bottledWater),
     businessLoss: round(businessLoss),
-    childcare: round(childcare),
+    childcareOutOfPocket: round(childcareOutOfPocket),
     footTrafficLoss: round(footTrafficLoss),
     propertyDamage: round(propertyDamage),
     total: round(total),
