@@ -1,4 +1,4 @@
-import { Component, useState } from 'react';
+import { Component, useState, useEffect } from 'react';
 import BillCalculator from './components/BillCalculator';
 import CumulativeSavings from './components/CumulativeSavings';
 import PGATrendChart from './components/PGATrendChart';
@@ -7,6 +7,9 @@ import ContributeSection from './components/ContributeSection';
 import CommunityStats from './components/CommunityStats';
 import TabNav from './components/TabNav';
 import WaterMethodology from './components/WaterMethodology';
+import ElectricityTracker from './components/ElectricityTracker';
+import ElectricityMethodology from './components/ElectricityMethodology';
+import OverviewDashboard from './components/OverviewDashboard';
 
 class ErrorBoundary extends Component {
   state = { hasError: false };
@@ -28,12 +31,31 @@ class ErrorBoundary extends Component {
 }
 
 const TABS = [
-  { id: 'gas', label: 'Gas Costs' },
-  { id: 'water', label: 'Water Reliability' },
+  { id: 'overview', label: 'Overview', shortLabel: 'Overview' },
+  { id: 'water', label: 'Water Reliability', shortLabel: 'Water' },
+  { id: 'electricity', label: 'Electricity Outages', shortLabel: 'Electric' },
+  { id: 'gas', label: 'Natural Gas', shortLabel: 'Gas' },
 ];
 
+function getTabFromHash() {
+  const hash = window.location.hash.replace('#', '');
+  return TABS.some(t => t.id === hash) ? hash : 'overview';
+}
+
 function App() {
-  const [activeTab, setActiveTab] = useState('water');
+  const [activeTab, setActiveTab] = useState(getTabFromHash);
+
+  function navigateTab(tabId) {
+    window.location.hash = tabId;
+    setActiveTab(tabId);
+  }
+
+  // Sync tab when user navigates with back/forward buttons
+  useEffect(() => {
+    const onHashChange = () => setActiveTab(getTabFromHash());
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -57,10 +79,34 @@ function App() {
       </header>
 
       {/* Tab Navigation */}
-      <TabNav tabs={TABS} activeTab={activeTab} onTabChange={setActiveTab} />
+      <TabNav tabs={TABS} activeTab={activeTab} onTabChange={navigateTab} />
 
       <ErrorBoundary>
       <main className="max-w-5xl mx-auto px-4 py-8">
+        {/* Overview Tab */}
+        <div className={activeTab !== 'overview' ? 'hidden' : ''}>
+          <OverviewDashboard onNavigate={navigateTab} />
+        </div>
+
+        {/* Electricity Outages Tab */}
+        <div className={activeTab !== 'electricity' ? 'hidden' : ''}>
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8">
+            <p className="text-sm text-amber-800">
+              <span className="font-semibold">Grid reliability:</span> Entergy New Orleans serves
+              approximately 195,000 customers in Orleans Parish. Aging infrastructure, severe weather,
+              and deferred maintenance contribute to recurring power outages. Below is a tracker of
+              significant outage events and their estimated economic impact using the federal DOE/LBNL
+              methodology.
+            </p>
+          </div>
+          <section>
+            <ElectricityTracker />
+          </section>
+          <section className="mt-12 mb-12">
+            <ElectricityMethodology />
+          </section>
+        </div>
+
         {/* Gas Costs Tab */}
         <div className={activeTab !== 'gas' ? 'hidden' : ''}>
           {/* Context banner */}

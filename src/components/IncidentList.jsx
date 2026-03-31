@@ -168,10 +168,10 @@ function IncidentCard({ incident, assumptions }) {
             <span className="text-gray-700 font-medium">{formatDollars(conserv.propertyDamage)} – {formatDollars(full.propertyDamage)}</span>
           </div>
         )}
-        {full.childcareOutOfPocket > 0 && (
+        {conserv.childcareOutOfPocket > 0 && (
           <div className="flex justify-between">
             <span className="text-gray-500">Childcare out-of-pocket</span>
-            <span className="text-gray-700 font-medium">– {formatDollars(full.childcareOutOfPocket)}</span>
+            <span className="text-gray-700 font-medium">{formatDollars(conserv.childcareOutOfPocket)} – {formatDollars(full.childcareOutOfPocket)}</span>
           </div>
         )}
       </div>
@@ -211,7 +211,7 @@ function IncidentCard({ incident, assumptions }) {
           </p>
           <p>
             <span className="font-semibold text-gray-700">Childcare absence:</span>{' '}
-            {formatNumber(incident.estimatedPopulationAffected)} people × 12% with young kids × 58% labor force × {((assumptions.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% no backup care (conservative) or {((assumptions.childcareAbsenceRateFull || 0.40) * 100).toFixed(0)}% (full) × ${assumptions.avgHourlyWage}/hr × {Math.round(hours)} hrs.
+            {formatNumber(incident.estimatedPopulationAffected)} people × 12% with young kids × 58% labor force × {((assumptions.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% no backup care (conservative) or {((assumptions.childcareAbsenceRateFull || 0.35) * 100).toFixed(0)}% (full) × ${assumptions.avgHourlyWage}/hr × {Math.round(hours)} hrs.
           </p>
           <p>
             <span className="font-semibold text-gray-700">Productivity loss:</span>{' '}
@@ -221,8 +221,9 @@ function IncidentCard({ incident, assumptions }) {
           <p>
             <span className="font-semibold text-gray-700">Other costs:</span>{' '}
             Bottled water = {formatNumber(incident.estimatedPopulationAffected)} × $3.50/day × {conserv.durationDays.toFixed(1)} days.
+            Childcare out-of-pocket = 12% with young kids × 58% labor force × {((assumptions.paidCareRate || 0.15) * 100).toFixed(0)}% paid care (conservative) or {((assumptions.paidCareRateFull || 0.25) * 100).toFixed(0)}% (full) × $75/day.
             Business operational losses (non-labor) = {assumptions.restaurantsPerZone} × ${assumptions.restaurantOperationalLossPerDay || 300}/day.
-            Full adds childcare out-of-pocket (12% of pop × $75/day) and 20 small businesses × ${assumptions.otherSmallBizOperationalLossPerDay || 150}/day.
+            Full adds 20 small businesses × ${assumptions.otherSmallBizOperationalLossPerDay || 150}/day.
           </p>
           {incident.type === 'main_break' && (
             <p>

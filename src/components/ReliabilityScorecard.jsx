@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { formatDollars, formatNumber } from '../lib/swbImpact';
 
 export default function ReliabilityScorecard({ stats }) {
+  const [showMethodology, setShowMethodology] = useState(false);
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+    <div className="mb-6">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
       <div className="bg-cyan-50 rounded-lg px-2 sm:px-4 py-3 text-center">
         <p className="text-xl sm:text-2xl font-bold text-cyan-700">
           {formatNumber(stats.totalHours)}
@@ -43,6 +47,36 @@ export default function ReliabilityScorecard({ stats }) {
           {stats.activeAdvisories > 0 ? 'Boil water in effect' : 'No active advisories'}
         </p>
       </div>
+    </div>
+    <button
+      onClick={() => setShowMethodology(!showMethodology)}
+      className="mt-3 text-[11px] text-cyan-600 hover:text-cyan-800 font-medium cursor-pointer"
+    >
+      {showMethodology ? '▾ Hide methodology' : '▸ How we calculate these numbers'}
+    </button>
+    {showMethodology && (
+      <div className="mt-2 bg-cyan-50 border border-cyan-100 rounded-lg p-3 text-[11px] text-gray-600 space-y-1.5">
+        <p>
+          <span className="font-semibold text-gray-700">Two-tier model:</span>{' '}
+          Each incident is estimated at both conservative and full levels to provide a range.
+          Three impact categories: (1) business closure wages, (2) childcare-forced work absence,
+          (3) productivity loss for all workers from boil water logistics.
+        </p>
+        <p>
+          <span className="font-semibold text-gray-700">Additional costs:</span>{' '}
+          Bottled water ($3.50/person/day), business operational losses, childcare out-of-pocket,
+          and main break infrastructure damage where applicable.
+        </p>
+        <p>
+          <span className="font-semibold text-gray-700">Sources:</span>{' '}
+          Wages from BLS OES (NOLA MSA median $16.50/hr). Labor force participation from BLS LAUS (58%).
+          Household data from Census ACS 2023 (avg 2.42 persons). Incidents from{' '}
+          <a href="https://www.swbno.org/PressReleases" target="_blank" rel="noopener noreferrer" className="text-cyan-700 hover:underline">
+            S&WB press releases
+          </a>.
+        </p>
+      </div>
+    )}
     </div>
   );
 }

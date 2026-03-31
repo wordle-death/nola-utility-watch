@@ -196,7 +196,11 @@ export default function BillCalculator() {
                   </div>
                   <p className="text-3xl font-bold text-blue-700">${result.entergyBill.total.toFixed(2)}</p>
                   <p className="text-sm text-blue-600 mt-1">${result.entergyBill.perCCF.toFixed(2)}/CCF all-in</p>
-                  <p className="text-xs text-gray-500 mt-2">PGA: ${result.entergyPGA.toFixed(5)}/CCF</p>
+                  <div className="mt-3 pt-2 border-t border-blue-200 space-y-0.5 text-[11px] text-gray-500">
+                    <div className="flex justify-between"><span>Base charges</span><span>${(result.entergyBill.customerCharge + result.entergyBill.gasServices + result.entergyBill.frpRider).toFixed(2)}</span></div>
+                    <div className="flex justify-between font-medium text-blue-700"><span>PGA ({result.ccfNum} CCF × ${result.entergyPGA.toFixed(4)})</span><span>${result.entergyBill.pga.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Fees & tax</span><span>${(result.entergyBill.franchiseFee + result.entergyBill.cityTax).toFixed(2)}</span></div>
+                  </div>
                 </div>
 
                 {/* Delta Estimate (flipped) */}
@@ -207,7 +211,11 @@ export default function BillCalculator() {
                   </div>
                   <p className="text-3xl font-bold text-red-700">${result.deltaBill.total.toFixed(2)}</p>
                   <p className="text-sm text-red-600 mt-1">${result.deltaBill.perCCF.toFixed(2)}/CCF all-in</p>
-                  <p className="text-xs text-gray-500 mt-2">PGA: ${result.deltaPGARate.toFixed(5)}/CCF</p>
+                  <div className="mt-3 pt-2 border-t border-red-200 space-y-0.5 text-[11px] text-gray-500">
+                    <div className="flex justify-between"><span>Base charges</span><span>${(result.deltaBill.customerCharge + result.deltaBill.gasServices + result.deltaBill.frpRider).toFixed(2)}</span></div>
+                    <div className="flex justify-between font-medium text-red-700"><span>PGA ({result.ccfNum} CCF × ${result.deltaPGARate.toFixed(4)})</span><span>${result.deltaBill.pga.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Fees & tax</span><span>${(result.deltaBill.franchiseFee + result.deltaBill.cityTax).toFixed(2)}</span></div>
+                  </div>
                 </div>
               </>
             ) : (
@@ -220,7 +228,11 @@ export default function BillCalculator() {
                   </div>
                   <p className="text-3xl font-bold text-red-700">${result.deltaBill.total.toFixed(2)}</p>
                   <p className="text-sm text-red-600 mt-1">${result.deltaBill.perCCF.toFixed(2)}/CCF all-in</p>
-                  <p className="text-xs text-gray-500 mt-2">PGA: ${result.deltaPGARate.toFixed(5)}/CCF</p>
+                  <div className="mt-3 pt-2 border-t border-red-200 space-y-0.5 text-[11px] text-gray-500">
+                    <div className="flex justify-between"><span>Base charges</span><span>${(result.deltaBill.customerCharge + result.deltaBill.gasServices + result.deltaBill.frpRider).toFixed(2)}</span></div>
+                    <div className="flex justify-between font-medium text-red-700"><span>PGA ({result.ccfNum} CCF × ${result.deltaPGARate.toFixed(4)})</span><span>${result.deltaBill.pga.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Fees & tax</span><span>${(result.deltaBill.franchiseFee + result.deltaBill.cityTax).toFixed(2)}</span></div>
+                  </div>
                 </div>
 
                 {/* Entergy Estimate (normal) */}
@@ -231,7 +243,11 @@ export default function BillCalculator() {
                   </div>
                   <p className="text-3xl font-bold text-blue-700">${result.entergyBill.total.toFixed(2)}</p>
                   <p className="text-sm text-blue-600 mt-1">${result.entergyBill.perCCF.toFixed(2)}/CCF all-in</p>
-                  <p className="text-xs text-gray-500 mt-2">Est. PGA: ${result.entergyPGA.toFixed(5)}/CCF (HH + $0.17 markup)</p>
+                  <div className="mt-3 pt-2 border-t border-blue-200 space-y-0.5 text-[11px] text-gray-500">
+                    <div className="flex justify-between"><span>Base charges</span><span>${(result.entergyBill.customerCharge + result.entergyBill.gasServices + result.entergyBill.frpRider).toFixed(2)}</span></div>
+                    <div className="flex justify-between font-medium text-blue-700"><span>PGA ({result.ccfNum} CCF × ${result.entergyPGA.toFixed(4)})</span><span>${result.entergyBill.pga.toFixed(2)}</span></div>
+                    <div className="flex justify-between"><span>Fees & tax</span><span>${(result.entergyBill.franchiseFee + result.entergyBill.cityTax).toFixed(2)}</span></div>
+                  </div>
                 </div>
               </>
             )}
@@ -244,7 +260,11 @@ export default function BillCalculator() {
               </div>
               <p className="text-3xl font-bold text-green-700">${result.wholesaleBill.total.toFixed(2)}</p>
               <p className="text-sm text-green-600 mt-1">${result.wholesaleBill.perCCF.toFixed(2)}/CCF all-in</p>
-              <p className="text-xs text-gray-500 mt-2">HH Spot: ${result.hhPrice.toFixed(2)}/MMBtu → ${result.wholesalePGA.toFixed(5)}/CCF</p>
+              <div className="mt-3 pt-2 border-t border-green-200 space-y-0.5 text-[11px] text-gray-500">
+                <div className="flex justify-between"><span>Base charges</span><span>${(result.wholesaleBill.customerCharge + result.wholesaleBill.gasServices + result.wholesaleBill.frpRider).toFixed(2)}</span></div>
+                <div className="flex justify-between font-medium text-green-700"><span>PGA (HH ${result.hhPrice.toFixed(2)}/MMBtu)</span><span>${result.wholesaleBill.pga.toFixed(2)}</span></div>
+                <div className="flex justify-between"><span>Fees & tax</span><span>${(result.wholesaleBill.franchiseFee + result.wholesaleBill.cityTax).toFixed(2)}</span></div>
+              </div>
             </div>
           </div>
 
@@ -309,6 +329,14 @@ export default function BillCalculator() {
             </div>
           )}
 
+          {/* Bill decomposition — full line-item breakdown */}
+          <BillDecomposition
+            deltaBill={result.deltaBill}
+            entergyBill={result.entergyBill}
+            ccf={result.ccfNum}
+            flipped={result.flipped}
+          />
+
           {/* Methodology note */}
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs text-gray-600">
             <p className="font-semibold text-gray-700 mb-1">How this is calculated</p>
@@ -331,14 +359,6 @@ export default function BillCalculator() {
               </p>
             )}
           </div>
-
-          {/* Bill decomposition */}
-          <BillDecomposition
-            deltaBill={result.deltaBill}
-            entergyBill={result.entergyBill}
-            ccf={result.ccfNum}
-            flipped={result.flipped}
-          />
         </div>
       )}
     </div>

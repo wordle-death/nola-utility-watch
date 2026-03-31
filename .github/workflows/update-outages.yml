@@ -1,0 +1,31 @@
+name: Update Entergy Outage Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 6 AM UTC (1 AM CT)
+  workflow_dispatch:       # Manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install gitpython
+
+      - name: Run outage detection (incremental)
+        run: python scripts/detect_outages.py --incremental
+
+      - name: Commit if changed
+        run: |
+          git diff --quiet src/data/entergyOutages.json && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/entergyOutages.json
+          git commit -m "Update Entergy outage data [automated]"
+          git push

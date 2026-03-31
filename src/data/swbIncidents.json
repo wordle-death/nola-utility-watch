@@ -13,7 +13,9 @@
     "restaurantOperationalLossPerDay": 300,
     "otherSmallBizOperationalLossPerDay": 150,
     "childcareAbsenceRate": 0.25,
-    "childcareAbsenceRateFull": 0.40,
+    "childcareAbsenceRateFull": 0.35,
+    "paidCareRate": 0.15,
+    "paidCareRateFull": 0.25,
     "productivityFactor": 0.05,
     "productivityFactorFull": 0.12,
     "mainBreakAffectedBusinesses": 8,
@@ -29,14 +31,15 @@
       "workersPerRestaurant": "Typical on-shift staffing for a small New Orleans restaurant (cook, prep, server, bartender, host); conservative tier uses 5, full tier uses 8 to include back-of-house and part-time staff",
       "workersPerSmallBiz": "Typical staffing for a small service business (salon, laundromat, cafe) during operating hours",
       "restaurantOperationalLossPerDay": "Non-labor business losses during closure: spoiled food/inventory, fixed lease and utility costs, lost profit margin",
-      "childcareAbsenceRate": "Fraction of working parents with young children who have no backup childcare and must miss work entirely; 25% conservative, 40% full",
+      "childcareAbsenceRate": "Fraction of working parents with young children who have no backup childcare and must miss work entirely; 25% conservative, 35% full",
+      "paidCareRate": "Fraction of working parents with young children who find and pay for emergency childcare ($75/day); 15% conservative, 25% full. Mutually exclusive with absence group — remaining 60%/40% find free arrangements (family, neighbors) with no direct cost",
       "productivityFactor": "Fraction of work hours lost to boil water logistics (boiling water, buying supplies, disrupted routines); applies to all workers including remote/salaried. 5% conservative (~30 min per 12-hr period), 12% full (~1.5 hrs)",
       "mainBreakFootTrafficLossPerDay": "Estimated revenue loss per business from reduced foot traffic during road closure for main repair (1-2 block radius)",
       "mainBreakPropertyDamagePerIncident": "Conservative estimate for minor water damage to adjacent properties from main break flooding; full tier accounts for more substantial damage to ground-floor businesses"
     },
     "methodology": {
-      "conservative": "Three-category model: (1) Business closure wages — workers at 15 closed restaurants lose full shifts (5 workers each). (2) Childcare-forced absence — 12% of pop with young kids × 58% labor force × 25% no-backup-care rate lose wages. (3) Productivity loss — all workers (including remote/salaried) lose 5% of hours to boil water logistics. Plus: bottled water ($3.50/person/day), business operational losses ($300/day non-labor), and main break infrastructure costs where applicable.",
-      "full": "Expanded estimates: (1) Business closure wages uses 8 workers/restaurant + 20 small businesses × 4 workers each. (2) Childcare absence uses 40% no-backup-care rate. (3) Productivity loss at 12% for all workers. Plus: expanded supplies ($5/person/day), additional small business operational losses, childcare out-of-pocket ($75/day for families who find emergency care), and main break infrastructure."
+      "conservative": "Three-category model: (1) Business closure wages — workers at 15 closed restaurants lose full shifts (5 workers each). (2) Childcare-forced absence — 12% of pop with young kids × 58% labor force × 25% no-backup-care rate lose wages. (3) Productivity loss — all workers (including remote/salaried) lose 5% of hours to boil water logistics. Plus: bottled water ($3.50/person/day), business operational losses ($300/day non-labor), childcare out-of-pocket ($75/day × 15% paid-care rate), and main break infrastructure costs where applicable.",
+      "full": "Expanded estimates: (1) Business closure wages uses 8 workers/restaurant + 20 small businesses × 4 workers each. (2) Childcare absence uses 35% no-backup-care rate. (3) Productivity loss at 12% for all workers. Plus: expanded supplies ($5/person/day), additional small business operational losses, childcare out-of-pocket ($75/day × 25% paid-care rate), and main break infrastructure."
     },
     "populationEstimateNote": "Population estimates derived from ACS 2022 5-year estimates for Orleans Parish neighborhoods/Census tracts. S&WB press releases do not include population counts. 'Limited parts' of a neighborhood = ~30-50% of total; 'majority' = ~70%; 'entire' = ~90%. Reference: Orleans Parish total ~383K, East Bank ~355K, NO East ~63K, Algiers/Westbank ~28K, Uptown ~50K, Gentilly ~32K, Mid-City ~22K."
   },

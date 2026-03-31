@@ -63,27 +63,33 @@ export default function WaterMethodology() {
           </p>
         </div>
 
-        {/* Category 2: Childcare-forced absence */}
+        {/* Category 2: Childcare impacts */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">2. Childcare-forced absence</h3>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">2. Childcare impacts (absence + out-of-pocket)</h3>
           <p>
-            When schools and daycares close or send children home during a boil water advisory,
-            some working parents have no choice but to stay home — missing work and losing wages.
-            Not all parents are affected equally: some have backup care options (family, friends,
-            flexible employers), while others do not.
+            When schools and daycares close during a boil water advisory, working parents with
+            young children face one of three outcomes:
           </p>
+          <ul className="text-xs list-disc list-inside space-y-0.5 mt-1 mb-2">
+            <li>
+              <span className="font-semibold text-gray-700">Call out of work</span> ({((a.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% conservative / {((a.childcareAbsenceRateFull || 0.35) * 100).toFixed(0)}% full) — no backup care available, parent stays home and loses wages
+            </li>
+            <li>
+              <span className="font-semibold text-gray-700">Pay for emergency care</span> ({((a.paidCareRate || 0.15) * 100).toFixed(0)}% conservative / {((a.paidCareRateFull || 0.25) * 100).toFixed(0)}% full) — parent finds a last-minute sitter or emergency arrangement and pays ~$75/day out of pocket
+            </li>
+            <li>
+              <span className="font-semibold text-gray-700">Find free arrangements</span> (60% conservative / 40% full) — family, neighbors, or flexible employer absorbs the disruption with no direct cost beyond the productivity loss already captured in Category 3
+            </li>
+          </ul>
           <p>
-            We start with the ~12% of the affected population living in households with children
-            under 6 (from Census ACS 2023, Orleans Parish). Of those, {(a.laborForceParticipation * 100).toFixed(0)}% are
-            in the labor force (from{' '}
+            These groups are mutually exclusive — a parent either stays home, pays for care, or
+            finds a free arrangement. We start with the ~12% of the affected population living in
+            households with children under 6 (from Census ACS 2023, Orleans Parish). Of those,{' '}
+            {(a.laborForceParticipation * 100).toFixed(0)}% are in the labor force (from{' '}
             <a href="https://www.bls.gov/lau/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
               BLS Local Area Unemployment Statistics
             </a>
-            ). We then apply a {"\""}no backup care{"\""}  rate:{' '}
-            {((a.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% conservative,{' '}
-            {((a.childcareAbsenceRateFull || 0.40) * 100).toFixed(0)}% full — representing the
-            share of working parents who must miss work entirely because they have no alternative
-            childcare arrangement.
+            ). The absence and paid-care rates are then applied to this working-parent subset.
           </p>
         </div>
 
@@ -126,17 +132,6 @@ export default function WaterMethodology() {
             ${(a.restaurantOperationalLossPerDay || 300).toLocaleString()}/day per restaurant
             (conservative). The full estimate adds 20 other small businesses at{' '}
             ${(a.otherSmallBizOperationalLossPerDay || 150).toLocaleString()}/day each.
-          </p>
-        </div>
-
-        {/* Childcare out-of-pocket */}
-        <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">Childcare out-of-pocket costs</h3>
-          <p>
-            Included in the full estimate only. This captures a different group than the childcare
-            absence category above: families who <em>do</em> find emergency childcare (a relative,
-            a neighbor, a last-minute sitter) but must pay for it. Estimated at $75/day per
-            household with children under 6 (~12% of affected population, from Census ACS 2023).
           </p>
         </div>
 
@@ -213,6 +208,7 @@ export default function WaterMethodology() {
                 <p className="font-semibold text-gray-800 font-sans mb-1">Conservative estimate</p>
                 <p>Business closure wages = {a.restaurantsPerZone} restaurants × {a.workersPerRestaurant || 5} workers × ${a.avgHourlyWage} × hours</p>
                 <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRate || 0.25} × ${a.avgHourlyWage} × hours</p>
+                <p>Childcare out-of-pocket = population × 0.12 × {a.laborForceParticipation} × {a.paidCareRate || 0.15} × $75 × days</p>
                 <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactor || 0.05}</p>
                 <p>Bottled water = population × ${a.bottledWaterCostPerPersonPerDay.toFixed(2)} × days</p>
                 <p>Business operational = {a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} × days</p>
@@ -222,11 +218,11 @@ export default function WaterMethodology() {
               <div>
                 <p className="font-semibold text-gray-800 font-sans mb-1">Full estimate</p>
                 <p>Business closure wages = ({a.restaurantsPerZone} × {a.workersPerRestaurantFull || 8} + 20 × {a.workersPerSmallBiz || 4}) × ${a.avgHourlyWage} × hours</p>
-                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRateFull || 0.40} × ${a.avgHourlyWage} × hours</p>
+                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRateFull || 0.35} × ${a.avgHourlyWage} × hours</p>
+                <p>Childcare out-of-pocket = population × 0.12 × {a.laborForceParticipation} × {a.paidCareRateFull || 0.25} × $75 × days</p>
                 <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactorFull || 0.12}</p>
                 <p>Bottled water = population × $5.00 × days</p>
                 <p>Business operational = ({a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} + 20 × ${a.otherSmallBizOperationalLossPerDay || 150}) × days</p>
-                <p>Childcare out-of-pocket = population × 0.12 × $75 × days</p>
                 <p className="text-gray-500">[Main breaks] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDayFull || 800} × days</p>
                 <p className="text-gray-500">[Main breaks] Property damage = ${(a.mainBreakPropertyDamagePerIncidentFull || 7500).toLocaleString()} per incident</p>
               </div>

@@ -52,7 +52,7 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
   // Workers who must stay home because schools/daycares close
   const absenceRate = isConservative
     ? (assumptions.childcareAbsenceRate || 0.25)
-    : (assumptions.childcareAbsenceRateFull || 0.40);
+    : (assumptions.childcareAbsenceRateFull || 0.35);
   const childcareAbsence = pop * 0.12 * laborForceParticipation * absenceRate * avgHourlyWage * hours;
 
   // Category 3: Productivity loss (all workers — hourly, salaried, remote)
@@ -75,9 +75,12 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
     businessLoss += otherSmallBizPerZone * smallBizOpLoss * days;
   }
 
-  // Childcare out-of-pocket costs (full tier only)
-  // For families who DO find emergency care but must pay for it
-  const childcareOutOfPocket = isConservative ? 0 : pop * 0.12 * 75 * days;
+  // Childcare out-of-pocket costs
+  // For working parents who find paid emergency care (mutually exclusive with absence group)
+  const paidCareRate = isConservative
+    ? (assumptions.paidCareRate || 0.15)
+    : (assumptions.paidCareRateFull || 0.25);
+  const childcareOutOfPocket = pop * 0.12 * laborForceParticipation * paidCareRate * 75 * days;
 
   // Main break infrastructure impacts (road closures, property damage)
   let footTrafficLoss = 0;
