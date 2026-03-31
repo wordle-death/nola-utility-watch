@@ -25,55 +25,67 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
   const pop = incident.estimatedPopulationAffected || 0;
   const hours = getIncidentDurationHours(incident);
   const days = hours / 24;
+  const workHours = days * 8; // ~8 work hours per day affected
 
   const {
     laborForceParticipation,
     avgHourlyWage,
     bottledWaterCostPerPersonPerDay,
-    restaurantsPerZone,
   } = assumptions;
 
   const isConservative = tier === 'conservative';
 
-  // Category 1: Business closure wages
-  // Workers at restaurants and small businesses that cannot operate under a boil water advisory
+  // Restaurant closure/adaptation model
+  // Each incident has an estimated restaurant count based on neighborhood density
+  const totalRestaurants = incident.estimatedRestaurants || 15;
+
+  // Closure rate depends on incident type: main breaks physically block access,
+  // boil water advisories allow most restaurants to adapt and stay open
+  const isMainBreak = incident.type === 'main_break';
+  const closureRate = isConservative
+    ? (isMainBreak ? (assumptions.mainBreakClosureRate || 0.40) : (assumptions.boilWaterClosureRate || 0.10))
+    : (isMainBreak ? (assumptions.mainBreakClosureRateFull || 0.60) : (assumptions.boilWaterClosureRateFull || 0.20));
+
+  const closedRestaurants = Math.round(totalRestaurants * closureRate);
+  const adaptingRestaurants = totalRestaurants - closedRestaurants;
+
+  // Category 1: Business closure wages — workers at closed restaurants lose shifts
+  // Uses work hours (8/day) not raw advisory hours — workers aren't losing wages at 2 AM
   const workersPerRestaurant = isConservative
     ? (assumptions.workersPerRestaurant || 5)
     : (assumptions.workersPerRestaurantFull || 8);
-  let closureWorkers = restaurantsPerZone * workersPerRestaurant;
-  if (!isConservative) {
-    const otherSmallBizPerZone = 20;
-    const workersPerSmallBiz = assumptions.workersPerSmallBiz || 4;
-    closureWorkers += otherSmallBizPerZone * workersPerSmallBiz;
-  }
-  const businessClosureWages = closureWorkers * avgHourlyWage * hours;
+  const businessClosureWages = closedRestaurants * workersPerRestaurant * avgHourlyWage * workHours;
+
+  // Category 1b: Adaptation costs — restaurants that stay open bear extra costs
+  // (bottled water for service, ice, disposable supplies, reduced covers)
+  const adaptationCostPerDay = isConservative
+    ? (assumptions.adaptationCostPerRestaurantPerDay || 200)
+    : (assumptions.adaptationCostPerRestaurantPerDayFull || 350);
+  const restaurantAdaptationCost = adaptingRestaurants * adaptationCostPerDay * days;
 
   // Category 2: Childcare-forced absence
   // Workers who must stay home because schools/daycares close
+  // Uses work hours — parents lose wages during working hours, not overnight
   const absenceRate = isConservative
     ? (assumptions.childcareAbsenceRate || 0.25)
     : (assumptions.childcareAbsenceRateFull || 0.35);
-  const childcareAbsence = pop * 0.12 * laborForceParticipation * absenceRate * avgHourlyWage * hours;
+  const childcareAbsence = pop * 0.12 * laborForceParticipation * absenceRate * avgHourlyWage * workHours;
 
   // Category 3: Productivity loss (all workers — hourly, salaried, remote)
   // Time lost to boil water logistics: boiling water, buying supplies, disrupted routines
+  // Uses work hours — productivity loss is measured during working hours
   const prodFactor = isConservative
     ? (assumptions.productivityFactor || 0.05)
     : (assumptions.productivityFactorFull || 0.12);
-  const productivityLoss = pop * laborForceParticipation * avgHourlyWage * hours * prodFactor;
+  const productivityLoss = pop * laborForceParticipation * avgHourlyWage * workHours * prodFactor;
 
-  // Bottled water / supplies
+  // Bottled water / supplies (residential)
   const waterCostPerDay = isConservative ? bottledWaterCostPerPersonPerDay : 5.00;
   const bottledWater = pop * waterCostPerDay * days;
 
-  // Business operational losses (non-labor: spoiled food, fixed costs, lost profit margin)
+  // Business operational losses for closed restaurants (non-labor: spoiled food, fixed costs)
   const restaurantOpLoss = assumptions.restaurantOperationalLossPerDay || 300;
-  let businessLoss = restaurantsPerZone * restaurantOpLoss * days;
-  if (!isConservative) {
-    const otherSmallBizPerZone = 20;
-    const smallBizOpLoss = assumptions.otherSmallBizOperationalLossPerDay || 150;
-    businessLoss += otherSmallBizPerZone * smallBizOpLoss * days;
-  }
+  const businessLoss = closedRestaurants * restaurantOpLoss * days;
 
   // Childcare out-of-pocket costs
   // For working parents who find paid emergency care (mutually exclusive with absence group)
@@ -97,12 +109,13 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
       : (assumptions.mainBreakPropertyDamagePerIncidentFull || 7500);
   }
 
-  const total = businessClosureWages + childcareAbsence + productivityLoss
+  const total = businessClosureWages + restaurantAdaptationCost + childcareAbsence + productivityLoss
     + bottledWater + businessLoss + childcareOutOfPocket
     + footTrafficLoss + propertyDamage;
 
   return {
     businessClosureWages: round(businessClosureWages),
+    restaurantAdaptationCost: round(restaurantAdaptationCost),
     childcareAbsence: round(childcareAbsence),
     productivityLoss: round(productivityLoss),
     bottledWater: round(bottledWater),
@@ -113,7 +126,13 @@ export function computeIncidentImpact(incident, assumptions, tier = 'conservativ
     total: round(total),
     durationHours: hours,
     durationDays: round(days),
+    workHours: round(workHours),
     tier,
+    // Restaurant model details
+    totalRestaurants,
+    closedRestaurants,
+    adaptingRestaurants,
+    closureRate,
   };
 }
 

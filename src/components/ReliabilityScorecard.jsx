@@ -58,19 +58,27 @@ export default function ReliabilityScorecard({ stats }) {
       <div className="mt-2 bg-cyan-50 border border-cyan-100 rounded-lg p-3 text-[11px] text-gray-600 space-y-1.5">
         <p>
           <span className="font-semibold text-gray-700">Two-tier model:</span>{' '}
-          Each incident is estimated at both conservative and full levels to provide a range.
-          Three impact categories: (1) business closure wages, (2) childcare-forced work absence,
-          (3) productivity loss for all workers from boil water logistics.
+          Each incident is estimated at both conservative and full levels. Restaurant counts are
+          estimated per incident based on neighborhood commercial density (FQ/CBD ~1 per 40 residents,
+          Uptown ~1 per 250, NO East ~1 per 1,000). Restaurants are split into those that close
+          (workers lose wages) and those that adapt (bear extra costs for bottled water, ice, and reduced covers).
         </p>
         <p>
-          <span className="font-semibold text-gray-700">Additional costs:</span>{' '}
-          Bottled water ($3.50/person/day), business operational losses, childcare out-of-pocket,
-          and main break infrastructure damage where applicable.
+          <span className="font-semibold text-gray-700">Closure rates:</span>{' '}
+          Main breaks: 40% (conservative) / 60% (full) — physical access blocked.
+          Boil water advisories: 10% / 20% — most restaurants adapt and stay open.
+          Plus: childcare-forced absence and productivity loss for all workers.
+        </p>
+        <p>
+          <span className="font-semibold text-gray-700">Benchmark:</span>{' '}
+          Our estimates (~$26–$60/household/day) are conservative relative to the Water Research
+          Foundation{"'"}s per-household interruption costs ($50–$100/household/day) and well below
+          FEMA{"'"}s BCA values for complete water loss ($83–$170/person/day).
         </p>
         <p>
           <span className="font-semibold text-gray-700">Sources:</span>{' '}
-          Wages from BLS OES (NOLA MSA median $16.50/hr). Labor force participation from BLS LAUS (58%).
-          Household data from Census ACS 2023 (avg 2.42 persons). Incidents from{' '}
+          Wages from BLS OES (NOLA MSA median $16.50/hr). Labor force from BLS LAUS (58%).
+          Household data from Census ACS 2023. Incidents from{' '}
           <a href="https://www.swbno.org/PressReleases" target="_blank" rel="noopener noreferrer" className="text-cyan-700 hover:underline">
             S&WB press releases
           </a>.

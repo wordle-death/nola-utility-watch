@@ -137,8 +137,16 @@ function IncidentCard({ incident, assumptions }) {
       {/* Impact breakdown */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs mb-2">
         <div className="flex justify-between">
-          <span className="text-gray-500">Business closure wages</span>
+          <span className="text-gray-500">Restaurant closures ({conserv.closedRestaurants}–{full.closedRestaurants} of {conserv.totalRestaurants} closed)</span>
           <span className="text-gray-700 font-medium">{formatDollars(conserv.businessClosureWages)} – {formatDollars(full.businessClosureWages)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Restaurant adaptation ({conserv.adaptingRestaurants}–{full.adaptingRestaurants} stay open)</span>
+          <span className="text-gray-700 font-medium">{formatDollars(conserv.restaurantAdaptationCost)} – {formatDollars(full.restaurantAdaptationCost)}</span>
+        </div>
+        <div className="flex justify-between">
+          <span className="text-gray-500">Closed restaurant operational losses</span>
+          <span className="text-gray-700 font-medium">{formatDollars(conserv.businessLoss)} – {formatDollars(full.businessLoss)}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-500">Childcare absence</span>
@@ -149,12 +157,8 @@ function IncidentCard({ incident, assumptions }) {
           <span className="text-gray-700 font-medium">{formatDollars(conserv.productivityLoss)} – {formatDollars(full.productivityLoss)}</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500">Bottled water</span>
+          <span className="text-gray-500">Bottled water (residential)</span>
           <span className="text-gray-700 font-medium">{formatDollars(conserv.bottledWater)} – {formatDollars(full.bottledWater)}</span>
-        </div>
-        <div className="flex justify-between">
-          <span className="text-gray-500">Business operational losses</span>
-          <span className="text-gray-700 font-medium">{formatDollars(conserv.businessLoss)} – {formatDollars(full.businessLoss)}</span>
         </div>
         {incident.type === 'main_break' && conserv.footTrafficLoss > 0 && (
           <div className="flex justify-between">
@@ -205,25 +209,24 @@ function IncidentCard({ incident, assumptions }) {
       {expanded && (
         <div className="mt-2 bg-white border border-gray-100 rounded p-3 text-[11px] text-gray-600 space-y-1.5">
           <p>
-            <span className="font-semibold text-gray-700">Business closure wages:</span>{' '}
-            {assumptions.restaurantsPerZone} restaurants × {assumptions.workersPerRestaurant || 5} workers/shift (conservative) or {assumptions.workersPerRestaurantFull || 8} (full) × ${assumptions.avgHourlyWage}/hr × {Math.round(hours)} hrs.
-            Full adds 20 small businesses × {assumptions.workersPerSmallBiz || 4} workers each.
+            <span className="font-semibold text-gray-700">Restaurant impact ({incident.estimatedRestaurants || '?'} restaurants in affected area):</span>{' '}
+            {incident.type === 'main_break' ? 'Main break' : 'Boil water advisory'} closure rate: {((incident.type === 'main_break' ? assumptions.mainBreakClosureRate : assumptions.boilWaterClosureRate) * 100).toFixed(0)}% (conservative) / {((incident.type === 'main_break' ? assumptions.mainBreakClosureRateFull : assumptions.boilWaterClosureRateFull) * 100).toFixed(0)}% (full).
+            Closed: {conserv.closedRestaurants}–{full.closedRestaurants} restaurants × {assumptions.workersPerRestaurant || 5}–{assumptions.workersPerRestaurantFull || 8} workers × ${assumptions.avgHourlyWage}/hr × {conserv.workHours} work hrs + ${assumptions.restaurantOperationalLossPerDay}/day operational losses.
+            Adapting: {conserv.adaptingRestaurants}–{full.adaptingRestaurants} restaurants × $200–$350/day (bottled water, ice, disposable supplies, reduced covers).
           </p>
           <p>
             <span className="font-semibold text-gray-700">Childcare absence:</span>{' '}
-            {formatNumber(incident.estimatedPopulationAffected)} people × 12% with young kids × 58% labor force × {((assumptions.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% no backup care (conservative) or {((assumptions.childcareAbsenceRateFull || 0.35) * 100).toFixed(0)}% (full) × ${assumptions.avgHourlyWage}/hr × {Math.round(hours)} hrs.
+            {formatNumber(incident.estimatedPopulationAffected)} people × 12% with young kids × 58% labor force × {((assumptions.childcareAbsenceRate || 0.25) * 100).toFixed(0)}% no backup care (conservative) or {((assumptions.childcareAbsenceRateFull || 0.35) * 100).toFixed(0)}% (full) × ${assumptions.avgHourlyWage}/hr × {conserv.workHours} work hrs ({Math.round(hours)}-hr advisory ÷ 24 × 8 work hrs/day).
           </p>
           <p>
             <span className="font-semibold text-gray-700">Productivity loss:</span>{' '}
-            {formatNumber(incident.estimatedPopulationAffected)} × 58% labor force × ${assumptions.avgHourlyWage}/hr × {Math.round(hours)} hrs × {((assumptions.productivityFactor || 0.05) * 100).toFixed(0)}% (conservative) or {((assumptions.productivityFactorFull || 0.12) * 100).toFixed(0)}% (full).
-            Captures time all workers — including remote and salaried — lose to boil water logistics.
+            {formatNumber(incident.estimatedPopulationAffected)} × 58% labor force × ${assumptions.avgHourlyWage}/hr × {conserv.workHours} work hrs × {((assumptions.productivityFactor || 0.05) * 100).toFixed(0)}% (conservative) or {((assumptions.productivityFactorFull || 0.12) * 100).toFixed(0)}% (full).
+            Captures time all workers — including remote and salaried — lose to boil water logistics during working hours.
           </p>
           <p>
             <span className="font-semibold text-gray-700">Other costs:</span>{' '}
-            Bottled water = {formatNumber(incident.estimatedPopulationAffected)} × $3.50/day × {conserv.durationDays.toFixed(1)} days.
+            Residential bottled water = {formatNumber(incident.estimatedPopulationAffected)} × $3.50/day × {conserv.durationDays.toFixed(1)} days.
             Childcare out-of-pocket = 12% with young kids × 58% labor force × {((assumptions.paidCareRate || 0.15) * 100).toFixed(0)}% paid care (conservative) or {((assumptions.paidCareRateFull || 0.25) * 100).toFixed(0)}% (full) × $75/day.
-            Business operational losses (non-labor) = {assumptions.restaurantsPerZone} × ${assumptions.restaurantOperationalLossPerDay || 300}/day.
-            Full adds 20 small businesses × ${assumptions.otherSmallBizOperationalLossPerDay || 150}/day.
           </p>
           {incident.type === 'main_break' && (
             <p>
@@ -234,7 +237,7 @@ function IncidentCard({ incident, assumptions }) {
           )}
           <p>
             <span className="font-semibold text-gray-700">Sources:</span>{' '}
-            Wages from BLS OES (NOLA MSA median). Labor force from BLS LAUS. Household data from Census ACS 2023.
+            Restaurant counts from neighborhood commercial density estimates. Wages from BLS OES (NOLA MSA median). Labor force from BLS LAUS. Household data from Census ACS 2023.
           </p>
         </div>
       )}

@@ -40,26 +40,40 @@ export default function WaterMethodology() {
           </p>
         </div>
 
-        {/* Category 1: Business closure wages */}
+        {/* Category 1: Restaurant impact */}
         <div>
-          <h3 className="text-sm font-semibold text-gray-800 mb-1">1. Business closure wages</h3>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">1. Restaurant impact (closures + adaptation)</h3>
           <p>
-            During a boil water advisory, restaurants and food-service businesses face mandatory
-            closures or severely reduced operations. Workers at these businesses lose their
-            scheduled shifts entirely — this is direct, measurable wage loss.
+            During a boil water advisory, restaurants face two outcomes: some close entirely
+            (workers lose shifts), while others stay open but bear significant adaptation costs —
+            purchasing bottled water for cooking and beverages, buying ice, switching to disposable
+            supplies, and absorbing reduced customer traffic.
           </p>
           <p>
-            We estimate {a.restaurantsPerZone} restaurants per affected zone with{' '}
-            {a.workersPerRestaurant || 5} on-shift workers each (conservative) or{' '}
-            {a.workersPerRestaurantFull || 8} (full, including back-of-house and part-time staff).
-            The full estimate adds 20 other small businesses (laundromats, salons, cafes) with{' '}
-            {a.workersPerSmallBiz || 4} workers each — businesses that depend on running water
-            for their core operations. All workers are valued at the median hourly wage of{' '}
-            ${a.avgHourlyWage.toFixed(2)} (from{' '}
+            <span className="font-semibold text-gray-700">Restaurant counts</span> are estimated
+            per incident based on neighborhood commercial density. The French Quarter and CBD have
+            ~1 restaurant per 30-50 residents (tourism-driven), Uptown/Magazine St ~1 per 250
+            (dense dining corridor), while New Orleans East and the Lower 9th Ward have ~1 per
+            1,000 (primarily residential). This means a boil water advisory covering Uptown
+            affects far more restaurants than one covering the same population in NO East.
+          </p>
+          <p>
+            <span className="font-semibold text-gray-700">Closure rates</span> differ by incident
+            type. Main breaks physically block street access, forcing {((a.mainBreakClosureRate || 0.40) * 100).toFixed(0)}% (conservative)
+            to {((a.mainBreakClosureRateFull || 0.60) * 100).toFixed(0)}% (full) of nearby restaurants to close.
+            Boil water advisories allow adaptation — only {((a.boilWaterClosureRate || 0.10) * 100).toFixed(0)}%
+            to {((a.boilWaterClosureRateFull || 0.20) * 100).toFixed(0)}% close entirely.
+          </p>
+          <p>
+            Closed restaurants: {a.workersPerRestaurant || 5} workers/shift (conservative) or{' '}
+            {a.workersPerRestaurantFull || 8} (full) × ${a.avgHourlyWage.toFixed(2)}/hr (from{' '}
             <a href="https://www.bls.gov/oes/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-              BLS Occupational Employment Statistics
+              BLS OES
             </a>
-            , May 2024, NOLA-Metairie MSA).
+            , May 2024) + ${a.restaurantOperationalLossPerDay || 300}/day operational losses (spoiled inventory, fixed costs).
+            Adapting restaurants: ${a.adaptationCostPerRestaurantPerDay || 200}/day (conservative) or{' '}
+            ${a.adaptationCostPerRestaurantPerDayFull || 350}/day (full) for bottled water, ice,
+            disposable supplies, and reduced covers.
           </p>
         </div>
 
@@ -105,12 +119,14 @@ export default function WaterMethodology() {
           </p>
           <p>
             The <span className="font-semibold text-gray-700">conservative{' '}
-            {((a.productivityFactor || 0.05) * 100).toFixed(0)}%</span> factor represents roughly 30 minutes
-            of lost productivity per 12-hour disruption period — a defensible floor.
+            {((a.productivityFactor || 0.05) * 100).toFixed(0)}%</span> factor represents roughly 24 minutes
+            of lost productivity per 8-hour workday — a defensible floor.
             The <span className="font-semibold text-gray-700">full{' '}
-            {((a.productivityFactorFull || 0.12) * 100).toFixed(0)}%</span> factor (~1.5 hours) captures
+            {((a.productivityFactorFull || 0.12) * 100).toFixed(0)}%</span> factor (~58 minutes per workday) captures
             broader impacts: waiting in lines at stores with limited supply, inability to prepare
             meals normally, stress and distraction from managing household logistics.
+            Both factors are applied to work hours only (8 hours per day of advisory duration),
+            not raw clock hours.
           </p>
           <p>
             We apply this to the full labor force ({(a.laborForceParticipation * 100).toFixed(0)}% of
@@ -126,12 +142,10 @@ export default function WaterMethodology() {
         <div>
           <h3 className="text-sm font-semibold text-gray-800 mb-1">Business operational losses</h3>
           <p>
-            Separate from worker wages, businesses incur non-labor costs when forced to close:
+            Separate from worker wages, closed restaurants incur non-labor costs:
             spoiled food and perishable inventory, fixed lease and utility costs that accrue
             regardless of operations, and lost profit margin. We estimate{' '}
-            ${(a.restaurantOperationalLossPerDay || 300).toLocaleString()}/day per restaurant
-            (conservative). The full estimate adds 20 other small businesses at{' '}
-            ${(a.otherSmallBizOperationalLossPerDay || 150).toLocaleString()}/day each.
+            ${(a.restaurantOperationalLossPerDay || 300).toLocaleString()}/day per closed restaurant.
           </p>
         </div>
 
@@ -206,28 +220,58 @@ export default function WaterMethodology() {
             <div className="mt-3 bg-gray-50 border border-gray-200 rounded-lg p-4 text-xs font-mono text-gray-700 space-y-3">
               <div>
                 <p className="font-semibold text-gray-800 font-sans mb-1">Conservative estimate</p>
-                <p>Business closure wages = {a.restaurantsPerZone} restaurants × {a.workersPerRestaurant || 5} workers × ${a.avgHourlyWage} × hours</p>
-                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRate || 0.25} × ${a.avgHourlyWage} × hours</p>
+                <p className="text-gray-500 font-sans mb-1">Closure rate: {((a.mainBreakClosureRate || 0.40) * 100).toFixed(0)}% main break / {((a.boilWaterClosureRate || 0.10) * 100).toFixed(0)}% boil water</p>
+                <p>Closure wages = restaurants × closureRate × {a.workersPerRestaurant || 5} workers × ${a.avgHourlyWage} × workHours</p>
+                <p>Adaptation costs = restaurants × (1 - closureRate) × ${a.adaptationCostPerRestaurantPerDay || 200}/day × days</p>
+                <p>Closure operational = restaurants × closureRate × ${a.restaurantOperationalLossPerDay || 300} × days</p>
+                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRate || 0.25} × ${a.avgHourlyWage} × workHours</p>
                 <p>Childcare out-of-pocket = population × 0.12 × {a.laborForceParticipation} × {a.paidCareRate || 0.15} × $75 × days</p>
-                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactor || 0.05}</p>
+                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × workHours × {a.productivityFactor || 0.05}</p>
+                <p className="text-gray-500">workHours = advisory duration ÷ 24 × 8 hrs/day</p>
                 <p>Bottled water = population × ${a.bottledWaterCostPerPersonPerDay.toFixed(2)} × days</p>
-                <p>Business operational = {a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} × days</p>
                 <p className="text-gray-500">[Main breaks] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDay || 500} × days</p>
                 <p className="text-gray-500">[Main breaks] Property damage = ${(a.mainBreakPropertyDamagePerIncident || 2500).toLocaleString()} per incident</p>
               </div>
               <div>
                 <p className="font-semibold text-gray-800 font-sans mb-1">Full estimate</p>
-                <p>Business closure wages = ({a.restaurantsPerZone} × {a.workersPerRestaurantFull || 8} + 20 × {a.workersPerSmallBiz || 4}) × ${a.avgHourlyWage} × hours</p>
-                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRateFull || 0.35} × ${a.avgHourlyWage} × hours</p>
+                <p className="text-gray-500 font-sans mb-1">Closure rate: {((a.mainBreakClosureRateFull || 0.60) * 100).toFixed(0)}% main break / {((a.boilWaterClosureRateFull || 0.20) * 100).toFixed(0)}% boil water</p>
+                <p>Closure wages = restaurants × closureRate × {a.workersPerRestaurantFull || 8} workers × ${a.avgHourlyWage} × workHours</p>
+                <p>Adaptation costs = restaurants × (1 - closureRate) × ${a.adaptationCostPerRestaurantPerDayFull || 350}/day × days</p>
+                <p>Closure operational = restaurants × closureRate × ${a.restaurantOperationalLossPerDay || 300} × days</p>
+                <p>Childcare absence = population × 0.12 × {a.laborForceParticipation} × {a.childcareAbsenceRateFull || 0.35} × ${a.avgHourlyWage} × workHours</p>
                 <p>Childcare out-of-pocket = population × 0.12 × {a.laborForceParticipation} × {a.paidCareRateFull || 0.25} × $75 × days</p>
-                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × hours × {a.productivityFactorFull || 0.12}</p>
+                <p>Productivity loss = population × {a.laborForceParticipation} × ${a.avgHourlyWage} × workHours × {a.productivityFactorFull || 0.12}</p>
                 <p>Bottled water = population × $5.00 × days</p>
-                <p>Business operational = ({a.restaurantsPerZone} × ${a.restaurantOperationalLossPerDay || 300} + 20 × ${a.otherSmallBizOperationalLossPerDay || 150}) × days</p>
                 <p className="text-gray-500">[Main breaks] Road closure = {a.mainBreakAffectedBusinesses || 8} businesses × ${a.mainBreakFootTrafficLossPerDayFull || 800} × days</p>
                 <p className="text-gray-500">[Main breaks] Property damage = ${(a.mainBreakPropertyDamagePerIncidentFull || 7500).toLocaleString()} per incident</p>
               </div>
             </div>
           )}
+        </div>
+
+        {/* Benchmark context */}
+        <div>
+          <h3 className="text-sm font-semibold text-gray-800 mb-1">How our estimates compare</h3>
+          <p>
+            Our model produces approximately <span className="font-semibold text-gray-700">$11–$25 per person per day</span> ($26–$60 per household per day),
+            depending on the incident. For context, two established federal/research benchmarks:
+          </p>
+          <ul className="text-xs text-gray-600 space-y-1 list-disc list-inside mt-1">
+            <li>
+              <span className="font-semibold text-gray-700">Water Research Foundation (Project #4626):</span>{' '}
+              $50–$100 per household per day for water service disruptions — our estimates fall in the lower half of this range
+            </li>
+            <li>
+              <span className="font-semibold text-gray-700">FEMA BCA Toolkit:</span>{' '}
+              $83–$170 per person per day for complete water service loss — significantly higher than our estimates,
+              as FEMA models full outages (no water at all) rather than boil water advisories where water still flows
+            </li>
+          </ul>
+          <p className="mt-1">
+            Our bottom-up model is generally conservative relative to these benchmarks. We use the granular
+            approach because it makes each assumption transparent and shows where costs fall — on businesses,
+            on working parents, on all residents — rather than applying a single aggregate rate.
+          </p>
         </div>
 
         <p className="text-xs text-gray-500 italic">

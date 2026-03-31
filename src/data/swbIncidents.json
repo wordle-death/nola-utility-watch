@@ -3,10 +3,9 @@
   "lastUpdated": "2026-03-10",
   "assumptions": {
     "avgHouseholdSize": 2.42,
-    "avgHourlyWage": 16.50,
+    "avgHourlyWage": 16.5,
     "laborForceParticipation": 0.58,
-    "bottledWaterCostPerPersonPerDay": 3.50,
-    "restaurantsPerZone": 15,
+    "bottledWaterCostPerPersonPerDay": 3.5,
     "workersPerRestaurant": 5,
     "workersPerRestaurantFull": 8,
     "workersPerSmallBiz": 4,
@@ -28,20 +27,28 @@
       "avgHourlyWage": "BLS May 2024 Occupational Employment and Wage Statistics, New Orleans-Metairie MSA, median hourly wage for all occupations",
       "laborForceParticipation": "BLS Local Area Unemployment Statistics, New Orleans-Metairie MSA",
       "bottledWaterCostPerPersonPerDay": "Estimated 1 gallon/person/day at retail (~$1.50/gal) plus cooking and hygiene needs",
-      "workersPerRestaurant": "Typical on-shift staffing for a small New Orleans restaurant (cook, prep, server, bartender, host); conservative tier uses 5, full tier uses 8 to include back-of-house and part-time staff",
       "workersPerSmallBiz": "Typical staffing for a small service business (salon, laundromat, cafe) during operating hours",
       "restaurantOperationalLossPerDay": "Non-labor business losses during closure: spoiled food/inventory, fixed lease and utility costs, lost profit margin",
       "childcareAbsenceRate": "Fraction of working parents with young children who have no backup childcare and must miss work entirely; 25% conservative, 35% full",
       "paidCareRate": "Fraction of working parents with young children who find and pay for emergency childcare ($75/day); 15% conservative, 25% full. Mutually exclusive with absence group — remaining 60%/40% find free arrangements (family, neighbors) with no direct cost",
       "productivityFactor": "Fraction of work hours lost to boil water logistics (boiling water, buying supplies, disrupted routines); applies to all workers including remote/salaried. 5% conservative (~30 min per 12-hr period), 12% full (~1.5 hrs)",
       "mainBreakFootTrafficLossPerDay": "Estimated revenue loss per business from reduced foot traffic during road closure for main repair (1-2 block radius)",
-      "mainBreakPropertyDamagePerIncident": "Conservative estimate for minor water damage to adjacent properties from main break flooding; full tier accounts for more substantial damage to ground-floor businesses"
+      "mainBreakPropertyDamagePerIncident": "Conservative estimate for minor water damage to adjacent properties from main break flooding; full tier accounts for more substantial damage to ground-floor businesses",
+      "restaurantEstimates": "Per-incident restaurant counts estimated from neighborhood commercial density. French Quarter/CBD ~1 per 30-50 residents (tourism core), Uptown/Magazine ~1 per 250 (dining corridor), Mid-City ~1 per 450, Gentilly ~1 per 800, NO East/Lower 9th ~1 per 1000, Algiers/Westbank ~1 per 600. Reference: NOLA has ~1,300-1,500 licensed food service establishments across ~383K residents.",
+      "closureRates": "Main breaks physically block access (40-60% closure); boil water advisories allow adaptation — most restaurants buy bottled water and stay open (10-20% closure). Based on reporting from NOLA.com and interviews with restaurant owners during 2024-2026 advisories.",
+      "adaptationCosts": "Per-restaurant daily cost of operating under a boil water advisory: bottled water for cooking/beverages (~-75/day), ice (~/day), disposable supplies (~-30/day), reduced covers from customer avoidance (~-150/day). Conservative /day, full /day."
     },
     "methodology": {
-      "conservative": "Three-category model: (1) Business closure wages — workers at 15 closed restaurants lose full shifts (5 workers each). (2) Childcare-forced absence — 12% of pop with young kids × 58% labor force × 25% no-backup-care rate lose wages. (3) Productivity loss — all workers (including remote/salaried) lose 5% of hours to boil water logistics. Plus: bottled water ($3.50/person/day), business operational losses ($300/day non-labor), childcare out-of-pocket ($75/day × 15% paid-care rate), and main break infrastructure costs where applicable.",
-      "full": "Expanded estimates: (1) Business closure wages uses 8 workers/restaurant + 20 small businesses × 4 workers each. (2) Childcare absence uses 35% no-backup-care rate. (3) Productivity loss at 12% for all workers. Plus: expanded supplies ($5/person/day), additional small business operational losses, childcare out-of-pocket ($75/day × 25% paid-care rate), and main break infrastructure."
+      "conservative": "Three-category model: (1) Business closure wages — estimated restaurants in affected area × closure rate (40% for main breaks, 10% for boil water advisories) × 5 workers/shift × hourly wage × duration. (2) Restaurant adaptation costs — remaining open restaurants bear /day in extra costs (bottled water, ice, disposable supplies, reduced covers). (3) Childcare-forced absence and productivity loss unchanged. Plus: bottled water, childcare out-of-pocket, and main break infrastructure costs where applicable.",
+      "full": "Expanded estimates: (1) Business closure uses 60% closure rate for main breaks, 20% for boil water, with 8 workers/restaurant. (2) Adaptation cost at /day for open restaurants. (3) Childcare absence at 35% no-backup-care rate. (4) Productivity loss at 12%. Plus: expanded supplies, childcare out-of-pocket, and main break infrastructure."
     },
-    "populationEstimateNote": "Population estimates derived from ACS 2022 5-year estimates for Orleans Parish neighborhoods/Census tracts. S&WB press releases do not include population counts. 'Limited parts' of a neighborhood = ~30-50% of total; 'majority' = ~70%; 'entire' = ~90%. Reference: Orleans Parish total ~383K, East Bank ~355K, NO East ~63K, Algiers/Westbank ~28K, Uptown ~50K, Gentilly ~32K, Mid-City ~22K."
+    "populationEstimateNote": "Population estimates derived from ACS 2022 5-year estimates for Orleans Parish neighborhoods/Census tracts. S&WB press releases do not include population counts. 'Limited parts' of a neighborhood = ~30-50% of total; 'majority' = ~70%; 'entire' = ~90%. Reference: Orleans Parish total ~383K, East Bank ~355K, NO East ~63K, Algiers/Westbank ~28K, Uptown ~50K, Gentilly ~32K, Mid-City ~22K.",
+    "mainBreakClosureRate": 0.4,
+    "mainBreakClosureRateFull": 0.6,
+    "boilWaterClosureRate": 0.1,
+    "boilWaterClosureRateFull": 0.2,
+    "adaptationCostPerRestaurantPerDay": 200,
+    "adaptationCostPerRestaurantPerDayFull": 350
   },
   "incidents": [
     {
@@ -55,13 +62,21 @@
       "advisoryStartDate": "2022-02-06",
       "advisoryEndDate": "2022-02-07",
       "estimatedPopulationAffected": 15000,
-      "neighborhoods": ["Upper Coast Algiers", "Lower Coast Algiers"],
+      "neighborhoods": [
+        "Upper Coast Algiers",
+        "Lower Coast Algiers"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-02-06" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-02-06"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 15
     },
     {
       "id": "2022-02-22-gentilly-noeast",
@@ -74,13 +89,21 @@
       "advisoryStartDate": "2022-02-22",
       "advisoryEndDate": "2022-02-24",
       "estimatedPopulationAffected": 20000,
-      "neighborhoods": ["Gentilly", "New Orleans East"],
+      "neighborhoods": [
+        "Gentilly",
+        "New Orleans East"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-02-22" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-02-22"
+        }
       ],
-      "notes": "50-inch water main repair triggered advisory."
+      "notes": "50-inch water main repair triggered advisory.",
+      "estimatedRestaurants": 20
     },
     {
       "id": "2022-04-30-noeast",
@@ -93,13 +116,20 @@
       "advisoryStartDate": "2022-04-30",
       "advisoryEndDate": "2022-05-01",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-04-30" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-04-30"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2022-05-12-noeast-oakisland",
@@ -112,13 +142,21 @@
       "advisoryStartDate": "2022-05-12",
       "advisoryEndDate": "2022-05-13",
       "estimatedPopulationAffected": 8000,
-      "neighborhoods": ["New Orleans East", "Oak Island"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Oak Island"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-05-12" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-05-12"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 8
     },
     {
       "id": "2022-07-11-westbank",
@@ -131,13 +169,20 @@
       "advisoryStartDate": "2022-07-11",
       "advisoryEndDate": "2022-07-12",
       "estimatedPopulationAffected": 15000,
-      "neighborhoods": ["Westbank"],
+      "neighborhoods": [
+        "Westbank"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-07-11" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-07-11"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 15
     },
     {
       "id": "2022-08-01-westbank",
@@ -150,13 +195,20 @@
       "advisoryStartDate": "2022-08-01",
       "advisoryEndDate": "2022-08-03",
       "estimatedPopulationAffected": 15000,
-      "neighborhoods": ["Westbank"],
+      "neighborhoods": [
+        "Westbank"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-08-01" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-08-01"
+        }
       ],
-      "notes": "Second Westbank advisory in three weeks."
+      "notes": "Second Westbank advisory in three weeks.",
+      "estimatedRestaurants": 15
     },
     {
       "id": "2022-09-02-noeast",
@@ -169,13 +221,20 @@
       "advisoryStartDate": "2022-09-02",
       "advisoryEndDate": "2022-09-03",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2022-09-02" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2022-09-02"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2023-02-19-nola",
@@ -188,13 +247,20 @@
       "advisoryStartDate": "2023-02-19",
       "advisoryEndDate": "2023-02-20",
       "estimatedPopulationAffected": 12000,
-      "neighborhoods": ["New Orleans"],
+      "neighborhoods": [
+        "New Orleans"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-02-19" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-02-19"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 12
     },
     {
       "id": "2023-04-09-uptown",
@@ -207,13 +273,20 @@
       "advisoryStartDate": "2023-04-09",
       "advisoryEndDate": "2023-04-12",
       "estimatedPopulationAffected": 40000,
-      "neighborhoods": ["Uptown"],
+      "neighborhoods": [
+        "Uptown"
+      ],
       "durationHours": 72,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-04-09" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-04-09"
+        }
       ],
-      "notes": "Advisory ultimately lifted for 'All Customers' on Apr 12, suggesting scope expanded beyond Uptown."
+      "notes": "Advisory ultimately lifted for 'All Customers' on Apr 12, suggesting scope expanded beyond Uptown.",
+      "estimatedRestaurants": 120
     },
     {
       "id": "2023-06-16-noeast",
@@ -226,13 +299,20 @@
       "advisoryStartDate": "2023-06-16",
       "advisoryEndDate": "2023-06-17",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-06-16" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-06-16"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2023-06-27-gentilly-noeast",
@@ -245,14 +325,27 @@
       "advisoryStartDate": "2023-06-27",
       "advisoryEndDate": "2023-06-29",
       "estimatedPopulationAffected": 25000,
-      "neighborhoods": ["Gentilly", "Oak Island", "New Orleans East"],
+      "neighborhoods": [
+        "Gentilly",
+        "Oak Island",
+        "New Orleans East"
+      ],
       "durationHours": 72,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/4753", "date": "2023-06-27" },
-        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/4755", "date": "2023-06-29" }
+        {
+          "name": "S&WB Press Release — Advisory Issued",
+          "url": "https://www.swbno.org/PressReleases/Details/4753",
+          "date": "2023-06-27"
+        },
+        {
+          "name": "S&WB Press Release — Advisory Canceled",
+          "url": "https://www.swbno.org/PressReleases/Details/4755",
+          "date": "2023-06-29"
+        }
       ],
-      "notes": "Emergency repair of 50-inch water main at St. Bernard Ave & Duels St. Advisory lifted Jun 29; full repairs completed Jun 30."
+      "notes": "Emergency repair of 50-inch water main at St. Bernard Ave & Duels St. Advisory lifted Jun 29; full repairs completed Jun 30.",
+      "estimatedRestaurants": 25
     },
     {
       "id": "2023-09-06-algiers",
@@ -265,13 +358,20 @@
       "advisoryStartDate": "2023-09-06",
       "advisoryEndDate": "2023-09-07",
       "estimatedPopulationAffected": 8000,
-      "neighborhoods": ["Lower Coast Algiers"],
+      "neighborhoods": [
+        "Lower Coast Algiers"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-06" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-09-06"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 8
     },
     {
       "id": "2023-09-22-algiers",
@@ -284,13 +384,20 @@
       "advisoryStartDate": "2023-09-22",
       "advisoryEndDate": "2023-09-23",
       "estimatedPopulationAffected": 8000,
-      "neighborhoods": ["Lower Coast Algiers"],
+      "neighborhoods": [
+        "Lower Coast Algiers"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-22" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-09-22"
+        }
       ],
-      "notes": "Second Lower Coast Algiers advisory in under three weeks."
+      "notes": "Second Lower Coast Algiers advisory in under three weeks.",
+      "estimatedRestaurants": 8
     },
     {
       "id": "2023-09-28-uptown",
@@ -303,13 +410,20 @@
       "advisoryStartDate": "2023-09-28",
       "advisoryEndDate": "2023-09-30",
       "estimatedPopulationAffected": 20000,
-      "neighborhoods": ["Uptown"],
+      "neighborhoods": [
+        "Uptown"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-09-28" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-09-28"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 65
     },
     {
       "id": "2023-11-04-noeast",
@@ -322,13 +436,20 @@
       "advisoryStartDate": "2023-11-04",
       "advisoryEndDate": "2023-11-05",
       "estimatedPopulationAffected": 8000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2023-11-04" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2023-11-04"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 8
     },
     {
       "id": "2024-01-30-noeast-uptown",
@@ -341,13 +462,21 @@
       "advisoryStartDate": "2024-01-30",
       "advisoryEndDate": "2024-02-02",
       "estimatedPopulationAffected": 35000,
-      "neighborhoods": ["New Orleans East", "Uptown"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Uptown"
+      ],
       "durationHours": 72,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-01-30" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-01-30"
+        }
       ],
-      "notes": "120-year-old 30-inch water line on S. Claiborne Ave. Advisory for NO East issued Jan 30, Uptown advisory issued Feb 1."
+      "notes": "120-year-old 30-inch water line on S. Claiborne Ave. Advisory for NO East issued Jan 30, Uptown advisory issued Feb 1.",
+      "estimatedRestaurants": 90
     },
     {
       "id": "2024-03-30-lower9th",
@@ -360,13 +489,20 @@
       "advisoryStartDate": "2024-03-30",
       "advisoryEndDate": "2024-03-31",
       "estimatedPopulationAffected": 4000,
-      "neighborhoods": ["Lower 9th Ward"],
+      "neighborhoods": [
+        "Lower 9th Ward"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-03-30" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-03-30"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 5
     },
     {
       "id": "2024-04-05-lower9th",
@@ -379,13 +515,20 @@
       "advisoryStartDate": "2024-04-05",
       "advisoryEndDate": "2024-04-06",
       "estimatedPopulationAffected": 4000,
-      "neighborhoods": ["Lower 9th Ward"],
+      "neighborhoods": [
+        "Lower 9th Ward"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-04-05" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-04-05"
+        }
       ],
-      "notes": "Second Lower 9th Ward advisory in under a week."
+      "notes": "Second Lower 9th Ward advisory in under a week.",
+      "estimatedRestaurants": 5
     },
     {
       "id": "2024-04-13-algiers",
@@ -398,13 +541,20 @@
       "advisoryStartDate": "2024-04-13",
       "advisoryEndDate": "2024-04-14",
       "estimatedPopulationAffected": 8000,
-      "neighborhoods": ["Lower Coast Algiers"],
+      "neighborhoods": [
+        "Lower Coast Algiers"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-04-13" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-04-13"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 8
     },
     {
       "id": "2024-08-06-citywide",
@@ -417,13 +567,28 @@
       "advisoryStartDate": "2024-08-06",
       "advisoryEndDate": "2024-08-08",
       "estimatedPopulationAffected": 320000,
-      "neighborhoods": ["East Bank", "Algiers Point", "Uptown", "CBD", "French Quarter", "Mid-City", "Gentilly", "9th Ward", "New Orleans East"],
+      "neighborhoods": [
+        "East Bank",
+        "Algiers Point",
+        "Uptown",
+        "CBD",
+        "French Quarter",
+        "Mid-City",
+        "Gentilly",
+        "9th Ward",
+        "New Orleans East"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/4881", "date": "2024-08-06" }
+        {
+          "name": "S&WB Press Release — Advisory Issued",
+          "url": "https://www.swbno.org/PressReleases/Details/4881",
+          "date": "2024-08-06"
+        }
       ],
-      "notes": "Caused by power failure at Carrollton Water Treatment Plant. Largest advisory in years — covered effectively the entire city east of the river. S&WB subsequently updated City Council on boil water advisory response improvements (Aug 15)."
+      "notes": "Caused by power failure at Carrollton Water Treatment Plant. Largest advisory in years — covered effectively the entire city east of the river. S&WB subsequently updated City Council on boil water advisory response improvements (Aug 15).",
+      "estimatedRestaurants": 1100
     },
     {
       "id": "2024-08-12-noeast-oakisland",
@@ -436,13 +601,21 @@
       "advisoryStartDate": "2024-08-12",
       "advisoryEndDate": "2024-08-14",
       "estimatedPopulationAffected": 15000,
-      "neighborhoods": ["New Orleans East", "Oak Island"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Oak Island"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-12" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-08-12"
+        }
       ],
-      "notes": "Follow-on from Aug 6 citywide advisory."
+      "notes": "Follow-on from Aug 6 citywide advisory.",
+      "estimatedRestaurants": 12
     },
     {
       "id": "2024-08-27-noeast-lakefront",
@@ -455,13 +628,22 @@
       "advisoryStartDate": "2024-08-27",
       "advisoryEndDate": "2024-08-28",
       "estimatedPopulationAffected": 12000,
-      "neighborhoods": ["New Orleans East", "Lakefront Airport", "Oak Island"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Lakefront Airport",
+        "Oak Island"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-08-27" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-08-27"
+        }
       ],
-      "notes": "Third NO East advisory in August 2024."
+      "notes": "Third NO East advisory in August 2024.",
+      "estimatedRestaurants": 10
     },
     {
       "id": "2024-10-11-westbank",
@@ -474,13 +656,20 @@
       "advisoryStartDate": "2024-10-11",
       "advisoryEndDate": "2024-10-12",
       "estimatedPopulationAffected": 15000,
-      "neighborhoods": ["Westbank"],
+      "neighborhoods": [
+        "Westbank"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-10-11" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-10-11"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 15
     },
     {
       "id": "2024-12-04-noeast",
@@ -493,13 +682,20 @@
       "advisoryStartDate": "2024-12-04",
       "advisoryEndDate": "2024-12-05",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-12-04" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-12-04"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2024-12-17-lower9th-noeast",
@@ -512,13 +708,21 @@
       "advisoryStartDate": "2024-12-17",
       "advisoryEndDate": "2024-12-20",
       "estimatedPopulationAffected": 14000,
-      "neighborhoods": ["Lower 9th Ward", "New Orleans East"],
+      "neighborhoods": [
+        "Lower 9th Ward",
+        "New Orleans East"
+      ],
       "durationHours": 72,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2024-12-17" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2024-12-17"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 12
     },
     {
       "id": "2025-01-20-noeast-lower9th",
@@ -531,13 +735,22 @@
       "advisoryStartDate": "2025-01-20",
       "advisoryEndDate": "2025-01-21",
       "estimatedPopulationAffected": 20000,
-      "neighborhoods": ["New Orleans East", "Lower 9th Ward", "Venetian Isles"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Lower 9th Ward",
+        "Venetian Isles"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-20" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-01-20"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 18
     },
     {
       "id": "2025-01-22-noeast-venetian",
@@ -550,13 +763,21 @@
       "advisoryStartDate": "2025-01-22",
       "advisoryEndDate": "2025-01-24",
       "estimatedPopulationAffected": 12000,
-      "neighborhoods": ["New Orleans East", "Venetian Isles"],
+      "neighborhoods": [
+        "New Orleans East",
+        "Venetian Isles"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-22" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-01-22"
+        }
       ],
-      "notes": "Second NO East advisory in two days."
+      "notes": "Second NO East advisory in two days.",
+      "estimatedRestaurants": 10
     },
     {
       "id": "2025-01-26-eastbank",
@@ -569,13 +790,20 @@
       "advisoryStartDate": "2025-01-26",
       "advisoryEndDate": "2025-01-27",
       "estimatedPopulationAffected": 250000,
-      "neighborhoods": ["East Bank"],
+      "neighborhoods": [
+        "East Bank"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-01-26" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-01-26"
+        }
       ],
-      "notes": "Third advisory event in January 2025."
+      "notes": "Third advisory event in January 2025.",
+      "estimatedRestaurants": 850
     },
     {
       "id": "2025-03-19-noeast",
@@ -588,13 +816,20 @@
       "advisoryStartDate": "2025-03-19",
       "advisoryEndDate": "2025-03-20",
       "estimatedPopulationAffected": 12000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-03-19" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-03-19"
+        }
       ],
-      "notes": "Advisory was expanded same day."
+      "notes": "Advisory was expanded same day.",
+      "estimatedRestaurants": 10
     },
     {
       "id": "2025-06-02-noeast",
@@ -607,13 +842,20 @@
       "advisoryStartDate": "2025-06-02",
       "advisoryEndDate": "2025-06-03",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-06-02" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-06-02"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2025-06-28-eastbank-upperline",
@@ -626,13 +868,21 @@
       "advisoryStartDate": "2025-06-28",
       "advisoryEndDate": "2025-06-30",
       "estimatedPopulationAffected": 25000,
-      "neighborhoods": ["Uptown", "East Bank"],
+      "neighborhoods": [
+        "Uptown",
+        "East Bank"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Main Break Update", "url": "https://www.swbno.org/PressReleases", "date": "2025-06-28" }
+        {
+          "name": "S&WB Press Release — Main Break Update",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-06-28"
+        }
       ],
-      "notes": "30-inch water main break on Upperline St."
+      "notes": "30-inch water main break on Upperline St.",
+      "estimatedRestaurants": 80
     },
     {
       "id": "2025-07-10-noeast",
@@ -645,13 +895,20 @@
       "advisoryStartDate": "2025-07-10",
       "advisoryEndDate": "2025-07-11",
       "estimatedPopulationAffected": 45000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-07-10" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-07-10"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 35
     },
     {
       "id": "2025-07-14-venetian",
@@ -664,13 +921,20 @@
       "advisoryStartDate": "2025-07-14",
       "advisoryEndDate": "2025-07-16",
       "estimatedPopulationAffected": 2000,
-      "neighborhoods": ["Venetian Isles"],
+      "neighborhoods": [
+        "Venetian Isles"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-07-14" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-07-14"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 2
     },
     {
       "id": "2025-11-14-noeast",
@@ -683,13 +947,20 @@
       "advisoryStartDate": "2025-11-14",
       "advisoryEndDate": "2025-11-16",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 48,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-11-14" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-11-14"
+        }
       ],
-      "notes": null
+      "notes": null,
+      "estimatedRestaurants": 10
     },
     {
       "id": "2025-11-18-noeast",
@@ -702,13 +973,20 @@
       "advisoryStartDate": "2025-11-18",
       "advisoryEndDate": "2025-11-19",
       "estimatedPopulationAffected": 10000,
-      "neighborhoods": ["New Orleans East"],
+      "neighborhoods": [
+        "New Orleans East"
+      ],
       "durationHours": 24,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release", "url": "https://www.swbno.org/PressReleases", "date": "2025-11-18" }
+        {
+          "name": "S&WB Press Release",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2025-11-18"
+        }
       ],
-      "notes": "Second NO East advisory in under a week."
+      "notes": "Second NO East advisory in under a week.",
+      "estimatedRestaurants": 10
     },
     {
       "id": "2026-01-31-carrollton-panola",
@@ -721,13 +999,21 @@
       "advisoryStartDate": "2026-01-31",
       "advisoryEndDate": "2026-02-02",
       "estimatedPopulationAffected": 30000,
-      "neighborhoods": ["Carrollton", "Uptown"],
+      "neighborhoods": [
+        "Carrollton",
+        "Uptown"
+      ],
       "durationHours": 42,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/5058", "date": "2026-02-02" }
+        {
+          "name": "S&WB Press Release — Advisory Canceled",
+          "url": "https://www.swbno.org/PressReleases/Details/5058",
+          "date": "2026-02-02"
+        }
       ],
-      "notes": "First break at this location in 2026. Advisory area bounded by Carrollton Ave (I-10 to Mississippi River). S&WB warned of lower-than-normal pressures through end of week."
+      "notes": "First break at this location in 2026. Advisory area bounded by Carrollton Ave (I-10 to Mississippi River). S&WB warned of lower-than-normal pressures through end of week.",
+      "estimatedRestaurants": 95
     },
     {
       "id": "2026-02-23-claiborne-toledano",
@@ -740,14 +1026,31 @@
       "advisoryStartDate": "2026-02-23",
       "advisoryEndDate": "2026-02-27",
       "estimatedPopulationAffected": 55000,
-      "neighborhoods": ["Uptown", "CBD", "French Quarter", "Marlyville-Fontainebleau", "Broadmoor", "Hoffman Triangle", "B.W. Cooper"],
+      "neighborhoods": [
+        "Uptown",
+        "CBD",
+        "French Quarter",
+        "Marlyville-Fontainebleau",
+        "Broadmoor",
+        "Hoffman Triangle",
+        "B.W. Cooper"
+      ],
       "durationHours": 102,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases", "date": "2026-02-23" },
-        { "name": "S&WB Press Release — 48\" Main Break Update", "url": "https://www.swbno.org/PressReleases/Details/5063", "date": "2026-02-24" }
+        {
+          "name": "S&WB Press Release — Advisory Issued",
+          "url": "https://www.swbno.org/PressReleases",
+          "date": "2026-02-23"
+        },
+        {
+          "name": "S&WB Press Release — 48\" Main Break Update",
+          "url": "https://www.swbno.org/PressReleases/Details/5063",
+          "date": "2026-02-24"
+        }
       ],
-      "notes": "Advisory issued 5:56 AM Feb 23, expanded twice same day (9:29 AM, 3:40 PM). First advisory canceled Feb 24 12:27 PM. Follow-on advisory for adjacent neighborhoods issued Feb 25 6:07 PM, canceled Feb 27 11:34 AM."
+      "notes": "Advisory issued 5:56 AM Feb 23, expanded twice same day (9:29 AM, 3:40 PM). First advisory canceled Feb 24 12:27 PM. Follow-on advisory for adjacent neighborhoods issued Feb 25 6:07 PM, canceled Feb 27 11:34 AM.",
+      "estimatedRestaurants": 350
     },
     {
       "id": "2026-03-09-carrollton-panola",
@@ -760,14 +1063,31 @@
       "advisoryStartDate": "2026-03-09",
       "advisoryEndDate": "2026-03-10",
       "estimatedPopulationAffected": 80000,
-      "neighborhoods": ["Uptown", "CBD", "French Quarter", "9th Ward", "Mid-City", "Gentilly", "New Orleans East"],
+      "neighborhoods": [
+        "Uptown",
+        "CBD",
+        "French Quarter",
+        "9th Ward",
+        "Mid-City",
+        "Gentilly",
+        "New Orleans East"
+      ],
       "durationHours": 27,
       "pressureIssue": true,
       "sources": [
-        { "name": "S&WB Press Release — Advisory Issued", "url": "https://www.swbno.org/PressReleases/Details/5068", "date": "2026-03-09" },
-        { "name": "S&WB Press Release — Advisory Canceled", "url": "https://www.swbno.org/PressReleases/Details/4759", "date": "2026-03-10" }
+        {
+          "name": "S&WB Press Release — Advisory Issued",
+          "url": "https://www.swbno.org/PressReleases/Details/5068",
+          "date": "2026-03-09"
+        },
+        {
+          "name": "S&WB Press Release — Advisory Canceled",
+          "url": "https://www.swbno.org/PressReleases/Details/4759",
+          "date": "2026-03-10"
+        }
       ],
-      "notes": "Same location as Jan 31 break. Advisory issued 6:16 AM Mar 9, canceled 9:30 AM Mar 10. Pressure fell below 20 psi. Affected areas spanned Uptown to New Orleans East — the largest geographic area of any 2026 advisory."
+      "notes": "Same location as Jan 31 break. Advisory issued 6:16 AM Mar 9, canceled 9:30 AM Mar 10. Pressure fell below 20 psi. Affected areas spanned Uptown to New Orleans East — the largest geographic area of any 2026 advisory.",
+      "estimatedRestaurants": 400
     }
   ]
 }
