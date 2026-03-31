@@ -65,7 +65,11 @@ export default function BillDecomposition({ deltaBill, entergyBill, ccf, flipped
       <div className="px-6 py-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900">Line-by-Line Bill Breakdown</h2>
         <p className="text-sm text-gray-500 mt-1">
-          Every component is identical except the PGA (highlighted). {ccf} CCF usage.
+          Every component is identical by{' '}
+          <a href="https://council.nola.gov/council/media/Assets/Committees/Utility/R-24-791-Gas-Sale.pdf" className="text-blue-500 hover:underline" target="_blank" rel="noopener">
+            Council order (R-24-791)
+          </a>{' '}
+          except the PGA (highlighted). {ccf} CCF usage.
         </p>
       </div>
 

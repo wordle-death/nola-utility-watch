@@ -113,9 +113,12 @@ function App() {
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-8">
             <p className="text-sm text-blue-800">
               <span className="font-semibold">What happened:</span> In July 2025, Delta Utilities acquired Entergy{"'"}s gas
-              distribution business in New Orleans. Every rate component is identical — except the Purchase Gas Adjustment (PGA),
-              the commodity pass-through. Entergy had a hedging program that kept costs stable. Delta does not.
-              Enter your usage below to see exactly what that means for your bill.
+              distribution business in New Orleans. Per{' '}
+              <a href="https://council.nola.gov/council/media/Assets/Committees/Utility/R-24-791-Gas-Sale.pdf" className="text-blue-700 underline" target="_blank" rel="noopener">
+                City Council Resolution R-24-791
+              </a>, Delta adopted Entergy{"'"}s base rate schedule — every rate component is identical except the
+              Purchase Gas Adjustment (PGA), the commodity pass-through. Entergy had a hedging program that kept
+              costs stable. Delta does not. Enter your usage below to see exactly what that means for your bill.
             </p>
           </div>
 
@@ -146,14 +149,25 @@ function App() {
               <div className="prose prose-sm text-gray-600 space-y-3">
                 <p>
                   NOLA Utility Watch is a free, open-source project providing independent analysis of utility costs
-                  in New Orleans. This calculator is based on actual bill data from a New Orleans residential customer
-                  (same address and meter number across both Entergy and Delta service periods).
+                  in New Orleans.
                 </p>
                 <p>
-                  <span className="font-semibold text-gray-700">The analytical basis:</span> Independent bill analysis
-                  of 10+ actual bills confirmed that every rate component — customer charge ($12.32/mo), gas services ($0.266/CCF),
-                  Formula Rate Plan Rider (77.47%), franchise fee (5.27%), and city tax (3%) — is identical between
-                  Entergy and Delta. The sole variable is the PGA (Purchase Gas Adjustment).
+                  <span className="font-semibold text-gray-700">The analytical basis:</span> The New Orleans City Council{"'"}s{' '}
+                  <a href="https://council.nola.gov/council/media/Assets/Committees/Utility/R-24-791-Gas-Sale.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                    Resolution R-24-791
+                  </a>{' '}
+                  (December 19, 2024, Docket UD-24-01) approved Delta{"'"}s acquisition of Entergy{"'"}s gas distribution
+                  and ordered Delta to adopt Entergy{"'"}s existing base rate schedule. Every rate component — customer
+                  charge ($12.32/mo), gas services ($0.266/CCF), Formula Rate Plan Rider (77.47%), franchise fee (5.27%),
+                  and city tax (3%) — is identical between the two utilities by Council order. The sole variable is
+                  the PGA (Purchase Gas Adjustment), the commodity pass-through that changes monthly.
+                </p>
+                <p>
+                  <span className="font-semibold text-gray-700">What the Council{"'"}s own advisors found:</span> Before
+                  approving the transaction, the Council{"'"}s Utility Advisors calculated that the sale would increase
+                  Delta{"'"}s cost of service by approximately $16.5 million, resulting in a typical residential bill
+                  (50 CCF/month) impact of $12.33 per month if left unmitigated (R-24-791, p. 8). With mitigation
+                  conditions imposed, the projected impact was reduced to ~$2.60/month (p. 10).
                 </p>
                 <p>
                   <span className="font-semibold text-gray-700">Fair context:</span> Approximately 50% of recent bill
@@ -163,13 +177,16 @@ function App() {
                 </p>
                 <p>
                   <span className="font-semibold text-gray-700">Sources:</span>{' '}
+                  <a href="https://council.nola.gov/council/media/Assets/Committees/Utility/R-24-791-Gas-Sale.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                    City Council Resolution R-24-791
+                  </a>{' · '}
+                  <a href="https://council.nola.gov/committees/utility-cable-telecommunications-and-technology/dockets/resolution-and-order-establishing-a-period-of-inte/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                    Docket UD-24-01
+                  </a>{' · '}
                   <a href="https://fred.stlouisfed.org/series/DHHNGSP" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
                     FRED Henry Hub prices
                   </a>{' · '}
-                  <a href="https://council.nola.gov/committees/utility-cable-telecommunications-and-technology/dockets/resolution-and-order-establishing-a-period-of-inte/" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
-                    City Council Docket UD-24-01
-                  </a>{' · '}
-                  Actual residential bills (10 bills, Entergy & Delta eras)
+                  PGA rates derived from actual residential bills (10+ bills, Entergy & Delta eras)
                 </p>
               </div>
             </div>

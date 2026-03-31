@@ -344,18 +344,24 @@ export default function BillCalculator() {
               <p>
                 This period was Entergy{"'"}s final billing cycle before Delta took over gas service on June 30, 2025.
                 The Entergy bill uses their actual PGA rate from this period. The Delta comparison uses
-                Delta{"'"}s PGA from their first bill (overlapping period). Both PGA rates come from actual bills
-                for the same address. Henry Hub daily avg for this bill period: ${result.hhPrice.toFixed(2)}/MMBtu
+                Delta{"'"}s PGA from their first bill (overlapping period). PGA rates are derived from actual
+                residential bills. Henry Hub daily avg for this bill period: ${result.hhPrice.toFixed(2)}/MMBtu
                 ({result.tradingDays} trading days, sourced from FRED series DHHNGSP).
               </p>
             ) : (
               <p>
-                The rate structure is identical for both utilities (confirmed via actual bills and City Council docket UD-24-01).
+                The base rate structure is identical for both utilities — Delta adopted Entergy{"'"}s rate schedule
+                as a condition of{' '}
+                <a href="https://council.nola.gov/council/media/Assets/Committees/Utility/R-24-791-Gas-Sale.pdf" className="text-blue-600 hover:underline" target="_blank" rel="noopener">
+                  City Council Resolution R-24-791
+                </a>{' '}
+                (Docket UD-24-01, Dec. 19, 2024).
                 The only variable is the Purchase Gas Adjustment (PGA) — the commodity pass-through.
                 Entergy operated an LPSC-approved hedging program that kept its PGA markup stable at ~$0.17/CCF over Henry Hub.
                 Delta has no hedging program. The &quot;Entergy estimate&quot; uses the same rate formula but substitutes Entergy{"'"}s historical
-                PGA behavior (Henry Hub spot × 0.1037 CCF/MMBtu + $0.17/CCF markup). Henry Hub daily avg for this
-                bill period: ${result.hhPrice.toFixed(2)}/MMBtu ({result.tradingDays} trading days, sourced from FRED series DHHNGSP).
+                PGA behavior (Henry Hub spot × 0.1037 CCF/MMBtu + $0.17/CCF markup). PGA rates are derived from actual
+                residential bills. Henry Hub daily avg for this bill period: ${result.hhPrice.toFixed(2)}/MMBtu
+                ({result.tradingDays} trading days, sourced from FRED series DHHNGSP).
               </p>
             )}
           </div>

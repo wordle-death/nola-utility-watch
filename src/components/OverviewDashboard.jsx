@@ -77,22 +77,6 @@ export default function OverviewDashboard({ onNavigate }) {
         </div>
       </div>
 
-      {/* Check your bill CTA */}
-      <button
-        onClick={() => onNavigate('gas')}
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl p-5 text-left transition-colors cursor-pointer group"
-      >
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-bold">Check your gas bill</h2>
-            <p className="text-blue-100 text-sm mt-1">
-              Enter your CCF usage to see exactly how much more you{"'"}re paying under Delta vs. what Entergy would have charged.
-            </p>
-          </div>
-          <span className="text-2xl text-blue-200 group-hover:translate-x-1 transition-transform">→</span>
-        </div>
-      </button>
-
       {/* Utility preview cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Water */}
