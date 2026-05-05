@@ -10,6 +10,8 @@ import WaterMethodology from './components/WaterMethodology';
 import ElectricityTracker from './components/ElectricityTracker';
 import ElectricityMethodology from './components/ElectricityMethodology';
 import OverviewDashboard from './components/OverviewDashboard';
+import NewsFeed from './components/NewsFeed';
+import { Analytics } from '@vercel/analytics/react';
 
 class ErrorBoundary extends Component {
   state = { hasError: false };
@@ -64,8 +66,8 @@ function App() {
         <div className="max-w-5xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                NOLA Utility Watch
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                Blackouts, Bills, and Boil Orders <span className="whitespace-nowrap">(On the Bayou)</span>
               </h1>
               <p className="text-sm text-gray-500 mt-1">
                 Independent utility cost analysis for New Orleans residents
@@ -86,6 +88,9 @@ function App() {
         {/* Overview Tab */}
         <div className={activeTab !== 'overview' ? 'hidden' : ''}>
           <OverviewDashboard onNavigate={navigateTab} />
+          <section className="mt-8">
+            <NewsFeed />
+          </section>
         </div>
 
         {/* Electricity Outages Tab */}
@@ -148,8 +153,8 @@ function App() {
               <h2 className="text-lg font-semibold text-gray-900 mb-3">About This Tool</h2>
               <div className="prose prose-sm text-gray-600 space-y-3">
                 <p>
-                  NOLA Utility Watch is a free, open-source project providing independent analysis of utility costs
-                  in New Orleans.
+                  Blackouts, Bills, and Boil Orders (On the Bayou) is a free, open-source project providing
+                  independent analysis of utility costs in New Orleans.
                 </p>
                 <p>
                   <span className="font-semibold text-gray-700">The analytical basis:</span> The New Orleans City Council{"'"}s{' '}
@@ -217,10 +222,11 @@ function App() {
       {/* Footer */}
       <footer className="border-t border-gray-200 bg-white">
         <div className="max-w-5xl mx-auto px-4 py-6 text-center text-xs text-gray-500">
-          <p>NOLA Utility Watch is an independent, open-source project. Not affiliated with any utility company.</p>
-          <p className="mt-1">All data is from public sources or voluntarily contributed bill data. No personal information is collected.</p>
+          <p>Blackouts, Bills, and Boil Orders (On the Bayou) is an independent, open-source project. Not affiliated with any utility company.</p>
+          <p className="mt-1">All data is from public sources or voluntarily contributed bill submissions. Submissions store only ZIP code, usage, and rate data — no names, addresses, or account numbers. <a href="/privacy.html" className="underline hover:text-gray-700">Privacy</a></p>
         </div>
       </footer>
+      <Analytics />
     </div>
   );
 }

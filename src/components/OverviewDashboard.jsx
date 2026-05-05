@@ -186,8 +186,8 @@ export default function OverviewDashboard({ onNavigate }) {
           </p>
         )}
         <p className="text-sm text-gray-500">
-          NOLA Utility Watch is a free, open-source project providing independent analysis of
-          utility costs and reliability in New Orleans. All data is from public sources —
+          Blackouts, Bills, and Boil Orders (On the Bayou) is a free, open-source project providing
+          independent analysis of utility costs and reliability in New Orleans. All data is from public sources —
           S&WB press releases, Entergy outage reports, FRED wholesale gas prices, and actual
           residential bills. Economic impact estimates use sourced methodologies from the Bureau
           of Labor Statistics, U.S. Census, and DOE/LBNL.

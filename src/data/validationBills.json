@@ -1,5 +1,5 @@
 {
-  "description": "Ground truth bill data from actual bills for calculator validation. Same address, meter U490506.",
+  "description": "Ground truth bill data from a single household's actual bills, used for calculator validation.",
   "notes": {
     "subtotal_before_fees": "Entergy-era 'Gas Total' = charges subtotal before franchise fee (5.27%) and city tax (3%). Entergy bundled gas+electric billing, so fees/taxes may apply to combined total.",
     "total_with_fees": "Delta-era standalone gas bills include franchise fee and city tax. Calculator must match within 1%.",

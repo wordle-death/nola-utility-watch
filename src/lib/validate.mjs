@@ -24,7 +24,7 @@ function calculateBill(ccf, pgaRate) {
   };
 }
 
-console.log('=== NOLA Utility Watch — Bill Calculator Validation ===\n');
+console.log('=== Bill Calculator Validation ===\n');
 
 console.log('--- FULL-MONTH DELTA BILLS (primary validation, comparing total with fees+tax) ---');
 console.log('Bill ID                | CCF | PGA Rate | Actual  | Calc    | Diff   | Error% | Pass?');
