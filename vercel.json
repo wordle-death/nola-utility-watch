@@ -1,6 +1,6 @@
 {
   "crons": [
-    { "path": "/api/news-ingest", "schedule": "0 13,1 * * *" }
+    { "path": "/api/news-ingest", "schedule": "0 13 * * *" }
   ],
   "functions": {
     "api/extract-bill.js": {
