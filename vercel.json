@@ -1,7 +1,13 @@
 {
+  "crons": [
+    { "path": "/api/news-ingest", "schedule": "0 13,1 * * *" }
+  ],
   "functions": {
     "api/extract-bill.js": {
       "maxDuration": 30
+    },
+    "api/news-ingest.js": {
+      "maxDuration": 300
     }
   },
   "headers": [
