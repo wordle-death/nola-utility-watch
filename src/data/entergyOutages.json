@@ -1,7 +1,7 @@
 {
   "description": "Entergy electricity outage events affecting Orleans Parish, detected from automated monitoring of Entergy's DataCapable outage reporting system. Data source: github.com/patricktrainer/entergy-outages (Apache 2.0 license).",
-  "lastUpdated": "2026-06-24",
-  "lastProcessedCommit": "5d9ce542e501f70fb4ed129039efc50cb88af812",
+  "lastUpdated": "2026-06-25",
+  "lastProcessedCommit": "49b6f99af7f74ac3bba48f9b61915339efa7b29c",
   "thresholds": {
     "minCustomers": 250,
     "minDurationMinutes": 60
@@ -17,6 +17,7 @@
     }
   },
   "orleansParishZipCodes": [
+    "70112",
     "70113",
     "70114",
     "70115",
@@ -29,6 +30,8 @@
     "70125",
     "70126",
     "70127",
+    "70128",
+    "70129",
     "70130",
     "70131"
   ],
@@ -11070,6 +11073,33 @@
         "70115",
         "70118",
         "70119",
+        "70130",
+        "70131"
+      ],
+      "percentageWithoutPower": 0.5
+    },
+    {
+      "id": "2026-06-24-outage-1",
+      "startTime": "2026-06-24T11:28:20+00:00",
+      "endTime": "2026-06-24T23:09:19+00:00",
+      "durationHours": 11.68,
+      "peakCustomersAffected": 725,
+      "avgCustomersAffected": 504,
+      "totalCustomerHours": 1638,
+      "affectedZipCodes": [
+        "70112",
+        "70114",
+        "70115",
+        "70117",
+        "70118",
+        "70119",
+        "70122",
+        "70124",
+        "70125",
+        "70126",
+        "70127",
+        "70128",
+        "70129",
         "70130",
         "70131"
       ],
